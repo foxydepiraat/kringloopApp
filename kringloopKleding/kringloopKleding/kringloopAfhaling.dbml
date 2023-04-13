@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="kringloopAfhaling" Class="kringloopAfhalingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-3T1KVADO\SQLEXPRESS;Initial Catalog=kringloopAfhaling;Integrated Security=True" SettingsObjectName="kringloopKleding.Properties.Settings" SettingsPropertyName="kringloopAfhalingConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.afhaling" Member="afhalings">
+    <Type Name="afhaling">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="datum" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="gezinslid_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="gezinslid_afhaling" Member="gezinslid" ThisKey="gezinslid_id" OtherKey="id" Type="gezinslid" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.gezinslid" Member="gezinslids">
+    <Type Name="gezinslid">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="voornaam" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="geboortejaar" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="gezin_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="actief" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="gezinslid_afhaling" Member="afhalings" ThisKey="id" OtherKey="gezinslid_id" Type="afhaling" />
+      <Association Name="gezin_gezinslid" Member="gezin" ThisKey="gezin_id" OtherKey="id" Type="gezin" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.gezin" Member="gezins">
+    <Type Name="gezin">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="kringloopKaartnummer" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+      <Column Name="achternaam" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="woonplaats" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="actief" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="gezin_gezinslid" Member="gezinslids" ThisKey="id" OtherKey="gezin_id" Type="gezinslid" />
+    </Type>
+  </Table>
+</Database>

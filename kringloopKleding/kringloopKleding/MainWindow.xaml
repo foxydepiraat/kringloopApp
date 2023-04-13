@@ -1,0 +1,39 @@
+﻿<Window x:Class="kringloopKleding.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kringloopKleding"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="Afhaling" Height="500" Width="800">
+    <Grid>
+        <Grid HorizontalAlignment="Left" Width="1000" VerticalAlignment="Top" Height="30" Margin="0,0,0,0" Background="#FF32BE1E"/>
+        <DockPanel HorizontalAlignment="Left"  VerticalAlignment="Top" Height="30">
+            <Menu DockPanel.Dock="Top" FontSize="20"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
+                <MenuItem Header="_Menu" FontSize="18" Width="100" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
+                    <MenuItem x:Name="Afhaling" Header="_Afhaling" Click="Afhaling_Click" FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                    <MenuItem x:Name="klantenBeheer" Header="_Klanten beheer" Click="klantenBeheer_Click" FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                    <MenuItem x:Name="Rapportage" Header="_rapportage" Click="Rapportage_Click" FontSize="18"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        
+        <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Right" Height="300" VerticalAlignment="Top" Width="250" Margin="0,75,100,0"/>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Kaartnummer:" Height="30" Width="130" FontSize="16"/>
+                <TextBox x:Name="txtkaart" Height="30" Width="100" MaxLength="6" FontSize="16"/>
+                <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
+                    <Button.Background>
+                        <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Datum Ophaling:" Width="130" Height="30" FontSize="16"/>
+                <DatePicker x:Name="datePicker" Width="150" Height="30" Margin="0,10,0,0" FontSize="16"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

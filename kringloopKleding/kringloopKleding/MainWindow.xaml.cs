@@ -21,11 +21,15 @@ namespace kringloopKleding
     public partial class MainWindow : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
+        private gezinslid gezinslidsAfhaling;
+
         private string kaartnummerResult;
+
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            dgGezinslid.ItemsSource = db.gezinslids.ToList();
         }
 
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
@@ -52,59 +56,107 @@ namespace kringloopKleding
 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
+            // datagrid gezinslid
             string kaartnummer = txtkaart.Text;
 
-            var joinSearch = from gl in db.gezinslids
-                             join g in db.gezins on gl.gezin_id equals g.id
-
-                             where g.kringloopKaartnummer == kaartnummer
-                             select new 
-                             {
-                                 Kaartnummer = g.kringloopKaartnummer,
-                                 Voornaam = gl.voornaam,
-                                 Achternaam = g.achternaam,
-                                 Woonplaats = g.woonplaats,
-                                 Geboortejaar = gl.geboortejaar,
-                                 ActiefKaart = Convert.ToBoolean(g.actief),
-                                 ActiefGezinslid = Convert.ToBoolean(gl.actief),
-                             };
-
-
-
-
-            foreach (var item in joinSearch)
+            var gezinQuery = from g in db.gezins
+                             where  g.kringloopKaartnummer == kaartnummer
+                             where g.actief == 1
+                             select g;
+            if (gezinQuery.Count() > 0)
             {
-                if (item.Kaartnummer == kaartnummer)
+                foreach (var gezins in gezinQuery)
                 {
-                    kaartnummerResult = item.Kaartnummer;
-                    dgAfhaling.ItemsSource = joinSearch.ToList();
+                    var gezinslidIdQuery = from gl in db.gezinslids
+                                           where gl.gezin_id == gezins.id
+                                           where gl.actief == 1
+                                           select gl;
 
+                    if (gezins.kringloopKaartnummer == kaartnummer)
+                    {
+                        kaartnummerResult = gezins.kringloopKaartnummer;
+                        dgGezinslid.ItemsSource = gezinslidIdQuery;
+                    }
                 }
             }
-
-            if (kaartnummerResult != kaartnummer)
+            
+            else if (gezinQuery.Count() == 0)
             {
-                var joinQuery = from gl in db.gezinslids
+                dgAfhaling.ItemsSource = null;
+                kaartOfgezinslidNietActief kaartOfgezinslid = new kaartOfgezinslidNietActief();
+                kaartOfgezinslid.Show();
+            }
+
+            //datagrid afhaling
+            var afhalingQuery = from a in db.afhalings
+                                join gl in db.gezinslids on a.gezinslid_id equals gl.id
                                 join g in db.gezins on gl.gezin_id equals g.id
+                                where g.kringloopKaartnummer == txtkaart.Text
                                 select new 
                                 {
-                                    Kaartnummer = g.kringloopKaartnummer,
+                                    datum = a.datum,
                                     Voornaam = gl.voornaam,
-                                    Achternaam = g.achternaam,
-                                    Woonplaats = g.woonplaats,
-                                    Geboortejaar = gl.geboortejaar,
-                                    ActiefKaart = Convert.ToBoolean(g.actief),
-                                    ActiefGezinslid = Convert.ToBoolean(gl.actief),
+                                    geboortejaar = gl.geboortejaar,
+                                    achternaam = g.achternaam,
+                                    woonplaats = g.woonplaats,
                                 };
 
-                txtkaart.Text = "";
-
-                dgAfhaling.ItemsSource = joinQuery.ToList();
-
-
-            };
+            dgAfhaling.ItemsSource = afhalingQuery;
         }
 
+        private void btnAfhaling_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtkaart.Text != "" && txtVoornaam.Text != "")
+            {
+                var GezinIdQuery = from g in db.gezins
+                                   where g.kringloopKaartnummer == txtkaart.Text
+                                   select g;
+                foreach (var gezinId in GezinIdQuery) 
+                {
+                    var gezinslidIdQuery = from gl in db.gezinslids
+                                           where gl.gezin_id == gezinId.id
+                                           where gl.voornaam == txtVoornaam.Text
+                                           select gl;
+
+                    afhaling afhalings = new afhaling();
+                    afhalings.datum = datePicker.SelectedDate;
+                    if (datePicker != null)
+                    {
+                        afhalings.datum = DateTime.Now;
+                    }
+                    foreach (var gezinslidId in gezinslidIdQuery)
+                    {
+                        afhalings.gezinslid_id = gezinslidId.id;
+                    }
+                    db.afhalings.InsertOnSubmit(afhalings);
+                }
+                db.SubmitChanges();
+                wMessageAfhaling wMessageAfhaling = new wMessageAfhaling();
+                wMessageAfhaling.Show();
+
+                txtkaart.Text = null;
+                txtVoornaam.Text = null;
+                datePicker.SelectedDate = null;
+            }
+            else
+            {
+                legenVakjes legenVakjes = new legenVakjes();
+                legenVakjes.Show();
+            }
+        }
+
+        private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
+                txtVoornaam.Text = gezinslidsAfhaling.voornaam;
+            }
+            catch (InvalidCastException c)
+            {
+
+            }
+        }
     }
 }
 

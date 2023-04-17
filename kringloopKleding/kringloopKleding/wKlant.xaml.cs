@@ -36,7 +36,29 @@ namespace kringloopKleding
             dgGezinslid.ItemsSource = db.gezinslids.ToList();
 
         }
-        private void dgGezin_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+        private void klantenBeheer_Click(object sender, RoutedEventArgs e)
+        {
+            wKlant wKlant = new wKlant();
+            wKlant.Show();
+            this.Close();
+        }
+
+        private void Afhaling_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow wAfhaling = new MainWindow();
+            wAfhaling.Show();
+            this.Close();
+        }
+
+        private void Rapportage_Click(object sender, RoutedEventArgs e)
+        {
+            wRapportage wRapportage = new wRapportage();
+            wRapportage.Show();
+            this.Close();
+        }
+
+            private void dgGezin_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -99,6 +121,7 @@ namespace kringloopKleding
                     txtWoonplaats.Text = gelijkKaart.woonplaats;
                     cbActiefkaart.IsChecked = Convert.ToBoolean(gelijkKaart.actiefKaart);
                     GezinId = gelijkKaart.gezinid;
+
                     dgGezin.ItemsSource = GezinQuery;
                     var gezinIdQuery = (from gl in db.gezinslids
                                         where gelijkKaart.gezinid == gl.gezin_id
@@ -214,7 +237,7 @@ namespace kringloopKleding
                 }
             }
 
-            if (kaartnummerResult == txtkaart.Text)
+            else 
             {
                 MessageBoxExist messageBoxExist = new MessageBoxExist();
                 messageBoxExist.Show();
@@ -313,15 +336,12 @@ namespace kringloopKleding
                     gezinAanpassen.woonplaats = txtWoonplaats.Text;
                     gezinAanpassen.actief = Convert.ToInt32(cbActiefkaart.IsChecked);
 
-                    if (gezinslidAanpassen != null)
+                    if (gezinslidAanpassen != null && txtVoornaam.Text != "" && txtGeboortejaar.Text != "")
                     {
-                        if (txtVoornaam.Text != "" && txtGeboortejaar.Text != "")
-                        {
-                            gezinslidAanpassen.voornaam = txtVoornaam.Text;
-                            gezinslidAanpassen.geboortejaar = txtGeboortejaar.Text;
-                            gezinslidAanpassen.actief = Convert.ToInt32(cbActiefGezinsLid.IsChecked);
+                        gezinslidAanpassen.voornaam = txtVoornaam.Text;
+                        gezinslidAanpassen.geboortejaar = txtGeboortejaar.Text;
+                        gezinslidAanpassen.actief = Convert.ToInt32(cbActiefGezinsLid.IsChecked);
 
-                        }
                     }
 
                     var gezinIdQuery = from gl in db.gezinslids
@@ -343,5 +363,7 @@ namespace kringloopKleding
                 }
             }
         }
+
+
     }
 }

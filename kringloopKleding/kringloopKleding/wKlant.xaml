@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kringloopKleding"
-       WindowState="Maximized"
+        WindowState="Maximized"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
@@ -14,9 +14,9 @@
         <DockPanel HorizontalAlignment="Left"  VerticalAlignment="Top" Height="30">
             <Menu DockPanel.Dock="Top" FontSize="20"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
                 <MenuItem Header="_Menu" FontSize="18" Width="100" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
-                    <MenuItem x:Name="Afhaling" Header="_Afhaling"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
-                    <MenuItem x:Name="klantenBeheer" Header="_Klanten beheer"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
-                    <MenuItem x:Name="Rapportage" Header="_rapportage"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                    <MenuItem x:Name="Afhaling" Header="_Afhaling"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="Afhaling_Click"/>
+                    <MenuItem x:Name="klantenBeheer" Header="_Klanten beheer"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="klantenBeheer_Click"/>
+                    <MenuItem x:Name="Rapportage" Header="_rapportage"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="Rapportage_Click"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -84,14 +84,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="0,150,300,0" Orientation="Vertical" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <DataGrid x:Name="dgGezin" HorizontalAlignment="Right" Height="200" VerticalAlignment="Top" Width="500" FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" RenderTransformOrigin="0.583,0.523">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Woonplaats" Binding="{Binding woonplaats}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Achternaam" Binding="{Binding achternaam}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DataGrid x:Name="dgGezin" HorizontalAlignment="Right" Height="200" VerticalAlignment="Top" Width="500" FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" RenderTransformOrigin="0.583,0.523"/>
             <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Right" Margin="0,50,0,0" Height="200" VerticalAlignment="Top" Width="500" FontSize="16" RenderTransformOrigin="0.583,0.523" AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>

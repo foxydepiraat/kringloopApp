@@ -120,7 +120,7 @@ namespace kringloopKleding
 
                     afhaling afhalings = new afhaling();
                     afhalings.datum = datePicker.SelectedDate;
-                    if (datePicker != null)
+                    if (datePicker.Text == "")
                     {
                         afhalings.datum = DateTime.Now;
                     }
@@ -131,6 +131,22 @@ namespace kringloopKleding
                     db.afhalings.InsertOnSubmit(afhalings);
                 }
                 db.SubmitChanges();
+
+                var afhalingQuery = from a in db.afhalings
+                                    join gl in db.gezinslids on a.gezinslid_id equals gl.id
+                                    join g in db.gezins on gl.gezin_id equals g.id
+                                    where g.kringloopKaartnummer == txtkaart.Text
+                                    select new
+                                    {
+                                        datum = a.datum,
+                                        Voornaam = gl.voornaam,
+                                        geboortejaar = gl.geboortejaar,
+                                        achternaam = g.achternaam,
+                                        woonplaats = g.woonplaats,
+                                    };
+
+                dgAfhaling.ItemsSource = afhalingQuery;
+
                 wMessageAfhaling wMessageAfhaling = new wMessageAfhaling();
                 wMessageAfhaling.Show();
 

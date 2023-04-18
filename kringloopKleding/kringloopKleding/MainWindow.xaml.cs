@@ -25,6 +25,7 @@ namespace kringloopKleding
 
         private string kaartnummerResult;
 
+        private DateTime coolDown;
         public MainWindow()
         {
             InitializeComponent();
@@ -106,17 +107,18 @@ namespace kringloopKleding
 
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
+
             if (txtkaart.Text != "" && txtVoornaam.Text != "")
             {
                 var GezinIdQuery = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtkaart.Text
-                                   select g;
-                foreach (var gezinId in GezinIdQuery) 
+                                    where g.kringloopKaartnummer == txtkaart.Text
+                                    select g;
+                foreach (var gezinId in GezinIdQuery)
                 {
                     var gezinslidIdQuery = from gl in db.gezinslids
-                                           where gl.gezin_id == gezinId.id
-                                           where gl.voornaam == txtVoornaam.Text
-                                           select gl;
+                                            where gl.gezin_id == gezinId.id
+                                            where gl.voornaam == txtVoornaam.Text
+                                            select gl;
 
                     afhaling afhalings = new afhaling();
                     afhalings.datum = datePicker.SelectedDate;
@@ -159,6 +161,7 @@ namespace kringloopKleding
                 legenVakjes legenVakjes = new legenVakjes();
                 legenVakjes.Show();
             }
+            
         }
 
         private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -167,6 +170,32 @@ namespace kringloopKleding
             {
                 gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
                 txtVoornaam.Text = gezinslidsAfhaling.voornaam;
+
+                var kaartOphaalQuery = from gl in db.gezinslids
+                                       join g in db.gezins on gl.gezin_id equals g.id
+                                       where gl.voornaam == txtVoornaam.Text
+                                       select g;
+                foreach(var kaart in kaartOphaalQuery)
+                {
+
+                    txtkaart.Text = kaart.kringloopKaartnummer;
+                }
+
+                var afhalingQuery = from a in db.afhalings
+                                    join gl in db.gezinslids on a.gezinslid_id equals gl.id
+                                    join g in db.gezins on gl.gezin_id equals g.id
+                                    where g.kringloopKaartnummer == txtkaart.Text
+                                    select new
+                                    {
+                                        datum = a.datum,
+                                        Voornaam = gl.voornaam,
+                                        geboortejaar = gl.geboortejaar,
+                                        achternaam = g.achternaam,
+                                        woonplaats = g.woonplaats,
+                                    };
+
+                dgAfhaling.ItemsSource = afhalingQuery;
+                
             }
             catch (InvalidCastException c)
             {

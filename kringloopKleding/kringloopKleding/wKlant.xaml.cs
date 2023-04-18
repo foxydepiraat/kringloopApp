@@ -62,6 +62,7 @@ namespace kringloopKleding
         {
             try
             {
+                //dgGezin vullen
                 gezinAanpassen = (gezin)dgGezin.SelectedItem;
                 txtkaart.Text = gezinAanpassen.kringloopKaartnummer;
                 txtAchternaam.Text = gezinAanpassen.achternaam;
@@ -76,6 +77,8 @@ namespace kringloopKleding
                                     where gezinId.id == gl.gezin_id
                                     select gl);
                 dgGezinslid.ItemsSource = gezinIdQuery;
+
+                
             }
             catch (InvalidCastException a)
             {
@@ -91,6 +94,20 @@ namespace kringloopKleding
                 txtVoornaam.Text = gezinslidAanpassen.voornaam;
                 txtGeboortejaar.Text = gezinslidAanpassen.geboortejaar;
                 cbActiefGezinsLid.IsChecked = Convert.ToBoolean(gezinslidAanpassen.actief);
+
+                var dgGezinQuery = from gl in db.gezinslids
+                                       join g in db.gezins on gl.gezin_id equals g.id
+                                       where gl.voornaam == txtVoornaam.Text
+                                       select g;
+
+                foreach (var kaart in dgGezinQuery)
+                {
+                    
+                    txtkaart.Text = kaart.kringloopKaartnummer;
+                    txtAchternaam.Text = kaart.achternaam;
+                    txtWoonplaats.Text = kaart.woonplaats;
+                    cbActiefkaart.IsChecked = Convert.ToBoolean(kaart.actief);
+                }
             }
             catch (InvalidCastException b)
             {

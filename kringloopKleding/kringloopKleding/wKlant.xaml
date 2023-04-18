@@ -8,19 +8,19 @@
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1400">
+        Title="klanten Beheer" Height="800" Width="1400">
     <Grid>
-        <Grid HorizontalAlignment="Left" Width="2000" VerticalAlignment="Top" Height="30" Margin="0,0,0,0" Background="#FF32BE1E"/>
-        <DockPanel HorizontalAlignment="Left"  VerticalAlignment="Top" Height="30">
-            <Menu DockPanel.Dock="Top" FontSize="20"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
-                <MenuItem Header="_Menu" FontSize="18" Width="100" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
-                    <MenuItem x:Name="Afhaling" Header="_Afhaling"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="Afhaling_Click"/>
-                    <MenuItem x:Name="klantenBeheer" Header="_Klanten beheer"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="klantenBeheer_Click"/>
-                    <MenuItem x:Name="Rapportage" Header="_rapportage"  FontSize="18" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28" Click="Rapportage_Click"/>
-                </MenuItem>
-            </Menu>
-        </DockPanel>
-
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="0,0,0,0" Background="#FF32BE1E">
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Menu DockPanel.Dock="Top" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
+                    <MenuItem Header="_Menu" FontSize="25"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
+                        <MenuItem x:Name="Afhaling" Header="_Afhaling" Click="Afhaling_Click" FontSize="25" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                        <MenuItem x:Name="klantenBeheer" Header="_Klanten beheer" Click="klantenBeheer_Click" FontSize="25" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                        <MenuItem x:Name="Rapportage" Header="_rapportage" Click="Rapportage_Click" FontSize="25"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28"/>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+        </Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Orientation="Horizontal">
             <Button x:Name="btnAdd" Content="Nieuw Gezin" HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Top" Width="190" FontSize="20" Click="btnAdd_Click"/>
             <Button x:Name="btnGezinslid" Content="Gezinslid Toevoegen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnGezinslid_Click"/>

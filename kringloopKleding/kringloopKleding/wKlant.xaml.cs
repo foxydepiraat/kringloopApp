@@ -103,14 +103,7 @@ namespace kringloopKleding
         {
             var GezinQuery = from g in db.gezins
                              where g.kringloopKaartnummer == txtkaart.Text
-                             select new
-                             {
-                                 kringloopKaartnummer = g.kringloopKaartnummer,
-                                 achternaam = g.achternaam,
-                                 woonplaats = g.woonplaats,
-                                 actiefKaart = g.actief,
-                                 gezinid = g.id,
-                             };
+                             select g;
 
             foreach (var gelijkKaart in GezinQuery)
             {
@@ -119,15 +112,14 @@ namespace kringloopKleding
                     kaartnummerResult = gelijkKaart.kringloopKaartnummer;
                     txtAchternaam.Text = gelijkKaart.achternaam;
                     txtWoonplaats.Text = gelijkKaart.woonplaats;
-                    cbActiefkaart.IsChecked = Convert.ToBoolean(gelijkKaart.actiefKaart);
-                    GezinId = gelijkKaart.gezinid;
+                    cbActiefkaart.IsChecked = Convert.ToBoolean(gelijkKaart.actief);
+                    GezinId = gelijkKaart.id;
 
                     dgGezin.ItemsSource = GezinQuery;
                     var gezinIdQuery = (from gl in db.gezinslids
-                                        where gelijkKaart.gezinid == gl.gezin_id
+                                        where gelijkKaart.id == gl.gezin_id
                                         select gl);
 
-                    dgGezinslid.ItemsSource = gezinIdQuery;
                     foreach (var gezinslid in gezinIdQuery)
                     {
                         txtVoornaam.Text = gezinslid.voornaam;
@@ -172,7 +164,7 @@ namespace kringloopKleding
                 }
 
                 if (kaartnummerResult != txtkaart.Text)
-                {
+                {   
                     gezin gezinAdd = new gezin()
                     {
                         kringloopKaartnummer = txtkaart.Text,
@@ -289,6 +281,23 @@ namespace kringloopKleding
                                     ActiefGezinslid = Convert.ToBoolean(gl.actief),
                                 };
 
+                var kaartIdQuery = from g in db.gezins
+                                   where g.kringloopKaartnummer == txtkaart.Text
+                                   select new
+                                   {
+                                       gezinId = g.id
+                                   };
+
+
+
+                foreach (var kaart in kaartIdQuery)
+                {
+                    var gezinsIdQuery = (from gl in db.gezinslids
+                                         where kaart.gezinId == gl.gezin_id
+                                         select gl);
+                    dgGezinslid.ItemsSource = gezinsIdQuery;
+                }
+
                 txtkaart.Text = "";
                 txtVoornaam.Text = "";
                 txtAchternaam.Text = "";
@@ -300,20 +309,7 @@ namespace kringloopKleding
                 MessageBoxOkAdd messageBoxAdd = new MessageBoxOkAdd();
                 messageBoxAdd.Show();
 
-                var kaartIdQuery = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtkaart.Text
-                                   select new
-                                   {
-                                       gezinId = g.id
-                                   };
 
-                foreach (var kaart in kaartIdQuery)
-                {
-                    var gezinsIdQuery = (from gl in db.gezinslids
-                                         where kaart.gezinId == gl.gezin_id
-                                         select gl);
-                    dgGezinslid.ItemsSource = gezinsIdQuery;
-                }
             }
         }
 

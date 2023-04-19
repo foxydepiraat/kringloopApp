@@ -325,8 +325,6 @@ namespace kringloopKleding
 
                 MessageBoxOkAdd messageBoxAdd = new MessageBoxOkAdd();
                 messageBoxAdd.Show();
-
-
             }
         }
 

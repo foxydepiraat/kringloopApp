@@ -36,7 +36,11 @@
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <Label Content="Kaartnummer:" Height="30" Width="120" FontSize="16"/>
                 <TextBox x:Name="txtkaart" Height="30" Width="100" MaxLength="6" FontSize="16"/>
-                <Button x:Name="btnKaartnummerSearch" Content="Zoeken" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Foreground="Black" Click="btnKaartnummerSearch_Click"/>
+                <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
+                    <Button.Background>
+                        <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
+                    </Button.Background>
+                </Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">

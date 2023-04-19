@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace kringloopKleding
 {
@@ -19,9 +9,14 @@ namespace kringloopKleding
     /// </summary>
     public partial class wRapportage : Window
     {
+        kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
         public wRapportage()
         {
             InitializeComponent();
+
+            var afhalingQuery = from a in db.afhalings select a;
+
+            dgrapport.ItemsSource = afhalingQuery;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
         {
@@ -42,6 +37,16 @@ namespace kringloopKleding
             wRapportage wRapportage = new wRapportage();
             wRapportage.Show();
             this.Close();
+        }
+
+        private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnOrderdMonth_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

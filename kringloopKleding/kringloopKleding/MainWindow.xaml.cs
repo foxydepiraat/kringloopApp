@@ -25,7 +25,16 @@ namespace kringloopKleding
 
         private string kaartnummerResult;
 
+        private int gezinid;
+        private int gezinslidid;
+
+        private int DateYear;
+        private int DateMonth;
+
         private DateTime coolDown;
+
+        private int pickedYear;
+        private int pickedMonth;
         public MainWindow()
         {
             InitializeComponent();
@@ -57,6 +66,7 @@ namespace kringloopKleding
 
         private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            // vult textbox voornaam dat geselecteerd en daarna 
             try
             {
                 gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
@@ -69,7 +79,6 @@ namespace kringloopKleding
 
                 foreach (var kaart in kaartOphaalQuery)
                 {
-
                     txtkaart.Text = kaart.kringloopKaartnummer;
                 }
 
@@ -148,7 +157,7 @@ namespace kringloopKleding
 
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
-            
+            // als de vakjes niet leeg zijn gaat het proberen een afhaling te maken
             if (txtkaart.Text != "" && txtVoornaam.Text != "")
             {
                 if (coolDown == null)
@@ -156,59 +165,105 @@ namespace kringloopKleding
                     coolDown = DateTime.Today;
                 }
 
+                pickedMonth = coolDown.Month;
+
                 var GezinIdQuery = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtkaart.Text
-                                    select g;
-                foreach (var gezinId in GezinIdQuery)
+                                   where g.kringloopKaartnummer == txtkaart.Text
+                                   select g;
+                foreach (var gid in GezinIdQuery)
                 {
-                    var gezinslidIdQuery = from gl in db.gezinslids
-                                            where gl.gezin_id == gezinId.id
-                                            where gl.voornaam == txtVoornaam.Text
-                                            select gl;
-
-                    afhaling afhalings = new afhaling();
-                    afhalings.datum = dpAfhaling.SelectedDate;
-                    if (dpAfhaling.Text == "")
-                    {
-                        afhalings.datum = DateTime.Today;
-                    }
-
-                    foreach (var gezinslidId in gezinslidIdQuery)
-                    {
-                        afhalings.gezinslid_id = gezinslidId.id;
-                    }
-                    db.afhalings.InsertOnSubmit(afhalings);
+                    gezinid = gid.id;
                 }
-                db.SubmitChanges();
 
-                var afhalingQuery = from a in db.afhalings
-                                    join gl in db.gezinslids on a.gezinslid_id equals gl.id
-                                    join g in db.gezins on gl.gezin_id equals g.id
-                                    where g.kringloopKaartnummer == txtkaart.Text
-                                    select new
-                                    {
-                                        datum = a.datum,
-                                        Voornaam = gl.voornaam,
-                                        geboortejaar = gl.geboortejaar,
-                                        achternaam = g.achternaam,
-                                        woonplaats = g.woonplaats,
-                                    };
 
-                dgAfhaling.ItemsSource = afhalingQuery;
+                var gezinslidQuery = from gl in db.gezinslids
+                                     where gl.voornaam == txtVoornaam.Text
+                                     where gl.gezin_id == gezinid
+                                     select gl;
 
-                wMessageAfhaling wMessageAfhaling = new wMessageAfhaling();
-                wMessageAfhaling.Show();
+                foreach (var glid in gezinslidQuery)
+                {
+                    gezinslidid = glid.id;
+                }
 
-                txtkaart.Text = null;
-                txtVoornaam.Text = null;
-                dpAfhaling.SelectedDate = null;
+                var MonthsQuery = from a in db.afhalings
+                                  where a.gezinslid_id == gezinslidid
+                                  select a;
+
+                foreach (var a in MonthsQuery)
+                {
+                    DateTime Date = Convert.ToDateTime(a.datum);
+                    DateYear = Date.Year;
+                    DateMonth = Date.Month;
+                }
+
+                var onceMonthQuery = from a in db.afhalings
+                                     where DateYear == pickedYear
+                                     where DateMonth == pickedMonth
+                                     where a.gezinslid_id == gezinslidid
+                                     select a;
+
+
+                // checkt als het eerder deze maand gedaan is
+                if (onceMonthQuery.Count() == 0)
+                {
+                    foreach (var gezinId in GezinIdQuery)
+                    {
+                        var gezinslidIdQuery = from gl in db.gezinslids
+                                               where gl.gezin_id == gezinId.id
+                                               where gl.voornaam == txtVoornaam.Text
+                                               select gl;
+
+                        afhaling afhalings = new afhaling();
+                        afhalings.datum = dpAfhaling.SelectedDate;
+                        if (dpAfhaling.Text == "")
+                        {
+                            afhalings.datum = DateTime.Today;
+                        }
+
+                        foreach (var gezinslidId in gezinslidIdQuery)
+                        {
+                            afhalings.gezinslid_id = gezinslidId.id;
+                        }
+                        db.afhalings.InsertOnSubmit(afhalings);
+                    }
+                    db.SubmitChanges();
+
+                    var afhalingQuery = from a in db.afhalings
+                                        join gl in db.gezinslids on a.gezinslid_id equals gl.id
+                                        join g in db.gezins on gl.gezin_id equals g.id
+                                        where g.kringloopKaartnummer == txtkaart.Text
+                                        select new
+                                        {
+                                            datum = a.datum,
+                                            Voornaam = gl.voornaam,
+                                            geboortejaar = gl.geboortejaar,
+                                            achternaam = g.achternaam,
+                                            woonplaats = g.woonplaats,
+                                        };
+
+                    dgAfhaling.ItemsSource = afhalingQuery;
+
+                    wMessageAfhaling wMessageAfhaling = new wMessageAfhaling();
+                    wMessageAfhaling.Show();
+
+                    txtkaart.Text = null;
+                    txtVoornaam.Text = null;
+                    dpAfhaling.SelectedDate = null;
+                }
+                else
+                {
+
+                }
             }
             else
             {
+                //open een window messagebox dat het vakjes leeg zijn
                 legenVakjes legenVakjes = new legenVakjes();
                 legenVakjes.Show();
             }
         }
+
 
         private void datePicker_CalendarClosed(object sender, RoutedEventArgs e)
         {
@@ -219,4 +274,3 @@ namespace kringloopKleding
         }
     }
 }
-

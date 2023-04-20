@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kringloopKleding"
         WindowState="Maximized"
-        ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="klanten Beheer" Height="800" Width="1400">

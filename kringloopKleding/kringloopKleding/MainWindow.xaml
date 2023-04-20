@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kringloopKleding"
         WindowState="Maximized"
-        ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="Afhaling" Height="800" Width="1400">
@@ -38,13 +37,12 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Label Content="Datum Ophaling:" Width="130" Height="30" FontSize="16"/>
-                    <DatePicker x:Name="datePicker" Width="150" Height="30" Margin="0,10,0,0" FontSize="16"/>
+                    <DatePicker x:Name="dpAfhaling" Width="150" Height="30" Margin="0,10,0,0" FontSize="16" CalendarClosed="datePicker_CalendarClosed"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,50,0">
                     <Button x:Name="btnAfhaling" Content="Opslaan" Width="100" Height="30" FontSize="16" Click="btnAfhaling_Click"/>
                 </StackPanel>
                 <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="350" Margin="0,20,0,0" MouseDoubleClick="dgGezinslid_MouseDoubleClick" FontSize="16"/>
-
             </StackPanel>
             <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="350" Margin="0,10,0,0" FontSize="16"/>
         </StackPanel>

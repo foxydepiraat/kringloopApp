@@ -10,6 +10,12 @@ namespace kringloopKleding
     public partial class wRapportage : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
+        private gezinslid gezinsleden;
+
+        private int gezinid;
+        private int gezinslidid;
+
+        private DateTime pickedDate;
         public wRapportage()
         {
             InitializeComponent();
@@ -39,14 +45,75 @@ namespace kringloopKleding
             this.Close();
         }
 
-        private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
+        private void dgGezinslid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
+            txtVoornaam.Text = gezinsleden.voornaam;
             
         }
 
-        private void btnOrderdMonth_Click(object sender, RoutedEventArgs e)
+        private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
+            if (txtKaart.Text != "" && txtVoornaam.Text != "") 
+            {
+                var GezinKaartQuery = from g in db.gezins
+                                 where g.kringloopKaartnummer == txtKaart.Text
+                                 select g;
 
+                foreach(var gid in GezinKaartQuery)
+                {
+                    gezinid = gid.id;
+                }
+
+                var gezinslidIdQuery = from gl in db.gezinslids
+                                       where gl.voornaam == txtVoornaam.Text
+                                       where gl.gezin_id == gezinid
+                                       select gl;
+
+                foreach(var glid in gezinslidIdQuery)
+                {
+                    gezinslidid = glid.id;
+                   
+                }
+
+                var afhalingQuery = from a in db.afhalings
+                                    where a.gezinslid_id == gezinslidid
+                                    select a;
+
+                dgrapport.ItemsSource = afhalingQuery;
+                
+            }
+            else if(txtKaart.Text != "")
+            {
+                var GezinKaartQuery = from g in db.gezins
+                                      where g.kringloopKaartnummer == txtKaart.Text
+                                      select g;
+
+                foreach (var gid in GezinKaartQuery)
+                {
+                    gezinid = gid.id;
+                }
+
+                var gezinslidIdQuery = from gl in db.gezinslids
+                                       where gl.gezin_id == gezinid
+                                       select gl;
+
+                dgGezinslid.ItemsSource = gezinslidIdQuery;
+            }
+            else
+            {
+                legenVakjes legenVakjes = new legenVakjes();
+                legenVakjes.Show();
+            }
+        }
+
+        private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            if (dpRapportDatum.SelectedDate != null)
+            {
+                pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
+                MessageBox.Show(pickedDate.ToString());
+            }
         }
     }
 }

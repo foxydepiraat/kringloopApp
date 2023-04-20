@@ -10,6 +10,7 @@ namespace kringloopKleding
     public partial class wRapportage : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
+        private gezin gezinnen;
         private gezinslid gezinsleden;
 
         private int gezinid;
@@ -19,6 +20,8 @@ namespace kringloopKleding
         public wRapportage()
         {
             InitializeComponent();
+
+            dgGezin.ItemsSource = db.gezins;
 
             var afhalingQuery = from a in db.afhalings select a;
 
@@ -45,11 +48,16 @@ namespace kringloopKleding
             this.Close();
         }
 
+        private void dgGezin_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            gezinnen = (gezin)dgGezin.SelectedItem;
+            txtKaart.Text = gezinnen.kringloopKaartnummer;
+        }
+
         private void dgGezinslid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
-            txtVoornaam.Text = gezinsleden.voornaam;
-            
+            txtVoornaam.Text = gezinsleden.voornaam;            
         }
 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)

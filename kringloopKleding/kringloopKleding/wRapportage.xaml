@@ -41,7 +41,11 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinsleden van kringloopkaart:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                    <Label Content="gezinnen:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                    <DataGrid x:Name="dgGezin" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezin_MouseDoubleClick"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
+                    <Label Content="gezinsleden:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
                     <DataGrid x:Name="dgGezinslid" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezinslid_MouseDoubleClick"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">

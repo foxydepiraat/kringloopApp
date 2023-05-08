@@ -162,7 +162,7 @@ namespace kringloopKleding
         {
             if (txtkaart.Text == "" || txtAchternaam.Text == "" || txtWoonplaats.Text == "")
             {
-                legenVakjes windowMessage = new legenVakjes();
+                messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
             }
 
@@ -241,14 +241,14 @@ namespace kringloopKleding
                     }
 
                     dgGezin.ItemsSource = db.gezins.ToList();
-                    MessageBoxOkAdd wMsgOkAdd = new MessageBoxOkAdd();
+                    messageboxes.MessageBoxOkAdd wMsgOkAdd = new messageboxes.MessageBoxOkAdd();
                     wMsgOkAdd.Show();
                 }
             }
 
             else 
             {
-                MessageBoxExist messageBoxExist = new MessageBoxExist();
+                messageboxes.MessageBoxExist messageBoxExist = new messageboxes.MessageBoxExist();
                 messageBoxExist.Show();
             }
         }
@@ -323,7 +323,7 @@ namespace kringloopKleding
                 cbActiefkaart.IsChecked = false;
                 cbActiefGezinsLid.IsChecked = false;
 
-                MessageBoxOkAdd messageBoxAdd = new MessageBoxOkAdd();
+                messageboxes.MessageBoxOkAdd messageBoxAdd = new messageboxes.MessageBoxOkAdd();
                 messageBoxAdd.Show();
             }
         }
@@ -333,7 +333,7 @@ namespace kringloopKleding
             //checkt als je een van de vakjes leeggelaten zijn
             if (txtkaart.Text == "" || txtAchternaam.Text == "" || txtWoonplaats.Text == "")
             {
-                legenVakjes windowMessage = new legenVakjes();
+                messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
             }
 
@@ -361,7 +361,7 @@ namespace kringloopKleding
                     dgGezin.ItemsSource = db.gezins.ToList();
                     db.SubmitChanges();
 
-                    MessageBoxOk messageBoxOK = new MessageBoxOk();
+                    messageboxes.MessageBoxOk messageBoxOK = new messageboxes.MessageBoxOk();
                     messageBoxOK.Show();
 
                     txtkaart.Text = null;

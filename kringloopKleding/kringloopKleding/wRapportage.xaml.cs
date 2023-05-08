@@ -17,6 +17,8 @@ namespace kringloopKleding
         private int gezinslidid;
 
         private DateTime pickedDate;
+        private int dateYear;
+        private int dateMonth;
         public wRapportage()
         {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace kringloopKleding
 
             var afhalingQuery = from a in db.afhalings select a;
 
-            dgrapport.ItemsSource = afhalingQuery;
+            dgAfhaling.ItemsSource = afhalingQuery;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
         {
@@ -62,11 +64,15 @@ namespace kringloopKleding
 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (txtKaart.Text != "" && txtVoornaam.Text != "") 
+            if (pickedDate != null)
             {
+                pickedDate = DateTime.Today;
+            }
+            if (txtKaart.Text != "" && txtVoornaam.Text != "") 
+            {                   
                 var GezinKaartQuery = from g in db.gezins
-                                 where g.kringloopKaartnummer == txtKaart.Text
-                                 select g;
+                                      where g.kringloopKaartnummer == txtKaart.Text
+                                      select g;
 
                 foreach(var gid in GezinKaartQuery)
                 {
@@ -80,16 +86,34 @@ namespace kringloopKleding
 
                 foreach(var glid in gezinslidIdQuery)
                 {
-                    gezinslidid = glid.id;
-                   
+                    gezinslidid = glid.id;                   
                 }
 
                 var afhalingQuery = from a in db.afhalings
                                     where a.gezinslid_id == gezinslidid
                                     select a;
 
-                dgrapport.ItemsSource = afhalingQuery;
+                foreach (var afhaling in afhalingQuery)
+                {
+                    DateTime Date = Convert.ToDateTime(afhaling.datum);
+                    int dateYear = Date.Year;
+                    int dateMonth = Date.Month;
+                }
+
+                var monthQuery = from a in db.afhalings
+                                 where a.gezinslid_id == gezinslidid
+                                 where dateYear == pickedDate.Year
+                                 where dateMonth == pickedDate.Month
+                                 select a;
                 
+                if(monthQuery.Count() > 0 )
+                {
+                    dgAfhaling.ItemsSource = monthQuery;
+                }
+                else
+                {
+                    dgAfhaling.ItemsSource = afhalingQuery;
+                }               
             }
             else if(txtKaart.Text != "")
             {
@@ -106,11 +130,39 @@ namespace kringloopKleding
                                        where gl.gezin_id == gezinid
                                        select gl;
 
+                foreach (var glid in gezinslidIdQuery)
+                {
+                    gezinslidid = glid.id;
+                }
+
+                var afhalingQuery = from a in db.afhalings
+                                    select a;
+
+                foreach (var afhaling in afhalingQuery)
+                {
+                    DateTime Date = Convert.ToDateTime(afhaling.datum);
+                    dateYear = Date.Year;
+                    dateMonth = Date.Month;
+                }
+
+                var monthQuery = from a in db.afhalings
+                                 where dateYear == pickedDate.Year
+                                 where dateMonth == pickedDate.Month
+                                 select a;
+
                 dgGezinslid.ItemsSource = gezinslidIdQuery;
+                if (monthQuery.Count() > 0)
+                {
+                    dgAfhaling.ItemsSource = monthQuery;
+                }
+                else
+                {
+                    dgAfhaling.ItemsSource = afhalingQuery;
+                }                
             }
             else
             {
-                legenVakjes legenVakjes = new legenVakjes();
+                messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
             }
         }
@@ -120,7 +172,6 @@ namespace kringloopKleding
             if (dpRapportDatum.SelectedDate != null)
             {
                 pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
-                MessageBox.Show(pickedDate.ToString());
             }
         }
     }

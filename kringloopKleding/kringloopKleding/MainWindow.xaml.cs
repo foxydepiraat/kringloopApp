@@ -32,14 +32,12 @@ namespace kringloopKleding
         private int DateMonth;
 
         private DateTime coolDown;
-
-        private int pickedYear;
-        private int pickedMonth;
         public MainWindow()
         {
             InitializeComponent();
 
             dgGezinslid.ItemsSource = db.gezinslids.ToList();
+            
         }
 
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
@@ -134,7 +132,7 @@ namespace kringloopKleding
             else if (gezinQuery.Count() == 0)
             {
                 dgAfhaling.ItemsSource = null;
-                kaartOfgezinslidNietActief kaartOfgezinslid = new kaartOfgezinslidNietActief();
+                messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
                 kaartOfgezinslid.Show();
             }
 
@@ -159,14 +157,9 @@ namespace kringloopKleding
         {
             // als de vakjes niet leeg zijn gaat het proberen een afhaling te maken
             if (txtkaart.Text != "" && txtVoornaam.Text != "")
-            {
-                if (coolDown == null)
-                {
-                    coolDown = DateTime.Today;
-                }
-
-                pickedMonth = coolDown.Month;
-
+            {                
+                coolDown = DateTime.Today;
+                
                 var GezinIdQuery = from g in db.gezins
                                    where g.kringloopKaartnummer == txtkaart.Text
                                    select g;
@@ -198,8 +191,8 @@ namespace kringloopKleding
                 }
 
                 var onceMonthQuery = from a in db.afhalings
-                                     where DateYear == pickedYear
-                                     where DateMonth == pickedMonth
+                                     where DateYear == coolDown.Year
+                                     where DateMonth == coolDown.Month
                                      where a.gezinslid_id == gezinslidid
                                      select a;
 
@@ -215,11 +208,8 @@ namespace kringloopKleding
                                                select gl;
 
                         afhaling afhalings = new afhaling();
-                        afhalings.datum = dpAfhaling.SelectedDate;
-                        if (dpAfhaling.Text == "")
-                        {
-                            afhalings.datum = DateTime.Today;
-                        }
+                        afhalings.datum = DateTime.Today;
+                        
 
                         foreach (var gezinslidId in gezinslidIdQuery)
                         {
@@ -244,32 +234,23 @@ namespace kringloopKleding
 
                     dgAfhaling.ItemsSource = afhalingQuery;
 
-                    wMessageAfhaling wMessageAfhaling = new wMessageAfhaling();
+                    messageboxes.wMessageAfhaling wMessageAfhaling = new messageboxes.wMessageAfhaling();
                     wMessageAfhaling.Show();
 
                     txtkaart.Text = null;
                     txtVoornaam.Text = null;
-                    dpAfhaling.SelectedDate = null;
                 }
                 else
                 {
-
+                    messageboxes.MessageBoxWait messageBoxWait = new messageboxes.MessageBoxWait();
+                    messageBoxWait.Show();
                 }
             }
             else
             {
                 //open een window messagebox dat het vakjes leeg zijn
-                legenVakjes legenVakjes = new legenVakjes();
+                messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
-            }
-        }
-
-
-        private void datePicker_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            if (dpAfhaling.SelectedDate != null)
-            {
-                coolDown = Convert.ToDateTime(dpAfhaling.SelectedDate);
             }
         }
     }

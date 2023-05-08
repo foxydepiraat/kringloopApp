@@ -50,7 +50,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
                     <Label Content="Datums Afhalingen:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgrapport" Height="250" Width="270" FontSize="16"/>
+                    <DataGrid x:Name="dgAfhaling" Height="250" Width="270" FontSize="16"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

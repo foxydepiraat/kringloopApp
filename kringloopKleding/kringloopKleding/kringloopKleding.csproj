@@ -56,7 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="kaartOfgezinslidNietActief.xaml.cs">
+    <Compile Include="messageboxes\kaartOfgezinslidNietActief.xaml.cs">
       <DependentUpon>kaartOfgezinslidNietActief.xaml</DependentUpon>
     </Compile>
     <Compile Include="kringloopAfhaling.designer.cs">
@@ -64,32 +64,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>kringloopAfhaling.dbml</DependentUpon>
     </Compile>
-    <Compile Include="legenVakjes.xaml.cs">
+    <Compile Include="messageboxes\legenVakjes.xaml.cs">
       <DependentUpon>legenVakjes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBoxExist.xaml.cs">
+    <Compile Include="messageboxes\MessageBoxWait.xaml.cs">
+      <DependentUpon>MessageBoxWait.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="messageboxes\MessageBoxExist.xaml.cs">
       <DependentUpon>MessageBoxExist.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBoxOk.xaml.cs">
+    <Compile Include="messageboxes\MessageBoxOk.xaml.cs">
       <DependentUpon>MessageBoxOk.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBoxOkAdd.xaml.cs">
+    <Compile Include="messageboxes\MessageBoxOkAdd.xaml.cs">
       <DependentUpon>MessageBoxOkAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="wKlant.xaml.cs">
       <DependentUpon>wKlant.xaml</DependentUpon>
     </Compile>
-    <Compile Include="wMessageAfhaling.xaml.cs">
+    <Compile Include="messageboxes\wMessageAfhaling.xaml.cs">
       <DependentUpon>wMessageAfhaling.xaml</DependentUpon>
     </Compile>
     <Compile Include="wRapportage.xaml.cs">
       <DependentUpon>wRapportage.xaml</DependentUpon>
     </Compile>
-    <Page Include="kaartOfgezinslidNietActief.xaml">
+    <Page Include="messageboxes\kaartOfgezinslidNietActief.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="legenVakjes.xaml">
+    <Page Include="messageboxes\legenVakjes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -105,15 +108,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MessageBoxExist.xaml">
+    <Page Include="messageboxes\MessageBoxWait.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBoxOk.xaml">
+    <Page Include="messageboxes\MessageBoxExist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBoxOkAdd.xaml">
+    <Page Include="messageboxes\MessageBoxOk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="messageboxes\MessageBoxOkAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,7 +128,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="wMessageAfhaling.xaml">
+    <Page Include="messageboxes\wMessageAfhaling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

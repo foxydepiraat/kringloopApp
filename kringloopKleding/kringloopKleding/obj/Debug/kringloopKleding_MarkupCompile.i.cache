@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\luciano kannekens\Source\Repos\kringloopAFhaling\kringloopKleding\kringloopKleding\obj\Debug\
+C:\Users\luciano kannekens\source\repos\kringloopApp\kringloopKleding\kringloopKleding\obj\Debug\
 kringloopKleding
 none
 false
 DEBUG;TRACE
-C:\Users\luciano kannekens\Source\Repos\kringloopAFhaling\kringloopKleding\kringloopKleding\App.xaml
-91162522284
+C:\Users\luciano kannekens\source\repos\kringloopApp\kringloopKleding\kringloopKleding\App.xaml
+101209761287
 
-15-977036738
+16949868579
 141458853696
-kaartOfgezinslidNietActief.xaml;legenVakjes.xaml;MainWindow.xaml;MessageBoxExist.xaml;MessageBoxOk.xaml;MessageBoxOkAdd.xaml;wKlant.xaml;wMessageAfhaling.xaml;wRapportage.xaml;
+messageboxes\kaartOfgezinslidNietActief.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;messageboxes\MessageBoxOk.xaml;messageboxes\MessageBoxOkAdd.xaml;wKlant.xaml;messageboxes\wMessageAfhaling.xaml;wRapportage.xaml;
 
-True
+False
 

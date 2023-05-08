@@ -12,6 +12,7 @@ namespace kringloopKleding
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
         private gezin gezinnen;
         private gezinslid gezinsleden;
+        private afhaling afhalingen;
 
         private int gezinid;
         private int gezinslidid;
@@ -50,6 +51,12 @@ namespace kringloopKleding
             this.Close();
         }
 
+        private void dgAfhaling_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            afhalingen = (afhaling)dgAfhaling.SelectedItem;
+            dpRapportDatum.Text = afhalingen.datum.ToString();
+        }
+
         private void dgGezin_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             gezinnen = (gezin)dgGezin.SelectedItem;
@@ -61,10 +68,10 @@ namespace kringloopKleding
             gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
             txtVoornaam.Text = gezinsleden.voornaam;            
         }
-
+        
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (pickedDate != null)
+            if (dpRapportDatum.Text == "")
             {
                 pickedDate = DateTime.Today;
             }
@@ -83,7 +90,7 @@ namespace kringloopKleding
                                        where gl.voornaam == txtVoornaam.Text
                                        where gl.gezin_id == gezinid
                                        select gl;
-
+                
                 foreach(var glid in gezinslidIdQuery)
                 {
                     gezinslidid = glid.id;                   
@@ -102,8 +109,7 @@ namespace kringloopKleding
 
                 var monthQuery = from a in db.afhalings
                                  where a.gezinslid_id == gezinslidid
-                                 where dateYear == pickedDate.Year
-                                 where dateMonth == pickedDate.Month
+                                 where a.datum == pickedDate
                                  select a;
                 
                 if(monthQuery.Count() > 0 )
@@ -117,53 +123,59 @@ namespace kringloopKleding
             }
             else if(txtKaart.Text != "")
             {
-                var GezinKaartQuery = from g in db.gezins
-                                      where g.kringloopKaartnummer == txtKaart.Text
-                                      select g;
+                var gezinQuery = from g in db.gezins
+                                  where g.kringloopKaartnummer == txtKaart.Text
+                                  select g;
 
-                foreach (var gid in GezinKaartQuery)
+                foreach(var gezin in gezinQuery)
                 {
-                    gezinid = gid.id;
+                    gezinid = gezin.id;
                 }
 
-                var gezinslidIdQuery = from gl in db.gezinslids
-                                       where gl.gezin_id == gezinid
-                                       select gl;
+                var gezinslidQuery = from gl in db.gezinslids
+                                     where gl.gezin_id == gezinid
+                                     select gl;
 
-                foreach (var glid in gezinslidIdQuery)
+                foreach(var gezinslid  in gezinslidQuery)
                 {
-                    gezinslidid = glid.id;
+                    gezinslidid = gezinslid.id;
+                    txtVoornaam.Text = gezinslid.voornaam;
                 }
+
+                dgGezinslid.ItemsSource = gezinslidQuery;
 
                 var afhalingQuery = from a in db.afhalings
+                                    where a.gezinslid_id == gezinslidid
                                     select a;
 
                 foreach (var afhaling in afhalingQuery)
                 {
                     DateTime Date = Convert.ToDateTime(afhaling.datum);
-                    dateYear = Date.Year;
-                    dateMonth = Date.Month;
+                    int dateYear = Date.Year;
+                    int dateMonth = Date.Month;
                 }
 
-                var monthQuery = from a in db.afhalings
-                                 where dateYear == pickedDate.Year
-                                 where dateMonth == pickedDate.Month
-                                 select a;
-
-                dgGezinslid.ItemsSource = gezinslidIdQuery;
-                if (monthQuery.Count() > 0)
+                var SeacrhMonthYearQuery = from a in db.afhalings
+                                           where a.gezinslid_id == gezinslidid
+                                           where dateYear == pickedDate.Year
+                                           where dateMonth == pickedDate.Month
+                                           select a;
+                if (SeacrhMonthYearQuery.Count() > 0)
                 {
-                    dgAfhaling.ItemsSource = monthQuery;
+                    dgAfhaling.ItemsSource = SeacrhMonthYearQuery;
                 }
                 else
                 {
                     dgAfhaling.ItemsSource = afhalingQuery;
-                }                
+                }
             }
             else
             {
                 messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
+                dgGezin.ItemsSource = db.gezins;
+                dgGezinslid.ItemsSource = null;
+                dgAfhaling.ItemsSource = null;
             }
         }
 

@@ -10,8 +10,8 @@
         mc:Ignorable="d"
         Title="MessageBoxOK" Height="200" Width="500">
     <Grid>
-        <StackPanel HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Orientation="Vertical">
-            <Grid HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Background="#FFC8C8C8">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFC8C8C8">
                 <Label x:Name="lblTitle" Content="kaart of geiznslid niet actief." Width="500" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" FontSize="16" Background="#FF32BE1E"/>
             </Grid>
             <Label x:Name="lblText" Content="kaart of gezinslid zijn niet actief" HorizontalAlignment="Left"  Margin="0,0,0,0" FontSize="16"/>

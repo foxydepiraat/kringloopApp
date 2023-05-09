@@ -68,13 +68,15 @@ namespace kringloopKleding
             gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
             txtVoornaam.Text = gezinsleden.voornaam;            
         }
-        
+
+        //Search result from entered data
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
             if (dpRapportDatum.Text == "")
             {
                 pickedDate = DateTime.Today;
             }
+            //search with the entered data from the if + data
             if (txtKaart.Text != "" && txtVoornaam.Text != "") 
             {                   
                 var GezinKaartQuery = from g in db.gezins
@@ -121,6 +123,7 @@ namespace kringloopKleding
                     dgAfhaling.ItemsSource = afhalingQuery;
                 }               
             }
+            //search for data was has been enetered what is in the if
             else if(txtKaart.Text != "")
             {
                 var gezinQuery = from g in db.gezins

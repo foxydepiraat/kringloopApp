@@ -227,7 +227,7 @@ namespace kringloopKleding
 
                 dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
             }
-            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data (not done)
+            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
             else if(txtKaart.Text != "")
             {
                 var QueryGezin = from g in db.gezins
@@ -253,6 +253,8 @@ namespace kringloopKleding
                                         where gl.gezin_id == gezinid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
+
+                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
             }
         }
 
@@ -287,14 +289,14 @@ namespace kringloopKleding
 
                 var QueryAfhalingMonth = from a in db.afhalings
                                          where a.gezinslid_id == gezinslidid
-                                         where a.datum.Value.Year == DateTime.Today.Year
+                                         where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
 
                 dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
-            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
+            // if txtFirstname has not been enttered then  search for all data that are equal to the entered data
             else if (txtKaart.Text != "" )
             {
                     var QueryGezinId = from g in db.gezins
@@ -318,6 +320,7 @@ namespace kringloopKleding
                 var QueryAfhalingMonth = from a in db.afhalings
                                          join gl in db.gezinslids on a.gezinslid_id equals gl.id
                                          where gl.gezin_id == gezinid
+                                         where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
                                         
@@ -326,8 +329,15 @@ namespace kringloopKleding
             }
             else
             {
-                messageboxes.legenVakjes WlegenVakjes = new messageboxes.legenVakjes();
-                WlegenVakjes.Show();
+                var queryGezin = from g in db.gezins
+                                 select g;
+
+                dgFamily.ItemsSource = queryGezin;
+
+                var queryAfhaling = from a in db.afhalings
+                                    select a;
+
+                dgAfhaling.ItemsSource = queryAfhaling;
             }
         }
     }

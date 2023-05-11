@@ -377,7 +377,7 @@ namespace kringloopKleding
         }
         private void cbWoonplaats_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            
+           
         }
     }
 }

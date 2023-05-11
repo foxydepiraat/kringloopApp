@@ -249,7 +249,9 @@ namespace kringloopKleding
                 }
 
                 var QueryAfhalingYear = from a in db.afhalings
-                                        where a.gezinslid_id == gezinslidid
+                                        join gl in db.gezinslids on a.gezinslid_id equals gl.id
+                                        where gl.gezin_id == gezinid
+                                        where a.datum.Value.Year == pickedDate.Year
                                         select a;
             }
         }
@@ -285,13 +287,14 @@ namespace kringloopKleding
 
                 var QueryAfhalingMonth = from a in db.afhalings
                                          where a.gezinslid_id == gezinslidid
+                                         where a.datum.Value.Year == DateTime.Today.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
 
                 dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
-            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data (not done)
+            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
             else if (txtKaart.Text != "" )
             {
                     var QueryGezinId = from g in db.gezins
@@ -313,9 +316,10 @@ namespace kringloopKleding
                 }
 
                 var QueryAfhalingMonth = from a in db.afhalings
-                                            where a.gezinslid_id == gezinslidid
-                                            where a.datum.Value.Month == pickedDate.Month
-                                            select a;
+                                         join gl in db.gezinslids on a.gezinslid_id equals gl.id
+                                         where gl.gezin_id == gezinid
+                                         where a.datum.Value.Month == pickedDate.Month
+                                         select a;
                                         
                 dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
                               

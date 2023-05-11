@@ -24,7 +24,7 @@ namespace kringloopKleding
         {
             InitializeComponent();
 
-            dgGezin.ItemsSource = db.gezins;
+            dgFamily.ItemsSource = db.gezins;
 
             var afhalingQuery = from a in db.afhalings select a;
 
@@ -57,15 +57,15 @@ namespace kringloopKleding
             dpRapportDatum.Text = afhalingen.datum.ToString();
         }
 
-        private void dgGezin_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void dgFamily_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            gezinnen = (gezin)dgGezin.SelectedItem;
+            gezinnen = (gezin)dgFamily.SelectedItem;
             txtKaart.Text = gezinnen.kringloopKaartnummer;
         }
 
-        private void dgGezinslid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void dgFamilyMembers_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
+            gezinsleden = (gezinslid)dgFamilyMembers.SelectedItem;
             txtFirstName.Text = gezinsleden.voornaam;            
         }
 
@@ -145,7 +145,7 @@ namespace kringloopKleding
                     txtFirstName.Text = gezinslid.voornaam;
                 }
 
-                dgGezinslid.ItemsSource = gezinslidQuery;
+                dgFamilyMembers.ItemsSource = gezinslidQuery;
 
                 var afhalingQuery = from a in db.afhalings
                                     where a.gezinslid_id == gezinslidid
@@ -177,8 +177,8 @@ namespace kringloopKleding
             {
                 messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
-                dgGezin.ItemsSource = db.gezins;
-                dgGezinslid.ItemsSource = null;
+                dgFamily.ItemsSource = db.gezins;
+                dgFamilyMembers.ItemsSource = null;
                 dgAfhaling.ItemsSource = null;
             }
         }
@@ -310,14 +310,15 @@ namespace kringloopKleding
                 foreach (var gl in QuerygezinslidId)
                 {
                     gezinslidid = gl.id;
+                }
 
-                    var QueryAfhalingMonth = from a in db.afhalings
-                                             where a.gezinslid_id == gezinslidid
-                                             where a.datum.Value.Month == pickedDate.Month
-                                             select a;
+                var QueryAfhalingMonth = from a in db.afhalings
+                                            where a.gezinslid_id == gezinslidid
+                                            where a.datum.Value.Month == pickedDate.Month
+                                            select a;
                                         
-                    dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
-                }                
+                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
+                              
             }
             else
             {

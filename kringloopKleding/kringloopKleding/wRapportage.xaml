@@ -46,11 +46,11 @@
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
                     <Label Content="gezinnen:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgGezin" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezin_MouseDoubleClick"/>
+                    <DataGrid x:Name="dgFamily" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamily_MouseDoubleClick"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
                     <Label Content="gezinsleden:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgGezinslid" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezinslid_MouseDoubleClick"/>
+                    <DataGrid x:Name="dgFamilyMembers" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
                     <Label Content="Datum Afhaling:" Width="130" Height="35" FontSize="16" Margin="0,0,0,10"/>

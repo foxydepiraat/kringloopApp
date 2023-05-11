@@ -68,11 +68,11 @@ namespace kringloopKleding
             try
             {
                 gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
-                txtVoornaam.Text = gezinslidsAfhaling.voornaam;
+                txtFirstName.Text = gezinslidsAfhaling.voornaam;
 
                 var kaartOphaalQuery = from gl in db.gezinslids
                                        join g in db.gezins on gl.gezin_id equals g.id
-                                       where gl.voornaam == txtVoornaam.Text
+                                       where gl.voornaam == txtFirstName.Text
                                        select g;
 
                 foreach (var kaart in kaartOphaalQuery)
@@ -156,7 +156,7 @@ namespace kringloopKleding
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
             // als de vakjes niet leeg zijn gaat het proberen een afhaling te maken
-            if (txtkaart.Text != "" && txtVoornaam.Text != "")
+            if (txtkaart.Text != "" && txtFirstName.Text != "")
             {                
                 coolDown = DateTime.Today;
                 
@@ -170,7 +170,7 @@ namespace kringloopKleding
 
 
                 var gezinslidQuery = from gl in db.gezinslids
-                                     where gl.voornaam == txtVoornaam.Text
+                                     where gl.voornaam == txtFirstName.Text
                                      where gl.gezin_id == gezinid
                                      select gl;
 
@@ -204,7 +204,7 @@ namespace kringloopKleding
                     {
                         var gezinslidIdQuery = from gl in db.gezinslids
                                                where gl.gezin_id == gezinId.id
-                                               where gl.voornaam == txtVoornaam.Text
+                                               where gl.voornaam == txtFirstName.Text
                                                select gl;
 
                         afhaling afhalings = new afhaling();
@@ -238,7 +238,7 @@ namespace kringloopKleding
                     wMessageAfhaling.Show();
 
                     txtkaart.Text = null;
-                    txtVoornaam.Text = null;
+                    txtFirstName.Text = null;
                 }
                 else
                 {

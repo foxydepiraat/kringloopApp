@@ -33,23 +33,27 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <Label Content="Voornaam:" Width="120" Height="30" FontSize="16" />
-                <TextBox x:Name="txtVoornaam" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                <TextBox x:Name="txtFirstName" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,20">
                 <Label Content="Kies een Datum: " Width="120" Height="30" FontSize="16"/>
                 <DatePicker x:Name="dpRapportDatum" Width="150" Height="30" FontSize="16" CalendarClosed="dpRapportDatum_CalendarClosed"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <Button x:Name="btnMonth" Content="Op maand Zoeken" Width="140" Height="30"  FontSize="16" Margin="10,0,0,0" Click="btnMonth_Click"/>
+                <Button x:Name="btnYear" Content="Op Jaar Zoeken" Width="140" Height="30"  FontSize="16" Margin="10,0,0,0" Click="btnYear_Click"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinnen:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                    <Label Content="gezinnen:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
                     <DataGrid x:Name="dgGezin" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezin_MouseDoubleClick"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinsleden:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                    <Label Content="gezinsleden:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
                     <DataGrid x:Name="dgGezinslid" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgGezinslid_MouseDoubleClick"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="Datums Afhalingen:" Width="120" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                    <Label Content="Datum Afhaling:" Width="130" Height="35" FontSize="16" Margin="0,0,0,10"/>
                     <DataGrid x:Name="dgAfhaling" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick"/>
                 </StackPanel>
             </StackPanel>

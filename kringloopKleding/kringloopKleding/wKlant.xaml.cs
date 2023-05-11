@@ -21,10 +21,10 @@ namespace kringloopKleding
     public partial class wKlant : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
-        private gezin gezinAanpassen;
-        private gezinslid gezinslidAanpassen;
+        private gezin ChangeFamily;
+        private gezinslid ChangeFamilyMember;
 
-        private string kaartnummerResult;
+        private string CardNumberResult;
         private int GezinId;
         private int lastId;
 
@@ -62,16 +62,15 @@ namespace kringloopKleding
         {
             try
             {
-                //dgGezin vullen
-                gezinAanpassen = (gezin)dgGezin.SelectedItem;
-                txtkaart.Text = gezinAanpassen.kringloopKaartnummer;
-                txtAchternaam.Text = gezinAanpassen.achternaam;
-                txtWoonplaats.Text = gezinAanpassen.woonplaats;
-                cbActiefkaart.IsChecked = Convert.ToBoolean(gezinAanpassen.actief);
+                
+                ChangeFamily = (gezin)dgGezin.SelectedItem;
+                txtCard.Text = ChangeFamily.kringloopKaartnummer;
+                txtLastname.Text = ChangeFamily.achternaam;
+                cbResidence.Text = ChangeFamily.woonplaats;
+                cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
 
-                int gezinid = gezinAanpassen.id;
+                int gezinid = ChangeFamily.id;
 
-                //datagrid gezinslid data die geiznslid.gezin_id == gezin.id 
                 var gezinId = (gezin)dgGezin.SelectedItem;
                 var gezinIdQuery = (from gl in db.gezinslids
                                     where gezinId.id == gl.gezin_id
@@ -90,23 +89,23 @@ namespace kringloopKleding
         {
             try
             {
-                gezinslidAanpassen = (gezinslid)dgGezinslid.SelectedItem;
-                txtVoornaam.Text = gezinslidAanpassen.voornaam;
-                txtGeboortejaar.Text = gezinslidAanpassen.geboortejaar;
-                cbActiefGezinsLid.IsChecked = Convert.ToBoolean(gezinslidAanpassen.actief);
+                ChangeFamilyMember = (gezinslid)dgGezinslid.SelectedItem;
+                txtFirstName.Text = ChangeFamilyMember.voornaam;
+                txtbirthDate.Text = ChangeFamilyMember.geboortejaar;
+                cbActiveFamilyMember.IsChecked = Convert.ToBoolean(ChangeFamilyMember.actief);
 
                 var dgGezinQuery = from gl in db.gezinslids
                                        join g in db.gezins on gl.gezin_id equals g.id
-                                       where gl.voornaam == txtVoornaam.Text
+                                       where gl.voornaam == txtFirstName.Text
                                        select g;
 
                 foreach (var kaart in dgGezinQuery)
                 {
-                    
-                    txtkaart.Text = kaart.kringloopKaartnummer;
-                    txtAchternaam.Text = kaart.achternaam;
-                    txtWoonplaats.Text = kaart.woonplaats;
-                    cbActiefkaart.IsChecked = Convert.ToBoolean(kaart.actief);
+
+                    txtCard.Text = kaart.kringloopKaartnummer;
+                    txtLastname.Text = kaart.achternaam;
+                    cbResidence.Text = kaart.woonplaats;
+                    cbActiveCard.IsChecked = Convert.ToBoolean(kaart.actief);
                 }
             }
             catch (InvalidCastException b)
@@ -115,61 +114,62 @@ namespace kringloopKleding
             }
         }
 
-        //zoekt naar kaartnummer 
+        //Seacrh for card Number that is equal to txtCard
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
             var GezinQuery = from g in db.gezins
-                             where g.kringloopKaartnummer == txtkaart.Text
+                             where g.kringloopKaartnummer == txtCard.Text
                              select g;
 
-            foreach (var gelijkKaart in GezinQuery)
+            foreach (var kaartEqual in GezinQuery)
             {
-                if (txtkaart.Text == gelijkKaart.kringloopKaartnummer)
+                if (txtCard.Text == kaartEqual.kringloopKaartnummer)
                 {
-                    kaartnummerResult = gelijkKaart.kringloopKaartnummer;
-                    txtAchternaam.Text = gelijkKaart.achternaam;
-                    txtWoonplaats.Text = gelijkKaart.woonplaats;
-                    cbActiefkaart.IsChecked = Convert.ToBoolean(gelijkKaart.actief);
-                    GezinId = gelijkKaart.id;
+                    CardNumberResult = kaartEqual.kringloopKaartnummer;
+                    txtLastname.Text = kaartEqual.achternaam;
+                    cbResidence.Text = kaartEqual.woonplaats;
+                    cbActiveCard.IsChecked = Convert.ToBoolean(kaartEqual.actief);
+                    GezinId = kaartEqual.id;
 
                     dgGezin.ItemsSource = GezinQuery;
                     var gezinIdQuery = (from gl in db.gezinslids
-                                        where gelijkKaart.id == gl.gezin_id
+                                        where kaartEqual.id == gl.gezin_id
                                         select gl);
 
                     foreach (var gezinslid in gezinIdQuery)
                     {
-                        txtVoornaam.Text = gezinslid.voornaam;
-                        txtGeboortejaar.Text = gezinslid.geboortejaar;
-                        cbActiefGezinsLid.IsChecked = Convert.ToBoolean(gezinslid.actief);
+                        txtFirstName.Text = gezinslid.voornaam;
+                        txtbirthDate.Text = gezinslid.geboortejaar;
+                        cbActiveFamilyMember.IsChecked = Convert.ToBoolean(gezinslid.actief);
                     }
                 }
             }
 
-            if (txtkaart.Text != kaartnummerResult)
+            if (txtCard.Text != CardNumberResult)
             {
-                txtVoornaam.Text = null;
-                txtAchternaam.Text = null;
-                txtWoonplaats.Text = null;
-                txtGeboortejaar.Text = null;
-                cbActiefkaart.IsChecked = false;
-                cbActiefGezinsLid.IsChecked = false;
+                txtFirstName.Text = null;
+                txtLastname.Text = null;
+                cbResidence.Text = null;
+                txtbirthDate.Text = null;
+                cbActiveCard.IsChecked = false;
+                cbActiveFamilyMember.IsChecked = false;
             }
         }
 
-        //voegt nieuwe gezin en gezinslid 
+        //Add a new family and Member
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (txtkaart.Text == "" || txtAchternaam.Text == "" || txtWoonplaats.Text == "")
+           
+            if (txtCard.Text == "" || txtLastname.Text == "" || cbResidence.Text == "")
             {
                 messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
             }
-
-            if (txtkaart.Text != "" && txtAchternaam.Text != "" && txtWoonplaats.Text != "")
+            //checks if nothing is left empty what needs to be required
+            if (txtCard.Text != "" && txtLastname.Text != "" && cbResidence.Text != "")
             {
                 var kaartExist = from g in db.gezins
-                                 where g.kringloopKaartnummer == txtkaart.Text
+                                 where g.kringloopKaartnummer == txtCard.Text
                                  select new
                                  {
                                      kaartnummer = g.kringloopKaartnummer,
@@ -177,17 +177,17 @@ namespace kringloopKleding
 
                 foreach (var kaart in kaartExist)
                 {
-                    kaartnummerResult = kaart.kaartnummer;
+                    CardNumberResult = kaart.kaartnummer;
                 }
 
-                if (kaartnummerResult != txtkaart.Text)
+                if (CardNumberResult != txtCard.Text)
                 {   
                     gezin gezinAdd = new gezin()
                     {
-                        kringloopKaartnummer = txtkaart.Text,
-                        achternaam = txtAchternaam.Text,
-                        woonplaats = txtWoonplaats.Text,
-                        actief = Convert.ToInt32(cbActiefkaart.IsChecked),
+                        kringloopKaartnummer = txtCard.Text,
+                        achternaam = txtLastname.Text,
+                        woonplaats = cbResidence.Text,
+                        actief = Convert.ToInt32(cbActiveCard.IsChecked),
                     };
 
                     db.gezins.InsertOnSubmit(gezinAdd);
@@ -207,25 +207,25 @@ namespace kringloopKleding
 
                     gezinslid gezinslid = new gezinslid()
                     {
-                        voornaam = txtVoornaam.Text,
-                        geboortejaar = txtGeboortejaar.Text,
-                        actief = Convert.ToInt32(cbActiefGezinsLid.IsChecked),
+                        voornaam = txtFirstName.Text,
+                        geboortejaar = txtbirthDate.Text,
+                        actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked),
                         gezin_id = Convert.ToInt32(lastId),
                     };
 
                     db.gezinslids.InsertOnSubmit(gezinslid);
                     db.SubmitChanges();
 
-                    txtkaart.Text = null;
-                    txtVoornaam.Text = null;
-                    txtAchternaam.Text = null;
-                    txtWoonplaats.Text = null;
-                    txtGeboortejaar.Text = null;
-                    cbActiefkaart.IsChecked = false;
-                    cbActiefGezinsLid.IsChecked = false;
+                    txtCard.Text = null;
+                    txtFirstName.Text = null;
+                    txtLastname.Text = null;
+                    cbResidence.Text = null;
+                    txtbirthDate.Text = null;
+                    cbActiveCard.IsChecked = false;
+                    cbActiveFamilyMember.IsChecked = false;
 
                     var kaartIdQuery = from g in db.gezins
-                                       where g.kringloopKaartnummer == txtkaart.Text
+                                       where g.kringloopKaartnummer == txtCard.Text
                                        select new
                                        {
                                            gezinId = g.id
@@ -246,7 +246,8 @@ namespace kringloopKleding
                 }
             }
 
-            else 
+
+            if(txtCard.Text == CardNumberResult)
             {
                 messageboxes.MessageBoxExist messageBoxExist = new messageboxes.MessageBoxExist();
                 messageBoxExist.Show();
@@ -258,7 +259,7 @@ namespace kringloopKleding
         {
             var gezinIdQuery = from gl in db.gezinslids
                                join g in db.gezins on gl.gezin_id equals g.id
-                               where g.kringloopKaartnummer == txtkaart.Text
+                               where g.kringloopKaartnummer == txtCard.Text
                                select new
                                {
                                    kaarQueryResult = g.kringloopKaartnummer,
@@ -268,18 +269,18 @@ namespace kringloopKleding
 
             foreach (var item in gezinIdQuery)
             {
-                kaartnummerResult = item.kaarQueryResult;
+                CardNumberResult = item.kaarQueryResult;
                 GezinId = Convert.ToInt32(item.gezinId);
 
             }
 
             //checkt als geen vakjes leeg gelaten zijn en als ze niet leeg zijn voegt gezinslid toe aan bijbehorende gezin
-            if (kaartnummerResult != null && txtVoornaam.Text != null && txtGeboortejaar.Text != null)
+            if (CardNumberResult != null && txtFirstName.Text != null && txtbirthDate.Text != null)
             {
                 gezinslid gezinslidAdd = new gezinslid();
-                gezinslidAdd.voornaam = txtVoornaam.Text;
-                gezinslidAdd.geboortejaar = txtGeboortejaar.Text;
-                gezinslidAdd.actief = Convert.ToInt32(cbActiefGezinsLid.IsChecked);
+                gezinslidAdd.voornaam = txtFirstName.Text;
+                gezinslidAdd.geboortejaar = txtbirthDate.Text;
+                gezinslidAdd.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
                 gezinslidAdd.gezin_id = GezinId;
 
                 db.gezinslids.InsertOnSubmit(gezinslidAdd);
@@ -299,7 +300,7 @@ namespace kringloopKleding
                                 };
 
                 var kaartIdQuery = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtkaart.Text
+                                   where g.kringloopKaartnummer == txtCard.Text
                                    select new
                                    {
                                        gezinId = g.id
@@ -315,13 +316,13 @@ namespace kringloopKleding
                     dgGezinslid.ItemsSource = gezinsIdQuery;
                 }
 
-                txtkaart.Text = "";
-                txtVoornaam.Text = "";
-                txtAchternaam.Text = "";
-                txtWoonplaats.Text = "";
-                txtGeboortejaar.Text = "";
-                cbActiefkaart.IsChecked = false;
-                cbActiefGezinsLid.IsChecked = false;
+                txtCard.Text = "";
+                txtFirstName.Text = "";
+                txtLastname.Text = "";
+                cbResidence.Text = "";
+                txtbirthDate.Text = "";
+                cbActiveCard.IsChecked = false;
+                cbActiveFamilyMember.IsChecked = false;
 
                 messageboxes.MessageBoxOkAdd messageBoxAdd = new messageboxes.MessageBoxOkAdd();
                 messageBoxAdd.Show();
@@ -331,27 +332,27 @@ namespace kringloopKleding
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             //checkt als je een van de vakjes leeggelaten zijn
-            if (txtkaart.Text == "" || txtAchternaam.Text == "" || txtWoonplaats.Text == "")
+            if (txtCard.Text == "" || txtLastname.Text == "" || cbResidence.Text == "")
             {
                 messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
             }
 
             //checkt als heeft gelaten en als dat niet is dan voegt aanpassingen toe aan database
-            if (gezinAanpassen != null)
+            if (ChangeFamily != null)
             {
-                if (txtkaart.Text != "" && txtAchternaam.Text != "" && txtWoonplaats.Text != "")
+                if (txtCard.Text != "" && txtLastname.Text != "" && cbResidence.Text != "")
                 {
-                    gezinAanpassen.kringloopKaartnummer = txtkaart.Text;
-                    gezinAanpassen.achternaam = txtAchternaam.Text;
-                    gezinAanpassen.woonplaats = txtWoonplaats.Text;
-                    gezinAanpassen.actief = Convert.ToInt32(cbActiefkaart.IsChecked);
+                    ChangeFamily.kringloopKaartnummer = txtCard.Text;
+                    ChangeFamily.achternaam = txtLastname.Text;
+                    ChangeFamily.woonplaats = cbResidence.Text.ToLower();
+                    ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
 
-                    if (gezinslidAanpassen != null && txtVoornaam.Text != "" && txtGeboortejaar.Text != "")
+                    if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")
                     {
-                        gezinslidAanpassen.voornaam = txtVoornaam.Text;
-                        gezinslidAanpassen.geboortejaar = txtGeboortejaar.Text;
-                        gezinslidAanpassen.actief = Convert.ToInt32(cbActiefGezinsLid.IsChecked);
+                        ChangeFamilyMember.voornaam = txtFirstName.Text;
+                        ChangeFamilyMember.geboortejaar = txtbirthDate.Text;
+                        ChangeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
 
                     }
 
@@ -364,17 +365,19 @@ namespace kringloopKleding
                     messageboxes.MessageBoxOk messageBoxOK = new messageboxes.MessageBoxOk();
                     messageBoxOK.Show();
 
-                    txtkaart.Text = null;
-                    txtVoornaam.Text = null;
-                    txtAchternaam.Text = null;
-                    txtWoonplaats.Text = null;
-                    txtGeboortejaar.Text = null;
-                    cbActiefkaart.IsChecked = false;
-                    cbActiefGezinsLid.IsChecked = false;
+                    txtCard.Text = null;
+                    txtFirstName.Text = null;
+                    txtLastname.Text = null;
+                    cbResidence.Text = null;
+                    txtbirthDate.Text = null;
+                    cbActiveCard.IsChecked = false;
+                    cbActiveFamilyMember.IsChecked = false;
                 }
             }
         }
-
-
+        private void cbWoonplaats_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
     }
 }

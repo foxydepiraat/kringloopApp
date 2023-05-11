@@ -66,7 +66,7 @@ namespace kringloopKleding
         private void dgGezinslid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             gezinsleden = (gezinslid)dgGezinslid.SelectedItem;
-            txtVoornaam.Text = gezinsleden.voornaam;            
+            txtFirstName.Text = gezinsleden.voornaam;            
         }
 
         //Search result from entered data
@@ -77,7 +77,7 @@ namespace kringloopKleding
                 pickedDate = DateTime.Today;
             }
             //search with the entered data from the if + data
-            if (txtKaart.Text != "" && txtVoornaam.Text != "") 
+            if (txtKaart.Text != "" && txtFirstName.Text != "") 
             {                   
                 var GezinKaartQuery = from g in db.gezins
                                       where g.kringloopKaartnummer == txtKaart.Text
@@ -89,7 +89,7 @@ namespace kringloopKleding
                 }
 
                 var gezinslidIdQuery = from gl in db.gezinslids
-                                       where gl.voornaam == txtVoornaam.Text
+                                       where gl.voornaam == txtFirstName.Text
                                        where gl.gezin_id == gezinid
                                        select gl;
                 
@@ -142,7 +142,7 @@ namespace kringloopKleding
                 foreach(var gezinslid  in gezinslidQuery)
                 {
                     gezinslidid = gezinslid.id;
-                    txtVoornaam.Text = gezinslid.voornaam;
+                    txtFirstName.Text = gezinslid.voornaam;
                 }
 
                 dgGezinslid.ItemsSource = gezinslidQuery;
@@ -163,6 +163,7 @@ namespace kringloopKleding
                                            where dateYear == pickedDate.Year
                                            where dateMonth == pickedDate.Month
                                            select a;
+
                 if (SeacrhMonthYearQuery.Count() > 0)
                 {
                     dgAfhaling.ItemsSource = SeacrhMonthYearQuery;
@@ -187,6 +188,141 @@ namespace kringloopKleding
             if (dpRapportDatum.SelectedDate != null)
             {
                 pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
+            }
+        }
+
+        //when pressed it will search data on year
+        private void btnYear_Click(object sender, RoutedEventArgs e)
+        {
+            if(pickedDate == null)
+            {
+                pickedDate = DateTime.Today;
+            }
+            //checks if data  has been entered then seacrh for this + the year that has been entered
+            if(txtKaart.Text != "" && txtFirstName.Text != "")
+            {
+                var Querygezinid = from g in db.gezins
+                                   where g.kringloopKaartnummer == txtKaart.Text
+                                   select g;
+
+                foreach(var g in Querygezinid)
+                {
+                    gezinid = g.id;
+                }
+
+                var QueryGezinslid = from gl in db.gezinslids
+                                     where gl.gezin_id == gezinid
+                                     where gl.voornaam == txtFirstName.Text
+                                     select gl;
+
+                foreach(var gl in QueryGezinslid)
+                {
+                    gezinslidid = gl.id;
+                }
+
+                var QueryAfhalingYear = from a in db.afhalings
+                                        where a.gezinslid_id == gezinslidid
+                                        where a.datum.Value.Year == pickedDate.Year
+                                        select a;
+
+                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
+            }
+            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data (not done)
+            else if(txtKaart.Text != "")
+            {
+                var QueryGezin = from g in db.gezins
+                                 where g.kringloopKaartnummer == txtKaart.Text
+                                 select g;
+
+                foreach(var g in QueryGezin)
+                {
+                    gezinid = g.id;
+                }
+
+                var QueryGezinslid = from gl in db.gezinslids
+                                     where gl.gezin_id == gezinid
+                                     select gl;
+
+                foreach(var gl in QueryGezinslid)
+                {
+                    gezinslidid = gl.id;
+                }
+
+                var QueryAfhalingYear = from a in db.afhalings
+                                        where a.gezinslid_id == gezinslidid
+                                        select a;
+            }
+        }
+
+        //when pressed it will search data on month
+        private void btnMonth_Click(object sender, RoutedEventArgs e)
+        {
+            if(pickedDate == null)
+            {
+                pickedDate = DateTime.Today;
+            }
+            //checks if data  has been entered then seacrh for this + the year that has been entered
+            if (txtKaart.Text != "" && txtFirstName.Text != "")
+            {
+                var QueryGezinId = from g in db.gezins
+                                   where g.kringloopKaartnummer == txtKaart.Text
+                                   select g;
+
+                foreach (var g in QueryGezinId)
+                {
+                    gezinid = g.id;
+                }
+
+                var QuerygezinslidId = from gl in db.gezinslids
+                                       where gl.gezin_id == gezinid
+                                       where gl.voornaam == txtFirstName.Text
+                                       select gl;
+
+                foreach (var gl in QuerygezinslidId)
+                {
+                    gezinslidid = gl.id;
+                }
+
+                var QueryAfhalingMonth = from a in db.afhalings
+                                         where a.gezinslid_id == gezinslidid
+                                         where a.datum.Value.Month == pickedDate.Month
+                                         select a;
+
+                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
+
+            }
+            // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data (not done)
+            else if (txtKaart.Text != "" )
+            {
+                    var QueryGezinId = from g in db.gezins
+                                       where g.kringloopKaartnummer == txtKaart.Text
+                                       select g;
+
+                    foreach (var g in QueryGezinId)
+                    {
+                        gezinid = g.id;
+                    }
+
+                    var QuerygezinslidId = from gl in db.gezinslids
+                                           where gl.gezin_id == gezinid
+                                           select gl;
+
+                foreach (var gl in QuerygezinslidId)
+                {
+                    gezinslidid = gl.id;
+
+                    var QueryAfhalingMonth = from a in db.afhalings
+                                             where a.gezinslid_id == gezinslidid
+                                             where a.datum.Value.Month == pickedDate.Month
+                                             select a;
+                                        
+                    dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
+                }                
+            }
+            else
+            {
+                messageboxes.legenVakjes WlegenVakjes = new messageboxes.legenVakjes();
+                WlegenVakjes.Show();
             }
         }
     }

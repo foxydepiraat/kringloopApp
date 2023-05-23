@@ -137,18 +137,30 @@ namespace kringloopKleding
             }
 
             //datagrid afhaling
+
+            var kaartOphaalQuery = from gl in db.gezinslids
+                                   join g in db.gezins on gl.gezin_id equals g.id
+                                   where gl.voornaam == txtFirstName.Text
+                                   select g;
+
+            foreach (var kaart in kaartOphaalQuery)
+            {
+                txtCard.Text = kaart.kringloopKaartnummer;
+                Familyid = kaart.id;
+            }
+
+            var glidQuery = from gl in db.gezinslids
+                            where gl.gezin_id == Familyid
+                            select gl;
+
+            foreach (var glid in glidQuery)
+            {
+                FamilyMemberid = glid.id;
+            }
+
             var afhalingQuery = from a in db.afhalings
-                                join gl in db.gezinslids on a.gezinslid_id equals gl.id
-                                join g in db.gezins on gl.gezin_id equals g.id
-                                where g.kringloopKaartnummer == txtCard.Text
-                                select new
-                                {
-                                    datum = a.datum,
-                                    Voornaam = gl.voornaam,
-                                    geboortejaar = gl.geboortejaar,
-                                    achternaam = g.achternaam,
-                                    Woonplaats = g.Woonplaats,
-                                };
+                                where a.gezinslid_id == FamilyMemberid
+                                select a;
 
             dgAfhaling.ItemsSource = afhalingQuery;
         }
@@ -217,18 +229,30 @@ namespace kringloopKleding
                     }
                     db.SubmitChanges();
 
+
+                    var kaartOphaalQuery = from gl in db.gezinslids
+                                           join g in db.gezins on gl.gezin_id equals g.id
+                                           where gl.voornaam == txtFirstName.Text
+                                           select g;
+
+                    foreach (var kaart in kaartOphaalQuery)
+                    {
+                        txtCard.Text = kaart.kringloopKaartnummer;
+                        Familyid = kaart.id;
+                    }
+
+                    var glidQuery = from gl in db.gezinslids
+                                    where gl.gezin_id == Familyid
+                                    select gl;
+
+                    foreach (var glid in glidQuery)
+                    {
+                        FamilyMemberid = glid.id;
+                    }
+
                     var afhalingQuery = from a in db.afhalings
-                                        join gl in db.gezinslids on a.gezinslid_id equals gl.id
-                                        join g in db.gezins on gl.gezin_id equals g.id
-                                        where g.kringloopKaartnummer == txtCard.Text
-                                        select new
-                                        {
-                                            datum = a.datum,
-                                            Voornaam = gl.voornaam,
-                                            geboortejaar = gl.geboortejaar,
-                                            achternaam = g.achternaam,
-                                            Woonplaats = g.Woonplaats,
-                                        };
+                                        where a.gezinslid_id == FamilyMemberid
+                                        select a;
 
                     dgAfhaling.ItemsSource = afhalingQuery;
 

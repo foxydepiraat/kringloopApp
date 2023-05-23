@@ -77,8 +77,6 @@ namespace kringloopKleding
                                     where gezinId.id == gl.gezin_id
                                     select gl);
                 dgGezinslid.ItemsSource = gezinIdQuery;
-
-                
             }
             catch (InvalidCastException a)
             {

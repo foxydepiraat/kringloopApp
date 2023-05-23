@@ -42,7 +42,7 @@
             </DockPanel>
 
         </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal"  Margin="400,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
                 <Label Content="gezinnen:" Height="30" FontSize="16" Margin="0,0,0,10"/>
                 <DataGrid x:Name="dgFamily" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamily_MouseDoubleClick"/>

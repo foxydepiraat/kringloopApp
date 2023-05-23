@@ -26,9 +26,7 @@ namespace kringloopKleding
 
             dgFamily.ItemsSource = db.gezins;
 
-            var afhalingQuery = from a in db.afhalings select a;
-
-            dgAfhaling.ItemsSource = afhalingQuery;
+            dgAfhaling.ItemsSource = db.afhalings;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
         {

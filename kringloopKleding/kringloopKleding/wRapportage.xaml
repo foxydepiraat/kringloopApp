@@ -74,8 +74,8 @@
                 <DataGrid x:Name="dgAfhaling" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
-                            <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
-                        </DataGrid.Columns>
+                        <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
             </StackPanel>

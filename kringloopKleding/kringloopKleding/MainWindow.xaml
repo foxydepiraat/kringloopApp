@@ -43,17 +43,17 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="450,0,0,0">
-            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="400" MouseDoubleClick="dgGezinslid_MouseDoubleClick" FontSize="16" Margin="0,0,50,0">
+            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="400" MouseDoubleClick="dgGezinslid_MouseDoubleClick" FontSize="16" Margin="0,0,50,0" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}"/>
-                    <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}"/>
-                    <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}"/>
+                    <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="250"  FontSize="16">
+            <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="250"  FontSize="16" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
-                    <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
+                    <DataGridTextColumn Header="datum" Binding="{Binding datum}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

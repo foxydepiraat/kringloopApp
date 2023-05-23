@@ -28,6 +28,10 @@
                     <Label Content="Kies een Datum: " Width="120" Height="30" FontSize="16"/>
                     <DatePicker x:Name="dpRapportDatum" Width="150" Height="30" FontSize="16" CalendarClosed="dpRapportDatum_CalendarClosed"/>
                 </StackPanel>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"  Orientation="Horizontal">
+                    <Button x:Name="btnMonth" Content="maand sorteren" Click="btnMonth_Click" FontSize="16"  Height="30" Width="125" Margin="0,0,10,0"/>
+                    <Button x:Name="btnYear" Content="jaar sorteren" Click="btnYear_Click" FontSize="16" Height="30" Width="125"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40"  Background="#FF32BE1E">
@@ -42,18 +46,38 @@
             </DockPanel>
 
         </Grid>
-        <StackPanel Orientation="Horizontal"  Margin="400,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical"  Margin="400,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
                 <Label Content="gezinnen:" Height="30" FontSize="16" Margin="0,0,0,10"/>
-                <DataGrid x:Name="dgFamily" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamily_MouseDoubleClick"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
+                <DataGrid x:Name="dgFamily"  Height="190" VerticalAlignment="Top"  FontSize="16"  AutoGenerateColumns="False" Width="650" MouseDoubleClick="dgFamily_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="woonplaats" Binding="{Binding Woonplaats}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="reden" Binding="{Binding reden}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
                 <Label Content="gezinsleden:"  Height="30" FontSize="16" Margin="0,0,0,10"/>
-                <DataGrid x:Name="dgFamilyMembers" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick"/>
+                <DataGrid x:Name="dgFamilyMembers" Height="190" VerticalAlignment="Top" FontSize="16"  AutoGenerateColumns="False" Width="400" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="10,0,30,10" HorizontalAlignment="Left">
                 <Label Content="Datums Afhalingen:" VerticalAlignment="Stretch" Height="30" FontSize="16" Margin="0,0,0,10"/>
-                <DataGrid x:Name="dgAfhaling" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick"/>
+                <DataGrid x:Name="dgAfhaling" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
+                            <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
+                        </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>

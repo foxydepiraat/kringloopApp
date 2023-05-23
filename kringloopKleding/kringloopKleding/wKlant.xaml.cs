@@ -67,6 +67,7 @@ namespace kringloopKleding
                 txtCard.Text = ChangeFamily.kringloopKaartnummer;
                 txtLastname.Text = ChangeFamily.achternaam;
                 txtResidence.Text = ChangeFamily.Woonplaats;
+                txtReason.Text = ChangeFamily.reden;
                 cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
 
                 int gezinid = ChangeFamily.id;
@@ -288,20 +289,7 @@ namespace kringloopKleding
 
                 db.gezinslids.InsertOnSubmit(gezinslidAdd);
                 db.SubmitChanges();
-
-                var joinQuery = from gl in db.gezinslids
-                                join g in db.gezins on gl.gezin_id equals g.id
-                                select new
-                                {
-                                    Kaartnummer = g.kringloopKaartnummer,
-                                    Voornaam = gl.voornaam,
-                                    Achternaam = g.achternaam,
-                                    Woonplaats = g.Woonplaats,
-                                    Geboortejaar = gl.geboortejaar,
-                                    ActiefKaart = Convert.ToBoolean(g.actief),
-                                    ActiefGezinslid = Convert.ToBoolean(gl.actief),
-                                };
-
+                           
                 var kaartIdQuery = from g in db.gezins
                                    where g.kringloopKaartnummer == txtCard.Text
                                    select new

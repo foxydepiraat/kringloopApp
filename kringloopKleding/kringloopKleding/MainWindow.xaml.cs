@@ -89,7 +89,7 @@ namespace kringloopKleding
                                         Voornaam = gl.voornaam,
                                         geboortejaar = gl.geboortejaar,
                                         achternaam = g.achternaam,
-                                        woonplaats = g.woonplaats,
+                                        Woonplaats = g.Woonplaats,
                                     };
 
                 dgAfhaling.ItemsSource = afhalingQuery;
@@ -146,7 +146,7 @@ namespace kringloopKleding
                                     Voornaam = gl.voornaam,
                                     geboortejaar = gl.geboortejaar,
                                     achternaam = g.achternaam,
-                                    woonplaats = g.woonplaats,
+                                    Woonplaats = g.Woonplaats,
                                 };
 
             dgAfhaling.ItemsSource = afhalingQuery;
@@ -227,7 +227,7 @@ namespace kringloopKleding
                                             Voornaam = gl.voornaam,
                                             geboortejaar = gl.geboortejaar,
                                             achternaam = g.achternaam,
-                                            woonplaats = g.woonplaats,
+                                            Woonplaats = g.Woonplaats,
                                         };
 
                     dgAfhaling.ItemsSource = afhalingQuery;

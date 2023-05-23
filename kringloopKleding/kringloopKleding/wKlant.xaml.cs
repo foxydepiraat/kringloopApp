@@ -66,7 +66,7 @@ namespace kringloopKleding
                 ChangeFamily = (gezin)dgGezin.SelectedItem;
                 txtCard.Text = ChangeFamily.kringloopKaartnummer;
                 txtLastname.Text = ChangeFamily.achternaam;
-                txtResidence.Text = ChangeFamily.woonplaats;
+                txtResidence.Text = ChangeFamily.Woonplaats;
                 cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
 
                 int gezinid = ChangeFamily.id;
@@ -104,7 +104,7 @@ namespace kringloopKleding
 
                     txtCard.Text = kaart.kringloopKaartnummer;
                     txtLastname.Text = kaart.achternaam;
-                    txtResidence.Text = kaart.woonplaats;
+                    txtResidence.Text = kaart.Woonplaats;
                     cbActiveCard.IsChecked = Convert.ToBoolean(kaart.actief);
                 }
             }
@@ -127,7 +127,7 @@ namespace kringloopKleding
                 {
                     CardNumberResult = kaartEqual.kringloopKaartnummer;
                     txtLastname.Text = kaartEqual.achternaam;
-                    txtResidence.Text = kaartEqual.woonplaats;
+                    txtResidence.Text = kaartEqual.Woonplaats;
                     cbActiveCard.IsChecked = Convert.ToBoolean(kaartEqual.actief);
                     Familyid = kaartEqual.id;
 
@@ -186,7 +186,7 @@ namespace kringloopKleding
                     {
                         kringloopKaartnummer = txtCard.Text,
                         achternaam = txtLastname.Text,
-                        woonplaats = txtResidence.Text,
+                        Woonplaats = txtResidence.Text,
                         actief = Convert.ToInt32(cbActiveCard.IsChecked),
                     };
 
@@ -293,7 +293,7 @@ namespace kringloopKleding
                                     Kaartnummer = g.kringloopKaartnummer,
                                     Voornaam = gl.voornaam,
                                     Achternaam = g.achternaam,
-                                    Woonplaats = g.woonplaats,
+                                    Woonplaats = g.Woonplaats,
                                     Geboortejaar = gl.geboortejaar,
                                     ActiefKaart = Convert.ToBoolean(g.actief),
                                     ActiefGezinslid = Convert.ToBoolean(gl.actief),
@@ -345,7 +345,7 @@ namespace kringloopKleding
                 {
                     ChangeFamily.kringloopKaartnummer = txtCard.Text;
                     ChangeFamily.achternaam = txtLastname.Text;
-                    ChangeFamily.woonplaats = txtResidence.Text.ToLower();
+                    ChangeFamily.Woonplaats = txtResidence.Text.ToLower();
                     ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
 
                     if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")

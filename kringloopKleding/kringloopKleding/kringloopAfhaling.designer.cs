@@ -486,9 +486,11 @@ namespace kringloopKleding
 		
 		private string _achternaam;
 		
-		private string _woonplaats;
+		private string _Woonplaats;
 		
 		private System.Nullable<int> _actief;
+		
+		private string _reden;
 		
 		private EntitySet<gezinslid> _gezinslids;
 		
@@ -502,10 +504,12 @@ namespace kringloopKleding
     partial void OnkringloopKaartnummerChanged();
     partial void OnachternaamChanging(string value);
     partial void OnachternaamChanged();
-    partial void OnwoonplaatsChanging(string value);
-    partial void OnwoonplaatsChanged();
+    partial void OnWoonplaatsChanging(string value);
+    partial void OnWoonplaatsChanged();
     partial void OnactiefChanging(System.Nullable<int> value);
     partial void OnactiefChanged();
+    partial void OnredenChanging(string value);
+    partial void OnredenChanged();
     #endregion
 		
 		public gezin()
@@ -574,22 +578,22 @@ namespace kringloopKleding
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_woonplaats", DbType="VarChar(50)")]
-		public string woonplaats
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Woonplaats", DbType="VarChar(50)")]
+		public string Woonplaats
 		{
 			get
 			{
-				return this._woonplaats;
+				return this._Woonplaats;
 			}
 			set
 			{
-				if ((this._woonplaats != value))
+				if ((this._Woonplaats != value))
 				{
-					this.OnwoonplaatsChanging(value);
+					this.OnWoonplaatsChanging(value);
 					this.SendPropertyChanging();
-					this._woonplaats = value;
-					this.SendPropertyChanged("woonplaats");
-					this.OnwoonplaatsChanged();
+					this._Woonplaats = value;
+					this.SendPropertyChanged("Woonplaats");
+					this.OnWoonplaatsChanged();
 				}
 			}
 		}
@@ -610,6 +614,26 @@ namespace kringloopKleding
 					this._actief = value;
 					this.SendPropertyChanged("actief");
 					this.OnactiefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_reden", DbType="VarChar(50)")]
+		public string reden
+		{
+			get
+			{
+				return this._reden;
+			}
+			set
+			{
+				if ((this._reden != value))
+				{
+					this.OnredenChanging(value);
+					this.SendPropertyChanging();
+					this._reden = value;
+					this.SendPropertyChanged("reden");
+					this.OnredenChanged();
 				}
 			}
 		}

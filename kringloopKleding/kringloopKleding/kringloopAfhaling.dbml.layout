@@ -21,16 +21,16 @@
         <classShapeMoniker Id="d54e77fb-f681-49c0-a503-5e952d39ece3" />
       </nodes>
     </associationConnector>
-    <classShape Id="f037b12a-98d4-4c8f-8f13-3f3521aa82f6" absoluteBounds="6.375, 0.875, 2, 1.7708968098958331">
+    <classShape Id="b386799f-fd26-4d0a-8eae-67e11c978b95" absoluteBounds="6.375, 0.875, 2, 1.9631982421875">
       <DataClassMoniker Name="/kringloopAfhalingDataContext/gezin" />
       <nestedChildShapes>
-        <elementListCompartment Id="c1794a58-471a-47af-8179-f9b257048ec9" absoluteBounds="6.39, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c4afd404-1aba-48ee-ab3f-796c1b58758a" absoluteBounds="6.39, 1.335, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(6.375 : 1.76044840494792); (5.625 : 1.76044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/kringloopAfhalingDataContext/gezin/gezin_gezinslid" />
       <nodes>
-        <classShapeMoniker Id="f037b12a-98d4-4c8f-8f13-3f3521aa82f6" />
+        <classShapeMoniker Id="b386799f-fd26-4d0a-8eae-67e11c978b95" />
         <classShapeMoniker Id="6c13531e-1105-47d1-8cca-22ac2f9f53d6" />
       </nodes>
     </associationConnector>

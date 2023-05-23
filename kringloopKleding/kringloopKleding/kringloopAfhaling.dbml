@@ -24,8 +24,9 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="kringloopKaartnummer" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
       <Column Name="achternaam" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="woonplaats" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Woonplaats" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="actief" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="reden" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="gezin_gezinslid" Member="gezinslids" ThisKey="id" OtherKey="gezin_id" Type="gezinslid" />
     </Type>
   </Table>

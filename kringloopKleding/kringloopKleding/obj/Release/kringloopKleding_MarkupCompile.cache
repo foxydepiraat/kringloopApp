@@ -10,11 +10,11 @@ none
 false
 TRACE
 C:\Users\luciano kannekens\source\repos\kringloopApp\kringloopKleding\kringloopKleding\App.xaml
-91162522284
+101209761287
 
-141105051880
+15-1263010099
 141458853696
-kaartOfgezinslidNietActief.xaml;legenVakjes.xaml;MainWindow.xaml;MessageBoxExist.xaml;MessageBoxOk.xaml;MessageBoxOkAdd.xaml;wKlant.xaml;wMessageAfhaling.xaml;wRapportage.xaml;
+messageboxes\kaartOfgezinslidNietActief.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;messageboxes\MessageBoxOk.xaml;messageboxes\MessageBoxOkAdd.xaml;wKlant.xaml;messageboxes\wMessageAfhaling.xaml;wRapportage.xaml;
 
 True
 

@@ -9,6 +9,66 @@
         mc:Ignorable="d"
         Title="klanten Beheer" Height="800" Width="1400">
     <Grid>
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="400" Background="LightGray">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,50,0,0">
+                    <TextBlock Text="Gezin en Gezinslid gegevens" Height="30" FontSize="18"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Kaartnummer:" Height="30" Width="120" FontSize="16"/>
+                    <TextBox x:Name="txtCard" Height="30" Width="100" MaxLength="6" FontSize="16"/>
+                    <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
+                        <Button.Background>
+                            <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Voornaam:" Height="30" Width="120" FontSize="16"/>
+                    <TextBox x:Name="txtFirstName" Height="30" Width="150" FontSize="16"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Achternaam:" Height="30" Width="120" FontSize="16"/>
+                    <TextBox x:Name="txtLastname" Height="30" Width="150" FontSize="16"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Woonplaats:" Height="30" Width="120" FontSize="16"/>
+                    <TextBox x:Name="txtResidence" Width="150" Height="30" FontSize="16"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label  Content="Geboortejaar:"  Height="30" Width="120"  FontSize="16"/>
+                    <TextBox x:Name="txtbirthDate" Height="30" Width="150" FontSize="16" MaxLength="4"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Kaart actief:" Height="30" Width="125" FontSize="16"/>
+                    <CheckBox x:Name="cbActiveCard" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                        <CheckBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="geizinslid actief:" Height="30" Width="125" FontSize="16"/>
+                    <CheckBox x:Name="cbActiveFamilyMember" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                        <CheckBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="0,0,0,0" Background="#FF32BE1E">
             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <Menu DockPanel.Dock="Top" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
@@ -20,83 +80,10 @@
                 </Menu>
             </DockPanel>
         </Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="300,0,0,10" Orientation="Horizontal">
             <Button x:Name="btnAdd" Content="Nieuw Gezin" HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Top" Width="190" FontSize="20" Click="btnAdd_Click"/>
             <Button x:Name="btnGezinslid" Content="Gezinslid Toevoegen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnGezinslid_Click"/>
             <Button x:Name="btnChange" Content="Aanpassen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnChange_Click"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,50,0,0" Background="White">
-            <TextBlock Text="Gezin en Gezinslid gegevens" Height="30" FontSize="18"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="400,50,0,0" Background="White"/>
-
-        <StackPanel HorizontalAlignment="Left"  Margin="250,200,0,0" VerticalAlignment="Top" Width="275" Orientation="Vertical" Background="White">
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="Kaartnummer:" Height="30" Width="120" FontSize="16"/>
-                <TextBox x:Name="txtCard" Height="30" Width="100" MaxLength="6" FontSize="16"/>
-                <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
-                    <Button.Background>
-                        <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
-                    </Button.Background>
-                </Button>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="Voornaam:" Height="30" Width="120" FontSize="16"/>
-                <TextBox x:Name="txtFirstName" Height="30" Width="150" FontSize="16"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="Achternaam:" Height="30" Width="120" FontSize="16"/>
-                <TextBox x:Name="txtLastname" Height="30" Width="150" FontSize="16"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="Woonplaats:" Height="30" Width="120" FontSize="16"/>
-                <ComboBox x:Name="cbResidence" IsEditable="True" Width="150" Height="30" FontSize="16">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel  VerticalAlignment="Top">
-                                <TextBlock Text="{Binding Residence}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label  Content="Geboortejaar:"  Height="30" Width="120"  FontSize="16"/>
-                <TextBox x:Name="txtbirthDate" Height="30" Width="150" FontSize="16" MaxLength="4"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label  Content="Reden:"  Height="30" Width="120"  FontSize="16"/>
-                <ComboBox x:Name="cbReason" IsEditable="True" Height="30" Width="150" FontSize="16"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="Kaart actief:" Height="30" Width="125" FontSize="16"/>
-                <CheckBox x:Name="cbActiveCard" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                    <CheckBox.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </CheckBox.RenderTransform>
-                </CheckBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Label Content="geizinslid actief:" Height="30" Width="125" FontSize="16"/>
-                <CheckBox x:Name="cbActiveFamilyMember" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                    <CheckBox.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </CheckBox.RenderTransform>
-                </CheckBox>
-            </StackPanel>
         </StackPanel>
         <StackPanel Margin="0,150,300,0" Orientation="Vertical" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Right">
             <DataGrid x:Name="dgGezin" HorizontalAlignment="Right" Height="200" VerticalAlignment="Top" Width="500" FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" RenderTransformOrigin="0.583,0.523"/>

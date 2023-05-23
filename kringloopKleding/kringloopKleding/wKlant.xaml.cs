@@ -25,7 +25,7 @@ namespace kringloopKleding
         private gezinslid ChangeFamilyMember;
 
         private string CardNumberResult;
-        private int GezinId;
+        private int Familyid;
         private int lastId;
 
         public wKlant()
@@ -66,7 +66,7 @@ namespace kringloopKleding
                 ChangeFamily = (gezin)dgGezin.SelectedItem;
                 txtCard.Text = ChangeFamily.kringloopKaartnummer;
                 txtLastname.Text = ChangeFamily.achternaam;
-                cbResidence.Text = ChangeFamily.woonplaats;
+                txtResidence.Text = ChangeFamily.woonplaats;
                 cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
 
                 int gezinid = ChangeFamily.id;
@@ -104,7 +104,7 @@ namespace kringloopKleding
 
                     txtCard.Text = kaart.kringloopKaartnummer;
                     txtLastname.Text = kaart.achternaam;
-                    cbResidence.Text = kaart.woonplaats;
+                    txtResidence.Text = kaart.woonplaats;
                     cbActiveCard.IsChecked = Convert.ToBoolean(kaart.actief);
                 }
             }
@@ -127,9 +127,9 @@ namespace kringloopKleding
                 {
                     CardNumberResult = kaartEqual.kringloopKaartnummer;
                     txtLastname.Text = kaartEqual.achternaam;
-                    cbResidence.Text = kaartEqual.woonplaats;
+                    txtResidence.Text = kaartEqual.woonplaats;
                     cbActiveCard.IsChecked = Convert.ToBoolean(kaartEqual.actief);
-                    GezinId = kaartEqual.id;
+                    Familyid = kaartEqual.id;
 
                     dgGezin.ItemsSource = GezinQuery;
                     var gezinIdQuery = (from gl in db.gezinslids
@@ -149,7 +149,7 @@ namespace kringloopKleding
             {
                 txtFirstName.Text = null;
                 txtLastname.Text = null;
-                cbResidence.Text = null;
+                txtResidence.Text = null;
                 txtbirthDate.Text = null;
                 cbActiveCard.IsChecked = false;
                 cbActiveFamilyMember.IsChecked = false;
@@ -160,13 +160,13 @@ namespace kringloopKleding
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
            
-            if (txtCard.Text == "" || txtLastname.Text == "" || cbResidence.Text == "")
+            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
                 messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
             }
             //checks if nothing is left empty what needs to be required
-            if (txtCard.Text != "" && txtLastname.Text != "" && cbResidence.Text != "")
+            if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
             {
                 var kaartExist = from g in db.gezins
                                  where g.kringloopKaartnummer == txtCard.Text
@@ -186,7 +186,7 @@ namespace kringloopKleding
                     {
                         kringloopKaartnummer = txtCard.Text,
                         achternaam = txtLastname.Text,
-                        woonplaats = cbResidence.Text,
+                        woonplaats = txtResidence.Text,
                         actief = Convert.ToInt32(cbActiveCard.IsChecked),
                     };
 
@@ -219,7 +219,7 @@ namespace kringloopKleding
                     txtCard.Text = null;
                     txtFirstName.Text = null;
                     txtLastname.Text = null;
-                    cbResidence.Text = null;
+                    txtResidence.Text = null;
                     txtbirthDate.Text = null;
                     cbActiveCard.IsChecked = false;
                     cbActiveFamilyMember.IsChecked = false;
@@ -270,7 +270,7 @@ namespace kringloopKleding
             foreach (var item in gezinIdQuery)
             {
                 CardNumberResult = item.kaarQueryResult;
-                GezinId = Convert.ToInt32(item.gezinId);
+                Familyid = Convert.ToInt32(item.gezinId);
 
             }
 
@@ -281,7 +281,7 @@ namespace kringloopKleding
                 gezinslidAdd.voornaam = txtFirstName.Text;
                 gezinslidAdd.geboortejaar = txtbirthDate.Text;
                 gezinslidAdd.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
-                gezinslidAdd.gezin_id = GezinId;
+                gezinslidAdd.gezin_id = Familyid;
 
                 db.gezinslids.InsertOnSubmit(gezinslidAdd);
                 db.SubmitChanges();
@@ -319,7 +319,7 @@ namespace kringloopKleding
                 txtCard.Text = "";
                 txtFirstName.Text = "";
                 txtLastname.Text = "";
-                cbResidence.Text = "";
+                txtResidence.Text = "";
                 txtbirthDate.Text = "";
                 cbActiveCard.IsChecked = false;
                 cbActiveFamilyMember.IsChecked = false;
@@ -332,7 +332,7 @@ namespace kringloopKleding
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             //checkt als je een van de vakjes leeggelaten zijn
-            if (txtCard.Text == "" || txtLastname.Text == "" || cbResidence.Text == "")
+            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
                 messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
                 windowMessage.Show();
@@ -341,11 +341,11 @@ namespace kringloopKleding
             //checkt als heeft gelaten en als dat niet is dan voegt aanpassingen toe aan database
             if (ChangeFamily != null)
             {
-                if (txtCard.Text != "" && txtLastname.Text != "" && cbResidence.Text != "")
+                if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
                 {
                     ChangeFamily.kringloopKaartnummer = txtCard.Text;
                     ChangeFamily.achternaam = txtLastname.Text;
-                    ChangeFamily.woonplaats = cbResidence.Text.ToLower();
+                    ChangeFamily.woonplaats = txtResidence.Text.ToLower();
                     ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
 
                     if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")
@@ -368,7 +368,7 @@ namespace kringloopKleding
                     txtCard.Text = null;
                     txtFirstName.Text = null;
                     txtLastname.Text = null;
-                    cbResidence.Text = null;
+                    txtResidence.Text = null;
                     txtbirthDate.Text = null;
                     cbActiveCard.IsChecked = false;
                     cbActiveFamilyMember.IsChecked = false;

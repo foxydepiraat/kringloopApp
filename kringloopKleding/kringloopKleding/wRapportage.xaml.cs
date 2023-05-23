@@ -10,12 +10,12 @@ namespace kringloopKleding
     public partial class wRapportage : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
-        private gezin gezinnen;
-        private gezinslid gezinsleden;
+        private gezin Family;
+        private gezinslid FamilyMember;
         private afhaling afhalingen;
 
-        private int gezinid;
-        private int gezinslidid;
+        private int Familyid;
+        private int FamilyMemberid;
 
         private DateTime pickedDate;
         private int dateYear;
@@ -59,14 +59,14 @@ namespace kringloopKleding
 
         private void dgFamily_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            gezinnen = (gezin)dgFamily.SelectedItem;
-            txtKaart.Text = gezinnen.kringloopKaartnummer;
+            Family = (gezin)dgFamily.SelectedItem;
+            txtKaart.Text = Family.kringloopKaartnummer;
         }
 
         private void dgFamilyMembers_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            gezinsleden = (gezinslid)dgFamilyMembers.SelectedItem;
-            txtFirstName.Text = gezinsleden.voornaam;            
+            FamilyMember = (gezinslid)dgFamilyMembers.SelectedItem;
+            txtFirstName.Text = FamilyMember.voornaam;            
         }
 
         //Search result from entered data
@@ -85,21 +85,21 @@ namespace kringloopKleding
 
                 foreach(var gid in GezinKaartQuery)
                 {
-                    gezinid = gid.id;
+                    Familyid = gid.id;
                 }
 
-                var gezinslidIdQuery = from gl in db.gezinslids
+                var FamilyMemberidQuery = from gl in db.gezinslids
                                        where gl.voornaam == txtFirstName.Text
-                                       where gl.gezin_id == gezinid
+                                       where gl.gezin_id == Familyid
                                        select gl;
                 
-                foreach(var glid in gezinslidIdQuery)
+                foreach(var glid in FamilyMemberidQuery)
                 {
-                    gezinslidid = glid.id;                   
+                    FamilyMemberid = glid.id;                   
                 }
 
                 var afhalingQuery = from a in db.afhalings
-                                    where a.gezinslid_id == gezinslidid
+                                    where a.gezinslid_id == FamilyMemberid
                                     select a;
 
                 foreach (var afhaling in afhalingQuery)
@@ -110,7 +110,7 @@ namespace kringloopKleding
                 }
 
                 var monthQuery = from a in db.afhalings
-                                 where a.gezinslid_id == gezinslidid
+                                 where a.gezinslid_id == FamilyMemberid
                                  where a.datum == pickedDate
                                  select a;
                 
@@ -132,23 +132,23 @@ namespace kringloopKleding
 
                 foreach(var gezin in gezinQuery)
                 {
-                    gezinid = gezin.id;
+                    Familyid = gezin.id;
                 }
 
                 var gezinslidQuery = from gl in db.gezinslids
-                                     where gl.gezin_id == gezinid
+                                     where gl.gezin_id == Familyid
                                      select gl;
 
                 foreach(var gezinslid  in gezinslidQuery)
                 {
-                    gezinslidid = gezinslid.id;
+                    FamilyMemberid = gezinslid.id;
                     txtFirstName.Text = gezinslid.voornaam;
                 }
 
                 dgFamilyMembers.ItemsSource = gezinslidQuery;
 
                 var afhalingQuery = from a in db.afhalings
-                                    where a.gezinslid_id == gezinslidid
+                                    where a.gezinslid_id == FamilyMemberid
                                     select a;
 
                 foreach (var afhaling in afhalingQuery)
@@ -159,7 +159,7 @@ namespace kringloopKleding
                 }
 
                 var SeacrhMonthYearQuery = from a in db.afhalings
-                                           where a.gezinslid_id == gezinslidid
+                                           where a.gezinslid_id == FamilyMemberid
                                            where dateYear == pickedDate.Year
                                            where dateMonth == pickedDate.Month
                                            select a;
@@ -201,27 +201,27 @@ namespace kringloopKleding
             //checks if data  has been entered then seacrh for this + the year that has been entered
             if(txtKaart.Text != "" && txtFirstName.Text != "")
             {
-                var Querygezinid = from g in db.gezins
+                var QueryFamilyid = from g in db.gezins
                                    where g.kringloopKaartnummer == txtKaart.Text
                                    select g;
 
-                foreach(var g in Querygezinid)
+                foreach(var g in QueryFamilyid)
                 {
-                    gezinid = g.id;
+                    Familyid = g.id;
                 }
 
                 var QueryGezinslid = from gl in db.gezinslids
-                                     where gl.gezin_id == gezinid
+                                     where gl.gezin_id == Familyid
                                      where gl.voornaam == txtFirstName.Text
                                      select gl;
 
                 foreach(var gl in QueryGezinslid)
                 {
-                    gezinslidid = gl.id;
+                    FamilyMemberid = gl.id;
                 }
 
                 var QueryAfhalingYear = from a in db.afhalings
-                                        where a.gezinslid_id == gezinslidid
+                                        where a.gezinslid_id == FamilyMemberid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
 
@@ -236,21 +236,21 @@ namespace kringloopKleding
 
                 foreach(var g in QueryGezin)
                 {
-                    gezinid = g.id;
+                    Familyid = g.id;
                 }
 
                 var QueryGezinslid = from gl in db.gezinslids
-                                     where gl.gezin_id == gezinid
+                                     where gl.gezin_id == Familyid
                                      select gl;
 
                 foreach(var gl in QueryGezinslid)
                 {
-                    gezinslidid = gl.id;
+                    FamilyMemberid = gl.id;
                 }
 
                 var QueryAfhalingYear = from a in db.afhalings
                                         join gl in db.gezinslids on a.gezinslid_id equals gl.id
-                                        where gl.gezin_id == gezinid
+                                        where gl.gezin_id == Familyid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
 
@@ -268,27 +268,27 @@ namespace kringloopKleding
             //checks if data  has been entered then seacrh for this + the year that has been entered
             if (txtKaart.Text != "" && txtFirstName.Text != "")
             {
-                var QueryGezinId = from g in db.gezins
+                var QueryFamilyid = from g in db.gezins
                                    where g.kringloopKaartnummer == txtKaart.Text
                                    select g;
 
-                foreach (var g in QueryGezinId)
+                foreach (var g in QueryFamilyid)
                 {
-                    gezinid = g.id;
+                    Familyid = g.id;
                 }
 
-                var QuerygezinslidId = from gl in db.gezinslids
-                                       where gl.gezin_id == gezinid
+                var QueryFamilyMemberid = from gl in db.gezinslids
+                                       where gl.gezin_id == Familyid
                                        where gl.voornaam == txtFirstName.Text
                                        select gl;
 
-                foreach (var gl in QuerygezinslidId)
+                foreach (var gl in QueryFamilyMemberid)
                 {
-                    gezinslidid = gl.id;
+                    FamilyMemberid = gl.id;
                 }
 
                 var QueryAfhalingMonth = from a in db.afhalings
-                                         where a.gezinslid_id == gezinslidid
+                                         where a.gezinslid_id == FamilyMemberid
                                          where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
@@ -299,27 +299,27 @@ namespace kringloopKleding
             // if txtFirstname has not been enttered then  search for all data that are equal to the entered data
             else if (txtKaart.Text != "" )
             {
-                    var QueryGezinId = from g in db.gezins
+                    var QueryFamilyid = from g in db.gezins
                                        where g.kringloopKaartnummer == txtKaart.Text
                                        select g;
 
-                    foreach (var g in QueryGezinId)
+                    foreach (var g in QueryFamilyid)
                     {
-                        gezinid = g.id;
+                        Familyid = g.id;
                     }
 
-                    var QuerygezinslidId = from gl in db.gezinslids
-                                           where gl.gezin_id == gezinid
+                    var QueryFamilyMemberid = from gl in db.gezinslids
+                                           where gl.gezin_id == Familyid
                                            select gl;
 
-                foreach (var gl in QuerygezinslidId)
+                foreach (var gl in QueryFamilyMemberid)
                 {
-                    gezinslidid = gl.id;
+                    FamilyMemberid = gl.id;
                 }
 
                 var QueryAfhalingMonth = from a in db.afhalings
                                          join gl in db.gezinslids on a.gezinslid_id equals gl.id
-                                         where gl.gezin_id == gezinid
+                                         where gl.gezin_id == Familyid
                                          where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;

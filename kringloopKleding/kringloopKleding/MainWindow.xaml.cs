@@ -23,10 +23,10 @@ namespace kringloopKleding
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
         private gezinslid gezinslidsAfhaling;
 
-        private string kaartnummerResult;
+        private string CardNumberResult;
 
-        private int gezinid;
-        private int gezinslidid;
+        private int Familyid;
+        private int FamilyMemberid;
 
         private int DateYear;
         private int DateMonth;
@@ -59,7 +59,6 @@ namespace kringloopKleding
             wRapportage wRapportage = new wRapportage();
             wRapportage.Show();
             this.Close();
-
         }
 
         private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -77,13 +76,13 @@ namespace kringloopKleding
 
                 foreach (var kaart in kaartOphaalQuery)
                 {
-                    txtkaart.Text = kaart.kringloopKaartnummer;
+                    txtCard.Text = kaart.kringloopKaartnummer;
                 }
 
                 var afhalingQuery = from a in db.afhalings
                                     join gl in db.gezinslids on a.gezinslid_id equals gl.id
                                     join g in db.gezins on gl.gezin_id equals g.id
-                                    where g.kringloopKaartnummer == txtkaart.Text
+                                    where g.kringloopKaartnummer == txtCard.Text
                                     select new
                                     {
                                         datum = a.datum,
@@ -105,7 +104,7 @@ namespace kringloopKleding
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
             // datagrid gezinslid
-            string kaartnummer = txtkaart.Text;
+            string kaartnummer = txtCard.Text;
 
             var gezinQuery = from g in db.gezins
                              where g.kringloopKaartnummer == kaartnummer
@@ -116,15 +115,15 @@ namespace kringloopKleding
             {
                 foreach (var gezins in gezinQuery)
                 {
-                    var gezinslidIdQuery = from gl in db.gezinslids
+                    var FamilyMemberIdQuery = from gl in db.gezinslids
                                            where gl.gezin_id == gezins.id
                                            where gl.actief == 1
                                            select gl;
 
                     if (gezins.kringloopKaartnummer == kaartnummer)
                     {
-                        kaartnummerResult = gezins.kringloopKaartnummer;
-                        dgGezinslid.ItemsSource = gezinslidIdQuery;
+                        CardNumberResult = gezins.kringloopKaartnummer;
+                        dgGezinslid.ItemsSource = FamilyMemberIdQuery;
                     }
                 }
             }
@@ -140,7 +139,7 @@ namespace kringloopKleding
             var afhalingQuery = from a in db.afhalings
                                 join gl in db.gezinslids on a.gezinslid_id equals gl.id
                                 join g in db.gezins on gl.gezin_id equals g.id
-                                where g.kringloopKaartnummer == txtkaart.Text
+                                where g.kringloopKaartnummer == txtCard.Text
                                 select new
                                 {
                                     datum = a.datum,
@@ -156,31 +155,30 @@ namespace kringloopKleding
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
             // als de vakjes niet leeg zijn gaat het proberen een afhaling te maken
-            if (txtkaart.Text != "" && txtFirstName.Text != "")
+            if (txtCard.Text != "" && txtFirstName.Text != "")
             {                
                 coolDown = DateTime.Today;
                 
-                var GezinIdQuery = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtkaart.Text
+                var FamilyidQuery = from g in db.gezins
+                                   where g.kringloopKaartnummer == txtCard.Text
                                    select g;
-                foreach (var gid in GezinIdQuery)
+                foreach (var gid in FamilyidQuery)
                 {
-                    gezinid = gid.id;
+                    Familyid = gid.id;
                 }
-
 
                 var gezinslidQuery = from gl in db.gezinslids
                                      where gl.voornaam == txtFirstName.Text
-                                     where gl.gezin_id == gezinid
+                                     where gl.gezin_id == Familyid
                                      select gl;
 
                 foreach (var glid in gezinslidQuery)
                 {
-                    gezinslidid = glid.id;
+                    FamilyMemberid = glid.id;
                 }
 
                 var MonthsQuery = from a in db.afhalings
-                                  where a.gezinslid_id == gezinslidid
+                                  where a.gezinslid_id == FamilyMemberid
                                   select a;
 
                 foreach (var a in MonthsQuery)
@@ -193,17 +191,17 @@ namespace kringloopKleding
                 var onceMonthQuery = from a in db.afhalings
                                      where DateYear == coolDown.Year
                                      where DateMonth == coolDown.Month
-                                     where a.gezinslid_id == gezinslidid
+                                     where a.gezinslid_id == FamilyMemberid
                                      select a;
 
 
                 // checkt als het eerder deze maand gedaan is
                 if (onceMonthQuery.Count() == 0)
                 {
-                    foreach (var gezinId in GezinIdQuery)
+                    foreach (var Familyid in FamilyidQuery)
                     {
-                        var gezinslidIdQuery = from gl in db.gezinslids
-                                               where gl.gezin_id == gezinId.id
+                        var FamilyMemberIdQuery = from gl in db.gezinslids
+                                               where gl.gezin_id == Familyid.id
                                                where gl.voornaam == txtFirstName.Text
                                                select gl;
 
@@ -211,9 +209,9 @@ namespace kringloopKleding
                         afhalings.datum = DateTime.Today;
                         
 
-                        foreach (var gezinslidId in gezinslidIdQuery)
+                        foreach (var FamilyMemberId in FamilyMemberIdQuery)
                         {
-                            afhalings.gezinslid_id = gezinslidId.id;
+                            afhalings.gezinslid_id = FamilyMemberId.id;
                         }
                         db.afhalings.InsertOnSubmit(afhalings);
                     }
@@ -222,7 +220,7 @@ namespace kringloopKleding
                     var afhalingQuery = from a in db.afhalings
                                         join gl in db.gezinslids on a.gezinslid_id equals gl.id
                                         join g in db.gezins on gl.gezin_id equals g.id
-                                        where g.kringloopKaartnummer == txtkaart.Text
+                                        where g.kringloopKaartnummer == txtCard.Text
                                         select new
                                         {
                                             datum = a.datum,
@@ -237,7 +235,7 @@ namespace kringloopKleding
                     messageboxes.wMessageAfhaling wMessageAfhaling = new messageboxes.wMessageAfhaling();
                     wMessageAfhaling.Show();
 
-                    txtkaart.Text = null;
+                    txtCard.Text = null;
                     txtFirstName.Text = null;
                 }
                 else

@@ -8,8 +8,29 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="Rapportage" Height="800" Width="1400">
-    <Grid>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="0,0,0,0" Background="#FF32BE1E">
+    <Grid >
+        <Grid HorizontalAlignment="Left"  Background="LightGray" Width="400">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Label Content="kaartnummer: " Height="30" Width="120" FontSize="16"/>
+                    <TextBox x:Name="txtKaart" Width="100" Height="30" FontSize="16" MaxLength="6"/>
+                    <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
+                        <Button.Background>
+                            <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Label Content="Voornaam:" Width="120" Height="30" FontSize="16" />
+                    <TextBox x:Name="txtFirstName" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,20">
+                    <Label Content="Kies een Datum: " Width="120" Height="30" FontSize="16"/>
+                    <DatePicker x:Name="dpRapportDatum" Width="150" Height="30" FontSize="16" CalendarClosed="dpRapportDatum_CalendarClosed"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40"  Background="#FF32BE1E">
             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <Menu DockPanel.Dock="Top" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
                     <MenuItem Header="_Menu" FontSize="25"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
@@ -21,43 +42,19 @@
             </DockPanel>
 
         </Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <Label Content="kaartnummer: " Height="30" Width="120" FontSize="16"/>
-                <TextBox x:Name="txtKaart" Width="100" Height="30" FontSize="16" MaxLength="6"/>
-                <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
-                    <Button.Background>
-                        <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
-                    </Button.Background>
-                </Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
+                <Label Content="gezinnen:" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                <DataGrid x:Name="dgFamily" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamily_MouseDoubleClick"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <Label Content="Voornaam:" Width="120" Height="30" FontSize="16" />
-                <TextBox x:Name="txtFirstName" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+            <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
+                <Label Content="gezinsleden:"  Height="30" FontSize="16" Margin="0,0,0,10"/>
+                <DataGrid x:Name="dgFamilyMembers" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,20">
-                <Label Content="Kies een Datum: " Width="120" Height="30" FontSize="16"/>
-                <DatePicker x:Name="dpRapportDatum" Width="150" Height="30" FontSize="16" CalendarClosed="dpRapportDatum_CalendarClosed"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <Button x:Name="btnMonth" Content="Op maand Zoeken" Width="140" Height="30"  FontSize="16" Margin="10,0,0,0" Click="btnMonth_Click"/>
-                <Button x:Name="btnYear" Content="Op Jaar Zoeken" Width="140" Height="30"  FontSize="16" Margin="10,0,0,0" Click="btnYear_Click"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinnen:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgFamily" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamily_MouseDoubleClick"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinsleden:" Width="120" Height="35" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgFamilyMembers" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="Datum Afhaling:" Width="130" Height="35" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgAfhaling" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick"/>
-                </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0,30,10" HorizontalAlignment="Left">
+                <Label Content="Datums Afhalingen:" VerticalAlignment="Stretch" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                <DataGrid x:Name="dgAfhaling" Height="250" Width="270" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick"/>
             </StackPanel>
         </StackPanel>
-            
     </Grid>
 </Window>

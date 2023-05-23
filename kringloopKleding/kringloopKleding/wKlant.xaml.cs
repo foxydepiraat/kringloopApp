@@ -151,6 +151,7 @@ namespace kringloopKleding
                 txtLastname.Text = null;
                 txtResidence.Text = null;
                 txtbirthDate.Text = null;
+                txtReason.Text = null;
                 cbActiveCard.IsChecked = false;
                 cbActiveFamilyMember.IsChecked = false;
             }
@@ -188,6 +189,7 @@ namespace kringloopKleding
                         achternaam = txtLastname.Text,
                         Woonplaats = txtResidence.Text,
                         actief = Convert.ToInt32(cbActiveCard.IsChecked),
+                        reden = txtReason.Text,
                     };
 
                     db.gezins.InsertOnSubmit(gezinAdd);
@@ -221,6 +223,7 @@ namespace kringloopKleding
                     txtLastname.Text = null;
                     txtResidence.Text = null;
                     txtbirthDate.Text = null;
+                    txtReason.Text = null;
                     cbActiveCard.IsChecked = false;
                     cbActiveFamilyMember.IsChecked = false;
 
@@ -321,6 +324,7 @@ namespace kringloopKleding
                 txtLastname.Text = "";
                 txtResidence.Text = "";
                 txtbirthDate.Text = "";
+                txtReason.Text = "";
                 cbActiveCard.IsChecked = false;
                 cbActiveFamilyMember.IsChecked = false;
 
@@ -347,6 +351,7 @@ namespace kringloopKleding
                     ChangeFamily.achternaam = txtLastname.Text;
                     ChangeFamily.Woonplaats = txtResidence.Text.ToLower();
                     ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
+                    ChangeFamily.reden = txtReason.Text;
 
                     if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")
                     {
@@ -370,6 +375,7 @@ namespace kringloopKleding
                     txtLastname.Text = null;
                     txtResidence.Text = null;
                     txtbirthDate.Text = null;
+                    txtReason.Text = null;
                     cbActiveCard.IsChecked = false;
                     cbActiveFamilyMember.IsChecked = false;
                 }

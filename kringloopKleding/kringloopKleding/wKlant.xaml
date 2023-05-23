@@ -89,9 +89,9 @@
             <Button x:Name="btnGezinslid" Content="Gezinslid Toevoegen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnGezinslid_Click"/>
             <Button x:Name="btnChange" Content="Aanpassen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnChange_Click"/>
         </StackPanel>
-        <StackPanel Margin="0,150,300,0" Orientation="Vertical" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <DataGrid x:Name="dgGezin" HorizontalAlignment="Right" Height="200" VerticalAlignment="Top" Width="500" FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" RenderTransformOrigin="0.583,0.523"/>
-            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Right" Margin="0,50,0,0" Height="200" VerticalAlignment="Top" Width="500" FontSize="16" RenderTransformOrigin="0.583,0.523" AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick">
+        <StackPanel  Orientation="Vertical" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Left" Width="600" Margin="475,0,0,0">
+            <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" RenderTransformOrigin="0.583,0.523"/>
+            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Stretch" Margin="0,50,0,0" Height="200" VerticalAlignment="Top"  FontSize="16" RenderTransformOrigin="0.583,0.523" AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>

@@ -42,9 +42,20 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="350" Margin="0,0,50,0" MouseDoubleClick="dgGezinslid_MouseDoubleClick" FontSize="16"/>
-            <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="350" Margin="0,0,150,0" FontSize="16"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="450,0,0,0">
+            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="400" MouseDoubleClick="dgGezinslid_MouseDoubleClick" FontSize="16" Margin="0,0,50,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}"/>
+                    <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}"/>
+                    <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="250"  FontSize="16">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
+                    <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </Window>

@@ -259,8 +259,7 @@ namespace kringloopKleding
                     messageboxes.wMessageAfhaling wMessageAfhaling = new messageboxes.wMessageAfhaling();
                     wMessageAfhaling.Show();
 
-                    txtCard.Text = null;
-                    txtFirstName.Text = null;
+                    TextBoxReset();
                 }
                 else
                 {
@@ -274,6 +273,12 @@ namespace kringloopKleding
                 messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
             }
+        }
+
+        public void TextBoxReset()
+        {
+            txtCard.Text = null;
+            txtFirstName.Text = null;
         }
     }
 }

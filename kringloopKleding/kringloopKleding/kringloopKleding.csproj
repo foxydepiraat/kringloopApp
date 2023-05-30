@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MessageBoxes.cs" />
     <Compile Include="messageboxes\kaartOfgezinslidNietActief.xaml.cs">
       <DependentUpon>kaartOfgezinslidNietActief.xaml</DependentUpon>
     </Compile>

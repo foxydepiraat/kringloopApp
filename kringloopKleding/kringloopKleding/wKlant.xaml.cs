@@ -27,13 +27,15 @@ namespace kringloopKleding
         private string CardNumberResult;
         private int Familyid;
         private int lastId;
-
+        private MessageBoxes messageboxes;
         public wKlant()
         {
             InitializeComponent();
 
             dgGezin.ItemsSource = db.gezins.ToList();
             dgGezinslid.ItemsSource = db.gezinslids.ToList();
+
+            MessageBoxes messageBoxes = new MessageBoxes();
 
         }
 
@@ -174,7 +176,7 @@ namespace kringloopKleding
            
             if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
-                EmptyTextBoxes();
+                messageboxes.EmptyTextBoxes();
             }
             //checks if nothing is left empty what needs to be required
             if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
@@ -216,14 +218,14 @@ namespace kringloopKleding
                     }
 
                     dgGezin.ItemsSource = db.gezins.ToList();
-                    MessageBoxOkAdd();
+                    messageboxes.MessageBoxOkAdd();
                 }
             }
 
 
             if(txtCard.Text == CardNumberResult)
             {
-                MessageBoxExist();
+                messageboxes.MessageBoxExist();
             }
         }
 
@@ -252,7 +254,6 @@ namespace kringloopKleding
             {
                 GezinslidAdd();
 
-
                 var kaartIdQuery = from g in db.gezins
                                    where g.kringloopKaartnummer == txtCard.Text
                                    select new
@@ -271,8 +272,7 @@ namespace kringloopKleding
                 }
 
                 TextBoxReset();
-
-                MessageBoxOkAdd();
+                messageboxes.MessageBoxOkAdd();
             }
         }
 
@@ -281,7 +281,8 @@ namespace kringloopKleding
             //checkt als je een van de vakjes leeggelaten zijn
             if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
-                EmptyTextBoxes();
+                
+                messageboxes.MessageboxOk();
             }
 
             //checkt als heeft gelaten en als dat niet is dan voegt aanpassingen toe aan database
@@ -309,12 +310,12 @@ namespace kringloopKleding
                     dgGezin.ItemsSource = db.gezins.ToList();
                     db.SubmitChanges();
 
-                    MessageboxOk();
-
+                    messageboxes.MessageboxOk();
                     TextBoxReset();
                 }
             }
         }
+        //reset all the textboxes as NULL
         public void TextBoxReset()
         {
             txtCard.Text = null;
@@ -327,30 +328,7 @@ namespace kringloopKleding
             cbActiveFamilyMember.IsChecked = false;
         }
        
-        public void MessageBoxExist()
-        {
-            messageboxes.MessageBoxExist messageBoxExist = new messageboxes.MessageBoxExist();
-            messageBoxExist.Show();
-        }
-
-        public void MessageBoxOkAdd()
-        {
-            messageboxes.MessageBoxOkAdd messageBoxAdd = new messageboxes.MessageBoxOkAdd();
-            messageBoxAdd.Show();
-        }
-
-        public void EmptyTextBoxes()
-        {
-            messageboxes.legenVakjes windowMessage = new messageboxes.legenVakjes();
-            windowMessage.Show();
-        }
-
-        public void MessageboxOk()
-        {
-            messageboxes.MessageBoxOk messageBoxOK = new messageboxes.MessageBoxOk();
-            messageBoxOK.Show();
-        }
-
+       
         //funtion jsut to add familymember
        public void GezinslidAdd()
         {

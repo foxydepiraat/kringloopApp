@@ -22,6 +22,7 @@ namespace kringloopKleding
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
         private gezinslid gezinslidsAfhaling;
+        private MessageBoxes MessageBoxes;
 
         private string CardNumberResult;
 
@@ -134,6 +135,7 @@ namespace kringloopKleding
                 dgAfhaling.ItemsSource = null;
                 messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
                 kaartOfgezinslid.Show();
+                
             }
 
             //datagrid afhaling
@@ -258,7 +260,7 @@ namespace kringloopKleding
 
                     messageboxes.wMessageAfhaling wMessageAfhaling = new messageboxes.wMessageAfhaling();
                     wMessageAfhaling.Show();
-
+                    
                     TextBoxReset();
                 }
                 else

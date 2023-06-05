@@ -9,10 +9,25 @@
         mc:Ignorable="d"
         Title="klanten Beheer" Height="800" Width="1400">
     <Grid>
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="400" Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="10" Background="LightGray">
             <Grid.RowDefinitions>
-                <RowDefinition Height="95*"/>
-                <RowDefinition Height="689*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0,97,0,0" Grid.Row="1" >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,50,0,0">
@@ -88,13 +103,12 @@
                 </Menu>
             </DockPanel>
         </Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="300,0,0,10" Orientation="Horizontal">
+        <StackPanel  HorizontalAlignment="Stretch" VerticalAlignment="Center"  Orientation="Horizontal" Grid.Column="2" Grid.Row="7">
             <Button x:Name="btnAdd" Content="Nieuw Gezin" HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Top" Width="190" FontSize="20" Click="btnAdd_Click"/>
             <Button x:Name="btnGezinslid" Content="Gezinslid Toevoegen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnGezinslid_Click"/>
             <Button x:Name="btnChange" Content="Aanpassen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnChange_Click"/>
         </StackPanel>
-        <StackPanel  Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Width="700" Margin="500,0,0,0">
-            <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" AutoGenerateColumns="False" RenderTransformOrigin="0.583,0.523">
+        <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" AutoGenerateColumns="False" Grid.Row="3" Grid.Column="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="acheternaam" Binding="{Binding achternaam}" IsReadOnly="True"/>
@@ -103,13 +117,12 @@
                     <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Stretch" Margin="0,50,0,0" Height="200" VerticalAlignment="Top"  FontSize="16" RenderTransformOrigin="0.583,0.523" AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+        <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="16"  AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick" Grid.Row="1" Grid.Column="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

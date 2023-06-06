@@ -12,12 +12,13 @@
     <Grid>
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFC8C8C8">
-                <Label x:Name="lblTitle" Content="kaart of geiznslid niet actief." Width="500" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" FontSize="16" Background="#FF32BE1E"/>
+                <Label x:Name="lblTitle" Content="kaartnummer bestaat niet." Width="500" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" FontSize="16" Background="#FF32BE1E"/>
             </Grid>
-            <Label x:Name="lblText" Content="kaart of gezinslid zijn niet actief" HorizontalAlignment="Left"  Margin="0,0,0,0" FontSize="16"/>
+            <Label x:Name="lblText" Content="wil je een nieuwe kaart aanmaken." HorizontalAlignment="Left"  Margin="0,0,0,0" FontSize="16"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom"  Orientation="Horizontal" Margin="0,0,0,10">
-            <Button x:Name="btnOk" Content="oke" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="50" Margin="0,0,0,0" FontSize="18" Click="btnOk_Click"/>
+            <Button x:Name="btnKaartAdd" Content="Ja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="50" Margin="0,0,30,0" FontSize="18" Click="btnKaartAdd_Click" />
+            <Button x:Name="btnOk" Content="Nee" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="50" Margin="0,0,0,0" FontSize="18" Click="btnOk_Click"/>
         </StackPanel>
     </Grid>
 </Window>

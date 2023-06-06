@@ -21,6 +21,8 @@ namespace kringloopKleding
     public partial class MainWindow : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
+
+        messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
         private gezinslid gezinslidsAfhaling;
         private MessageBoxes MessageBoxes;
 
@@ -132,10 +134,11 @@ namespace kringloopKleding
 
             else if (gezinQuery.Count() == 0)
             {
-                dgAfhaling.ItemsSource = null;
+
                 messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
-                kaartOfgezinslid.Show();
-                
+                dgAfhaling.ItemsSource = null;
+                kaartOfgezinslid.Show();                            
+                            
             }
 
             //datagrid afhaling
@@ -281,6 +284,12 @@ namespace kringloopKleding
         {
             txtCard.Text = null;
             txtFirstName.Text = null;
+        }
+        public void NewCard()
+        {            
+            wKlant klant = new wKlant();
+            klant.Show();
+            this.Close();
         }
     }
 }

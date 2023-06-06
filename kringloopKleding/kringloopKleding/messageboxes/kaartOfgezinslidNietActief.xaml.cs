@@ -19,14 +19,22 @@ namespace kringloopKleding.messageboxes
     /// </summary>
     public partial class kaartOfgezinslidNietActief : Window
     {
+        public bool newCard;
         public kaartOfgezinslidNietActief()
         {
             InitializeComponent();
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             this.Close();
+        }
+
+        private void btnKaartAdd_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.NewCard();
+            this.Close();            
         }
     }
 }

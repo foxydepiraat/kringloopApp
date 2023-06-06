@@ -92,7 +92,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="0,0,0,0" Background="#FF32BE1E">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="0,0,0,0" Background="#FF32BE1E" Grid.ColumnSpan="4">
             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <Menu DockPanel.Dock="Top" Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
                     <MenuItem Header="_Menu" FontSize="25"  Foreground="White" BorderBrush="#FF32BE28" Background="#FF32BE28">
@@ -111,7 +111,7 @@
         <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" AutoGenerateColumns="False" Grid.Row="3" Grid.Column="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="acheternaam" Binding="{Binding achternaam}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="achternaam" Binding="{Binding achternaam}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="woonplaats" Binding="{Binding Woonplaats}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="reden" Binding="{Binding reden}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>

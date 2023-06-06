@@ -27,7 +27,7 @@ namespace kringloopKleding
         private string CardNumberResult;
         private int Familyid;
         private int lastId;
-        private MessageBoxes messageboxes;
+        MessageBoxes messageboxes = new MessageBoxes();
 
         public wKlant()
         {
@@ -175,12 +175,12 @@ namespace kringloopKleding
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
            
-            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
+            if (txtCard.Text == "")
             {
                 messageboxes.EmptyTextBoxes();
             }
             //checks if nothing is left empty what needs to be required
-            if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
+            if (txtCard.Text != "")
             {
                 
 

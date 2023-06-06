@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MessageBoxOK" Height="200" Width="500">
+        Title="" Height="200" Width="500">
     <Grid>
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFC8C8C8">

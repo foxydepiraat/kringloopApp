@@ -175,12 +175,12 @@ namespace kringloopKleding
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
            
-            if (txtCard.Text == "")
+            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
                 messageboxes.EmptyTextBoxes();
             }
             //checks if nothing is left empty what needs to be required
-            if (txtCard.Text != "")
+            if (txtCard.Text != "" && txtLastname.Text == "" && txtResidence.Text == "")
             {
                 
 
@@ -281,39 +281,56 @@ namespace kringloopKleding
         {
             //checkt als je een van de vakjes leeggelaten zijn
             if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
-            {
-                
+            {                
                 messageboxes.MessageboxOk();
             }
+            var kaartExist = from g in db.gezins
+                             where g.kringloopKaartnummer == txtCard.Text
+                             select new
+                             {
+                                 kaartnummer = g.kringloopKaartnummer,
+                             };
 
-            //checkt als heeft gelaten en als dat niet is dan voegt aanpassingen toe aan database
-            if (ChangeFamily != null)
+            foreach (var kaart in kaartExist)
             {
-                if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
+                CardNumberResult = kaart.kaartnummer;
+            }
+
+            if(CardNumberResult != txtCard.Text)
+            {
+                //checkt als heeft gelaten en als dat niet is dan voegt aanpassingen toe aan database
+                if (ChangeFamily != null)
                 {
-                    ChangeFamily.kringloopKaartnummer = txtCard.Text;
-                    ChangeFamily.achternaam = txtLastname.Text;
-                    ChangeFamily.Woonplaats = txtResidence.Text.ToLower();
-                    ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
-                    ChangeFamily.reden = txtReason.Text;
-
-                    if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")
+                    if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
                     {
-                        ChangeFamilyMember.voornaam = txtFirstName.Text;
-                        ChangeFamilyMember.geboortejaar = txtbirthDate.Text;
-                        ChangeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
+                        ChangeFamily.kringloopKaartnummer = txtCard.Text;
+                        ChangeFamily.achternaam = txtLastname.Text;
+                        ChangeFamily.Woonplaats = txtResidence.Text.ToLower();
+                        ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
+                        ChangeFamily.reden = txtReason.Text;
 
+                        if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthDate.Text != "")
+                        {
+                            ChangeFamilyMember.voornaam = txtFirstName.Text;
+                            ChangeFamilyMember.geboortejaar = txtbirthDate.Text;
+                            ChangeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
+
+                        }
+
+                        var gezinIdQuery = from gl in db.gezinslids
+                                           select gl;
+                        dgGezinslid.ItemsSource = gezinIdQuery;
+                        dgGezin.ItemsSource = db.gezins.ToList();
+                        db.SubmitChanges();
+
+                        messageboxes.MessageboxOk();
+                        TextBoxReset();
                     }
-
-                    var gezinIdQuery = from gl in db.gezinslids
-                                       select gl;
-                    dgGezinslid.ItemsSource = gezinIdQuery;
-                    dgGezin.ItemsSource = db.gezins.ToList();
-                    db.SubmitChanges();
-
-                    messageboxes.MessageboxOk();
-                    TextBoxReset();
                 }
+            }
+            else
+            {
+                messageboxes.MessageBoxExist();
             }
         }
         //reset all the textboxes as NULL

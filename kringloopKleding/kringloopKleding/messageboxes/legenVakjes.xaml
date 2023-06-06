@@ -7,15 +7,19 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="legenVakjes" Height="200" Width="500">
+        Title="" Height="200" Width="500">
     <Grid>
-        <StackPanel HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="449*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Orientation="Vertical" Grid.ColumnSpan="2">
             <Grid HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Background="#FF32BE1E">
                 <Label x:Name="lblTitle" Content="leeg of legen vakje(s)" Width="500" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" FontSize="16" Foreground="White"/>
             </Grid>
             <Label x:Name="lblText" Content="je hebt een of meerdere vakje(s) leeggelaten." HorizontalAlignment="Left"  Margin="0,0,0,0" FontSize="16"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom"  Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom"  Orientation="Horizontal" Margin="174,0,0,10" Grid.Column="1">
             <Button x:Name="btnOk" Content="oke" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="50" Margin="0,0,0,0" FontSize="18" Click="btnOk_Click"/>
         </StackPanel>
     </Grid>

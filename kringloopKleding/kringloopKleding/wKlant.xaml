@@ -108,7 +108,7 @@
             <Button x:Name="btnGezinslid" Content="Gezinslid Toevoegen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnGezinslid_Click"/>
             <Button x:Name="btnChange" Content="Aanpassen" HorizontalAlignment="Left" Height="50" Margin="50,0,0,0" VerticalAlignment="Top" Width="190"  FontSize="20" Click="btnChange_Click"/>
         </StackPanel>
-        <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" AutoGenerateColumns="False" Grid.Row="3" Grid.Column="2">
+        <DataGrid x:Name="dgGezin" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  FontSize="16"  MouseDoubleClick="dgGezin_MouseDoubleClick" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="achternaam" Binding="{Binding achternaam}" IsReadOnly="True"/>
@@ -117,7 +117,7 @@
                     <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-        <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="16"  AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick" Grid.Row="1" Grid.Column="2">
+        <DataGrid x:Name="dgGezinslid" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="16"  AutoGenerateColumns="False"  MouseDoubleClick="dgGezinslid_MouseDoubleClick" Grid.Row="3" Grid.Column="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>

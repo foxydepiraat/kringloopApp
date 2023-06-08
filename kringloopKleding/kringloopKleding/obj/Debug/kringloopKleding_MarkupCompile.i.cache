@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\App.xaml
-101209761287
+8-941030435
 
-17271091873
+15-1955039585
 141458853696
-messageboxes\kaartOfgezinslidNietActief.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;messageboxes\MessageBoxOk.xaml;messageboxes\MessageBoxOkAdd.xaml;wKlant.xaml;messageboxes\wMessageAfhaling.xaml;wRapportage.xaml;
+messageboxes\CardAlreadyExist.xaml;messageboxes\CardNotActive.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;wKlant.xaml;wRapportage.xaml;
 
 True
 

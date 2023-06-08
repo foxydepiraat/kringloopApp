@@ -58,7 +58,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                     <Label  Content="Geboortejaar:"  Height="30" Width="120"  FontSize="16"/>
-                    <TextBox x:Name="txtbirthDate" Height="30" Width="150" FontSize="16" MaxLength="4"/>
+                    <TextBox x:Name="txtbirthYear" Height="30" Width="150" FontSize="16" MaxLength="4"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                     <Label  Content="reden:"  Height="30" Width="120"  FontSize="16"/>

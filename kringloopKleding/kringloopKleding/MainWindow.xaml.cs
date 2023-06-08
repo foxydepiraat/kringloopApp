@@ -22,9 +22,8 @@ namespace kringloopKleding
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
 
-        messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
         private gezinslid gezinslidsAfhaling;
-        private MessageBoxes MessageBoxes;
+        MessageBoxes messageboxes = new MessageBoxes();
 
         private string CardNumberResult;
 
@@ -38,7 +37,6 @@ namespace kringloopKleding
         public MainWindow()
         {
             InitializeComponent();
-
             dgGezinslid.ItemsSource = db.gezinslids.ToList();
             
         }
@@ -47,21 +45,21 @@ namespace kringloopKleding
         {
             wKlant wKlant = new wKlant();
             wKlant.Show();
-            this.Close();
+            Close();
         }
 
         private void Afhaling_Click(object sender, RoutedEventArgs e)
         {
             MainWindow wAfhaling = new MainWindow();
             wAfhaling.Show();
-            this.Close();
+            Close();
         }
 
         private void Rapportage_Click(object sender, RoutedEventArgs e)
         {
             wRapportage wRapportage = new wRapportage();
             wRapportage.Show();
-            this.Close();
+            Close();
         }
 
         private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -107,67 +105,80 @@ namespace kringloopKleding
 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
-            // datagrid gezinslid
+
             string kaartnummer = txtCard.Text;
 
             var gezinQuery = from g in db.gezins
-                             where g.kringloopKaartnummer == kaartnummer
-                             where g.actief == 1
+                             where g.kringloopKaartnummer == txtCard.Text
                              select g;
-
-            if (gezinQuery.Count() > 0)
+            if (gezinQuery.Count() <= 0)
             {
-                foreach (var gezins in gezinQuery)
-                {
-                    var FamilyMemberIdQuery = from gl in db.gezinslids
-                                           where gl.gezin_id == gezins.id
-                                           where gl.actief == 1
-                                           select gl;
+                messageboxes.CardAlreadyExist kaartOfgezinslid = new messageboxes.CardAlreadyExist(this);
+                dgAfhaling.ItemsSource = null;
+                dgGezinslid.ItemsSource = null;
+                kaartOfgezinslid.Show();
+            }
+            else
+            {
+                // checking if card is active
+                var gezinActiefQuery = from g in db.gezins
+                                       where g.kringloopKaartnummer == kaartnummer
+                                       where g.actief == 1
+                                       select g;
 
-                    if (gezins.kringloopKaartnummer == kaartnummer)
+                if (gezinActiefQuery.Count() > 0)
+                {
+                    foreach (var gezins in gezinActiefQuery)
                     {
-                        CardNumberResult = gezins.kringloopKaartnummer;
-                        dgGezinslid.ItemsSource = FamilyMemberIdQuery;
+                        var FamilyMemberIdQuery = from gl in db.gezinslids
+                                                  where gl.gezin_id == gezins.id
+                                                  where gl.actief == 1
+                                                  select gl;
+
+                        if (gezins.kringloopKaartnummer == kaartnummer)
+                        {
+                            CardNumberResult = gezins.kringloopKaartnummer;
+                            dgGezinslid.ItemsSource = FamilyMemberIdQuery;
+                        }
                     }
                 }
+                else
+                {
+                    messageboxes.CardNotActive cardNotActive = new messageboxes.CardNotActive(this);
+                    dgAfhaling.ItemsSource = null;
+                    dgGezinslid.ItemsSource = null;
+                    cardNotActive.Show();
+                }
+
+                //datagrid afhaling
+
+                var kaartOphaalQuery = from gl in db.gezinslids
+                                       join g in db.gezins on gl.gezin_id equals g.id
+                                       where gl.voornaam == txtFirstName.Text
+                                       select g;
+
+                foreach (var kaart in kaartOphaalQuery)
+                {
+                    Familyid = kaart.id;
+                }
+
+                var glidQuery = from gl in db.gezinslids
+                                where gl.gezin_id == Familyid
+                                select gl;
+
+                foreach (var glid in glidQuery)
+                {
+                    FamilyMemberid = glid.id;
+                }
+
+                var afhalingQuery = from a in db.afhalings
+                                    where a.gezinslid_id == FamilyMemberid
+                                    select a;
+
+                dgAfhaling.ItemsSource = afhalingQuery;
+
             }
 
-            else if (gezinQuery.Count() == 0)
-            {
-
-                messageboxes.kaartOfgezinslidNietActief kaartOfgezinslid = new messageboxes.kaartOfgezinslidNietActief();
-                dgAfhaling.ItemsSource = null;
-                kaartOfgezinslid.Show();                            
-                            
-            }
-
-            //datagrid afhaling
-
-            var kaartOphaalQuery = from gl in db.gezinslids
-                                   join g in db.gezins on gl.gezin_id equals g.id
-                                   where gl.voornaam == txtFirstName.Text
-                                   select g;
-
-            foreach (var kaart in kaartOphaalQuery)
-            {
-                txtCard.Text = kaart.kringloopKaartnummer;
-                Familyid = kaart.id;
-            }
-
-            var glidQuery = from gl in db.gezinslids
-                            where gl.gezin_id == Familyid
-                            select gl;
-
-            foreach (var glid in glidQuery)
-            {
-                FamilyMemberid = glid.id;
-            }
-
-            var afhalingQuery = from a in db.afhalings
-                                where a.gezinslid_id == FamilyMemberid
-                                select a;
-
-            dgAfhaling.ItemsSource = afhalingQuery;
         }
 
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
@@ -225,7 +236,6 @@ namespace kringloopKleding
                         afhaling afhalings = new afhaling();
                         afhalings.datum = DateTime.Today;
                         
-
                         foreach (var FamilyMemberId in FamilyMemberIdQuery)
                         {
                             afhalings.gezinslid_id = FamilyMemberId.id;
@@ -233,7 +243,6 @@ namespace kringloopKleding
                         db.afhalings.InsertOnSubmit(afhalings);
                     }
                     db.SubmitChanges();
-
 
                     var kaartOphaalQuery = from gl in db.gezinslids
                                            join g in db.gezins on gl.gezin_id equals g.id
@@ -260,36 +269,31 @@ namespace kringloopKleding
                                         select a;
 
                     dgAfhaling.ItemsSource = afhalingQuery;
-
-                    messageboxes.wMessageAfhaling wMessageAfhaling = new messageboxes.wMessageAfhaling();
-                    wMessageAfhaling.Show();
-                    
+                                        
                     TextBoxReset();
                 }
                 else
                 {
-                    messageboxes.MessageBoxWait messageBoxWait = new messageboxes.MessageBoxWait();
-                    messageBoxWait.Show();
+                    messageboxes.WaitAfhaling();
                 }
             }
             else
             {
                 //open een window messagebox dat het vakjes leeg zijn
-                messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
-                legenVakjes.Show();
+                messageboxes.EmptyTextBoxes();
             }
         }
 
         public void TextBoxReset()
         {
-            txtCard.Text = null;
-            txtFirstName.Text = null;
+            txtCard.Text = "";
+            txtFirstName.Text = "";
         }
         public void NewCard()
-        {            
-            wKlant klant = new wKlant();
-            klant.Show();
-            this.Close();
+        {
+            wKlant wKlant = new wKlant();
+            wKlant.Show();
+            Close();
         }
     }
 }

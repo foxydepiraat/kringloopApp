@@ -57,13 +57,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MessageBoxes.cs" />
-    <Compile Include="messageboxes\kaartOfgezinslidNietActief.xaml.cs">
-      <DependentUpon>kaartOfgezinslidNietActief.xaml</DependentUpon>
+    <Compile Include="messageboxes\CardAlreadyExist.xaml.cs">
+      <DependentUpon>CardAlreadyExist.xaml</DependentUpon>
     </Compile>
     <Compile Include="kringloopAfhaling.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>kringloopAfhaling.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="messageboxes\CardNotActive.xaml.cs">
+      <DependentUpon>CardNotActive.xaml</DependentUpon>
     </Compile>
     <Compile Include="messageboxes\legenVakjes.xaml.cs">
       <DependentUpon>legenVakjes.xaml</DependentUpon>
@@ -74,22 +77,17 @@
     <Compile Include="messageboxes\MessageBoxExist.xaml.cs">
       <DependentUpon>MessageBoxExist.xaml</DependentUpon>
     </Compile>
-    <Compile Include="messageboxes\MessageBoxOk.xaml.cs">
-      <DependentUpon>MessageBoxOk.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="messageboxes\MessageBoxOkAdd.xaml.cs">
-      <DependentUpon>MessageBoxOkAdd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="wKlant.xaml.cs">
       <DependentUpon>wKlant.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="messageboxes\wMessageAfhaling.xaml.cs">
-      <DependentUpon>wMessageAfhaling.xaml</DependentUpon>
     </Compile>
     <Compile Include="wRapportage.xaml.cs">
       <DependentUpon>wRapportage.xaml</DependentUpon>
     </Compile>
-    <Page Include="messageboxes\kaartOfgezinslidNietActief.xaml">
+    <Page Include="messageboxes\CardAlreadyExist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="messageboxes\CardNotActive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,19 +115,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="messageboxes\MessageBoxOk.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="messageboxes\MessageBoxOkAdd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="wKlant.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="messageboxes\wMessageAfhaling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

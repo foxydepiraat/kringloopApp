@@ -15,18 +15,30 @@ using System.Windows.Shapes;
 namespace kringloopKleding.messageboxes
 {
     /// <summary>
-    /// Interaction logic for wMessageAfhaling.xaml
+    /// Interaction logic for CardAlreadyExist.xaml
     /// </summary>
-    public partial class wMessageAfhaling : Window
+    public partial class CardNotActive : Window
     {
-        public wMessageAfhaling()
+
+        private MainWindow main;
+        public bool newCard;
+        public CardNotActive(MainWindow main)
         {
             InitializeComponent();
+            this.main = main;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
+
+        private void btnKaartAdd_Click(object sender, RoutedEventArgs e)
+        {
+            main.NewCard();
+            Close();
+        }
+
+
     }
 }

@@ -15,18 +15,30 @@ using System.Windows.Shapes;
 namespace kringloopKleding.messageboxes
 {
     /// <summary>
-    /// Interaction logic for MessageBoxOkAdd.xaml
+    /// Interaction logic for CardAlreadyExist.xaml
     /// </summary>
-    public partial class MessageBoxOkAdd : Window
+    public partial class CardAlreadyExist : Window
     {
-        public MessageBoxOkAdd()
+
+        private MainWindow main;
+        public bool newCard;
+        public CardAlreadyExist(MainWindow main)
         {
             InitializeComponent();
+            this.main = main;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+        {            
+            Close();
         }
+
+        private void btnKaartAdd_Click(object sender, RoutedEventArgs e)
+        {
+            main.NewCard();
+            Close();            
+        }
+
+
     }
 }

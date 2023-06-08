@@ -64,21 +64,21 @@ namespace kringloopKleding
 
         private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            // vult textbox voornaam dat geselecteerd en daarna 
+            // 
             try
             {
                 gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
                 txtFirstName.Text = gezinslidsAfhaling.voornaam;
 
-                var kaartOphaalQuery = from gl in db.gezinslids
+                var cardPickUpQuery = from gl in db.gezinslids
                                        join g in db.gezins on gl.gezin_id equals g.id
                                        where gl.voornaam == txtFirstName.Text
                                        select g;
 
-                foreach (var kaart in kaartOphaalQuery)
+                foreach (var card in cardPickUpQuery)
                 {
-                    txtCard.Text = kaart.kringloopKaartnummer;
-                    Familyid = kaart.id;
+                    txtCard.Text = card.kringloopKaartnummer;
+                    Familyid = card.id;
                 }
 
                 var glidQuery = from gl in db.gezinslids
@@ -90,11 +90,11 @@ namespace kringloopKleding
                     FamilyMemberid = glid.id;
                 }
 
-                var afhalingQuery = from a in db.afhalings
+                var pickUpQuery = from a in db.afhalings
                                     where a.gezinslid_id == FamilyMemberid
                                     select a;
 
-                dgAfhaling.ItemsSource = afhalingQuery;
+                dgPickUp.ItemsSource = pickUpQuery;
 
             }
             catch (InvalidCastException c)
@@ -103,41 +103,41 @@ namespace kringloopKleding
             }
         }
 
+        //search for card that exist and is active and if not ask for redirecting to add a new card or to be active 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
+            string cardNumber = txtCard.Text;
 
-            string kaartnummer = txtCard.Text;
-
-            var gezinQuery = from g in db.gezins
+            var familyQuery = from g in db.gezins
                              where g.kringloopKaartnummer == txtCard.Text
                              select g;
-            if (gezinQuery.Count() <= 0)
+            if (familyQuery.Count() <= 0)
             {
-                messageboxes.CardAlreadyExist kaartOfgezinslid = new messageboxes.CardAlreadyExist(this);
-                dgAfhaling.ItemsSource = null;
+                messageboxes.CardAlreadyExist cardAlreadyExist = new messageboxes.CardAlreadyExist(this);
+                dgPickUp.ItemsSource = null;
                 dgGezinslid.ItemsSource = null;
-                kaartOfgezinslid.Show();
+                cardAlreadyExist.Show();
             }
             else
             {
                 // checking if card is active
-                var gezinActiefQuery = from g in db.gezins
-                                       where g.kringloopKaartnummer == kaartnummer
+                var familyActiveQuery = from g in db.gezins
+                                       where g.kringloopKaartnummer == cardNumber
                                        where g.actief == 1
                                        select g;
 
-                if (gezinActiefQuery.Count() > 0)
+                if (familyActiveQuery.Count() > 0)
                 {
-                    foreach (var gezins in gezinActiefQuery)
+                    foreach (var family in familyActiveQuery)
                     {
                         var FamilyMemberIdQuery = from gl in db.gezinslids
-                                                  where gl.gezin_id == gezins.id
+                                                  where gl.gezin_id == family.id
                                                   where gl.actief == 1
                                                   select gl;
 
-                        if (gezins.kringloopKaartnummer == kaartnummer)
+                        if (family.kringloopKaartnummer == cardNumber)
                         {
-                            CardNumberResult = gezins.kringloopKaartnummer;
+                            CardNumberResult = family.kringloopKaartnummer;
                             dgGezinslid.ItemsSource = FamilyMemberIdQuery;
                         }
                     }
@@ -145,19 +145,19 @@ namespace kringloopKleding
                 else
                 {
                     messageboxes.CardNotActive cardNotActive = new messageboxes.CardNotActive(this);
-                    dgAfhaling.ItemsSource = null;
+                    dgPickUp.ItemsSource = null;
                     dgGezinslid.ItemsSource = null;
                     cardNotActive.Show();
                 }
 
                 //datagrid afhaling
 
-                var kaartOphaalQuery = from gl in db.gezinslids
+                var cardPickUpQueryQuery = from gl in db.gezinslids
                                        join g in db.gezins on gl.gezin_id equals g.id
                                        where gl.voornaam == txtFirstName.Text
                                        select g;
 
-                foreach (var kaart in kaartOphaalQuery)
+                foreach (var kaart in cardPickUpQueryQuery)
                 {
                     Familyid = kaart.id;
                 }
@@ -171,11 +171,11 @@ namespace kringloopKleding
                     FamilyMemberid = glid.id;
                 }
 
-                var afhalingQuery = from a in db.afhalings
+                var pickUpQuery = from a in db.afhalings
                                     where a.gezinslid_id == FamilyMemberid
                                     select a;
 
-                dgAfhaling.ItemsSource = afhalingQuery;
+                dgPickUp.ItemsSource = pickUpQuery;
 
             }
 
@@ -183,10 +183,10 @@ namespace kringloopKleding
 
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
-            // als de vakjes niet leeg zijn gaat het proberen een afhaling te maken
+            //if textboxes not empty try to make a  pick up(afhaling) frome time now.
             if (txtCard.Text != "" && txtFirstName.Text != "")
             {                
-                coolDown = DateTime.Today;
+                coolDown = DateTime.Now;
                 
                 var FamilyidQuery = from g in db.gezins
                                    where g.kringloopKaartnummer == txtCard.Text
@@ -196,12 +196,12 @@ namespace kringloopKleding
                     Familyid = gid.id;
                 }
 
-                var gezinslidQuery = from gl in db.gezinslids
+                var familyMemberQuery = from gl in db.gezinslids
                                      where gl.voornaam == txtFirstName.Text
                                      where gl.gezin_id == Familyid
                                      select gl;
 
-                foreach (var glid in gezinslidQuery)
+                foreach (var glid in familyMemberQuery)
                 {
                     FamilyMemberid = glid.id;
                 }
@@ -223,7 +223,7 @@ namespace kringloopKleding
                                      where a.gezinslid_id == FamilyMemberid
                                      select a;
 
-                // checkt als het eerder deze maand gedaan is
+                // check if were already earlier
                 if (onceMonthQuery.Count() == 0)
                 {
                     foreach (var Familyid in FamilyidQuery)
@@ -233,26 +233,26 @@ namespace kringloopKleding
                                                where gl.voornaam == txtFirstName.Text
                                                select gl;
 
-                        afhaling afhalings = new afhaling();
-                        afhalings.datum = DateTime.Today;
+                        afhaling pickUp = new afhaling();
+                        pickUp.datum = DateTime.Now;
                         
                         foreach (var FamilyMemberId in FamilyMemberIdQuery)
                         {
-                            afhalings.gezinslid_id = FamilyMemberId.id;
+                            pickUp.gezinslid_id = FamilyMemberId.id;
                         }
-                        db.afhalings.InsertOnSubmit(afhalings);
+                        db.afhalings.InsertOnSubmit(pickUp);
                     }
                     db.SubmitChanges();
 
-                    var kaartOphaalQuery = from gl in db.gezinslids
+                    var cardPickUpQuery = from gl in db.gezinslids
                                            join g in db.gezins on gl.gezin_id equals g.id
                                            where gl.voornaam == txtFirstName.Text
                                            select g;
 
-                    foreach (var kaart in kaartOphaalQuery)
+                    foreach (var card in cardPickUpQuery)
                     {
-                        txtCard.Text = kaart.kringloopKaartnummer;
-                        Familyid = kaart.id;
+                        txtCard.Text = card.kringloopKaartnummer;
+                        Familyid = card.id;
                     }
 
                     var glidQuery = from gl in db.gezinslids
@@ -264,11 +264,11 @@ namespace kringloopKleding
                         FamilyMemberid = glid.id;
                     }
 
-                    var afhalingQuery = from a in db.afhalings
-                                        where a.gezinslid_id == FamilyMemberid
-                                        select a;
+                    var pickUpQuery = from a in db.afhalings
+                                      where a.gezinslid_id == FamilyMemberid
+                                      select a;
 
-                    dgAfhaling.ItemsSource = afhalingQuery;
+                    dgPickUp.ItemsSource = pickUpQuery;
                                         
                     TextBoxReset();
                 }
@@ -279,7 +279,6 @@ namespace kringloopKleding
             }
             else
             {
-                //open een window messagebox dat het vakjes leeg zijn
                 messageboxes.EmptyTextBoxes();
             }
         }
@@ -289,6 +288,7 @@ namespace kringloopKleding
             txtCard.Text = "";
             txtFirstName.Text = "";
         }
+        //function coems form messagboxes CardNotActice or CardsAlreadyExist
         public void NewCard()
         {
             wKlant wKlant = new wKlant();

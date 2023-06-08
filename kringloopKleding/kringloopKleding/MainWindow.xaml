@@ -50,7 +50,7 @@
                     <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="dgAfhaling" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="250"  FontSize="16" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid x:Name="dgPickUp" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="250"  FontSize="16" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="datum" Binding="{Binding datum}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}" IsReadOnly="True"/>

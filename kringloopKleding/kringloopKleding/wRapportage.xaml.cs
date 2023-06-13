@@ -58,7 +58,7 @@ namespace kringloopKleding
         private void dgFamily_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Family = (gezin)dgFamily.SelectedItem;
-            txtKaart.Text = Family.kringloopKaartnummer;
+            txtCard.Text = Family.kringloopKaartnummer;
         }
 
         private void dgFamilyMembers_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -75,10 +75,10 @@ namespace kringloopKleding
                 pickedDate = DateTime.Today;
             }
             //search with the entered data from the if + data
-            if (txtKaart.Text != "" && txtFirstName.Text != "") 
+            if (txtCard.Text != "" && txtFirstName.Text != "") 
             {                   
                 var GezinKaartQuery = from g in db.gezins
-                                      where g.kringloopKaartnummer == txtKaart.Text
+                                      where g.kringloopKaartnummer == txtCard.Text
                                       select g;
 
                 foreach(var gid in GezinKaartQuery)
@@ -122,10 +122,10 @@ namespace kringloopKleding
                 }               
             }
             //search for data was has been enetered what is in the if
-            else if(txtKaart.Text != "")
+            else if(txtCard.Text != "")
             {
                 var gezinQuery = from g in db.gezins
-                                  where g.kringloopKaartnummer == txtKaart.Text
+                                  where g.kringloopKaartnummer == txtCard.Text
                                   select g;
 
                 foreach(var gezin in gezinQuery)
@@ -197,10 +197,10 @@ namespace kringloopKleding
                 pickedDate = DateTime.Today;
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
-            if(txtKaart.Text != "" && txtFirstName.Text != "")
+            if(txtCard.Text != "" && txtFirstName.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtKaart.Text
+                                   where g.kringloopKaartnummer == txtCard.Text
                                    select g;
 
                 foreach(var g in QueryFamilyid)
@@ -226,10 +226,10 @@ namespace kringloopKleding
                 dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
             }
             // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
-            else if(txtKaart.Text != "")
+            else if(txtCard.Text != "")
             {
                 var QueryGezin = from g in db.gezins
-                                 where g.kringloopKaartnummer == txtKaart.Text
+                                 where g.kringloopKaartnummer == txtCard.Text
                                  select g;
 
                 foreach(var g in QueryGezin)
@@ -264,10 +264,10 @@ namespace kringloopKleding
                 pickedDate = DateTime.Today;
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
-            if (txtKaart.Text != "" && txtFirstName.Text != "")
+            if (txtCard.Text != "" && txtFirstName.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
-                                   where g.kringloopKaartnummer == txtKaart.Text
+                                   where g.kringloopKaartnummer == txtCard.Text
                                    select g;
 
                 foreach (var g in QueryFamilyid)
@@ -295,10 +295,10 @@ namespace kringloopKleding
 
             }
             // if txtFirstname has not been enttered then  search for all data that are equal to the entered data
-            else if (txtKaart.Text != "" )
+            else if (txtCard.Text != "" )
             {
                     var QueryFamilyid = from g in db.gezins
-                                       where g.kringloopKaartnummer == txtKaart.Text
+                                       where g.kringloopKaartnummer == txtCard.Text
                                        select g;
 
                     foreach (var g in QueryFamilyid)

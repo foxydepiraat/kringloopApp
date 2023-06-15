@@ -60,7 +60,7 @@ namespace kringloopKleding
             wRapportage.Show();
             this.Close();
         }
-
+        //Fills in the txtboxes with the data that was clicked on.
         private void dgGezin_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -85,14 +85,13 @@ namespace kringloopKleding
                     txtbirthYear.Text = item.geboortejaar;
                     cbActiveFamilyMember.IsChecked = Convert.ToBoolean(item.actief);
                 }
-
             }
             catch (InvalidCastException a)
             {
 
             }
         }
-        //
+        //Fills in the txtboxes with the data that was clicked on.
         private void dgGezinslid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -117,11 +116,11 @@ namespace kringloopKleding
             }
             catch (InvalidCastException b)
             {
-
+                
             }
         }
 
-        //Seacrh for card number that is equal to txtCard
+        //Seacrh for card number that is equal to txtCard.
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {            
             var familyQuery = from g in db.gezins
@@ -172,11 +171,10 @@ namespace kringloopKleding
                         var familyMemberQuery = from gl in db.gezinslids
                                              where gl.gezin_id == Familyid
                                              select gl;
-                        dgGezinslid.ItemsSource = familyMemberQuery;
 
+                        dgGezinslid.ItemsSource = familyMemberQuery;
                     }
                 }
-
                 if (txtCard.Text != CardNumberResult)
                 {
                     TextBoxReset();
@@ -184,11 +182,11 @@ namespace kringloopKleding
             }            
         }
 
-        //Add a new family and familyMember
+        //Add a new family and familyMember.
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {            
-            //checks if nothing is left empty what needs to be required
-            if (txtCard.Text != "" && txtLastname.Text == "" && txtResidence.Text != "" && txtReason.Text != "")
+            //Checks if nothing is left empty what needs to be required.
+            if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "" && txtReason.Text != "")
             {               
 
                 var cardExist = from g in db.gezins
@@ -238,7 +236,7 @@ namespace kringloopKleding
             }
         }
 
-        //add new familyMember on family that is on txtCard
+        //Add new familyMember on family that is on txtCard.
         private void btnGezinslid_Click(object sender, RoutedEventArgs e)
         {
             var familyIdQuery = from gl in db.gezinslids
@@ -256,7 +254,7 @@ namespace kringloopKleding
                 Familyid = Convert.ToInt32(item.gezinId);
             }
 
-            //check if the textbox are not empty
+            //Check if the textbox are not empty.
             if (CardNumberResult != "" && txtFirstName.Text != "" && txtbirthYear.Text != "")
             {
                 GezinslidAdd();
@@ -278,19 +276,24 @@ namespace kringloopKleding
 
                 TextBoxReset();
             }
+            else
+            {
+                messageboxes.EmptyTextBoxes();
+            }
         }
-        //change Family and familymember
+        //Change Family and familymember.
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
 
-            //check if one of the textox are empty
+            //Check if one of the textox are empty
             if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "" || txtFirstName.Text == "" || txtbirthYear.Text == "")
             {
                 messageboxes.EmptyTextBoxes();
             }
             else
             {
-                //checkt en als dat is dan voegt aanpassingen toe aan database
+                //Checkt for changefamily(db.gezins) is not null and second check is if the textboxes are not empty.
+                //If that is true then they add the data to the database.
                 
                 if (ChangeFamily != null)
                 {
@@ -310,6 +313,7 @@ namespace kringloopKleding
 
                         var familyIdQuery = from gl in db.gezinslids
                                             select gl;
+
                         dgGezinslid.ItemsSource = familyIdQuery;
                         dgGezin.ItemsSource = db.gezins.ToList();
                         db.SubmitChanges();
@@ -318,11 +322,11 @@ namespace kringloopKleding
 
                     }
                 }
-            else
-            {
-                messageboxes.MessageBoxExist();
+                else
+                {
+                    messageboxes.MessageBoxExist();
+                }
             }
-        }
             
         }
         //reset all the textboxes as Default

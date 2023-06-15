@@ -25,9 +25,7 @@ namespace kringloopKleding
             InitializeComponent();
 
             dgFamily.ItemsSource = db.gezins;
-
             dgFamilyMembers.ItemsSource = db.gezinslids;
-
             dgAfhaling.ItemsSource = db.afhalings;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
@@ -58,9 +56,9 @@ namespace kringloopKleding
 
                 afhalingen = (afhaling)dgAfhaling.SelectedItem;
                 dpRapportDatum.Text = afhalingen.datum.ToString();
-
+                PickedDate();
             }
-            catch (Exception a)
+            catch (InvalidCastException a)
             {
 
             }
@@ -85,9 +83,9 @@ namespace kringloopKleding
 
                     dgFamilyMembers.ItemsSource = dgFamilyMemberQuery;
                 }
-                
+                PickedDate();
             }
-            catch (Exception b)
+            catch (InvalidCastException b)
             {
 
             }
@@ -108,6 +106,7 @@ namespace kringloopKleding
                 {
                     var dgFamilyMemberQuery = from gl in db.gezinslids
                                               where gl.gezin_id == g.id
+                                              where gl.voornaam == FamilyMember.voornaam
                                               select gl;
 
                     foreach (var gl in dgFamilyMemberQuery)
@@ -118,10 +117,10 @@ namespace kringloopKleding
 
                         dgAfhaling.ItemsSource = dgPickUpQuery;
                     }
-
+                    PickedDate();
                 }
             }
-            catch (Exception c)
+            catch (InvalidCastException c)
             {
 
             }
@@ -134,7 +133,7 @@ namespace kringloopKleding
             {
                 pickedDate = DateTime.Today;
             }
-            //search with the entered data from the if + data
+            //search with the entered data from the if the txtcard and txtFirstname is not empty
             if (txtCard.Text != "" && txtFirstName.Text != "")
             {
                 var GezinKaartQuery = from g in db.gezins
@@ -185,7 +184,7 @@ namespace kringloopKleding
                     dgAfhaling.ItemsSource = afhalingQuery;
                 }
             }
-            //search for data was has been enetered what is in the if
+            //search for data was has been enetered what is in the if txtcard is not empty
             else if (txtCard.Text != "")
             {
                 var gezinQuery = from g in db.gezins
@@ -229,6 +228,7 @@ namespace kringloopKleding
                 if (SeacrhMonthYearQuery.Count() > 0)
                 {
                     dgAfhaling.ItemsSource = SeacrhMonthYearQuery;
+                    PickedDate();
                 }
                 else
                 {
@@ -247,10 +247,7 @@ namespace kringloopKleding
 
         private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
         {
-            if (dpRapportDatum.SelectedDate != null)
-            {
-                pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
-            }
+            PickedDate();
         }
 
         //when pressed it will search data on year
@@ -358,7 +355,7 @@ namespace kringloopKleding
                 dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
-            // if txtFirstname has not been enttered then  search for all data that are equal to the entered data
+            // if txtFirstname has not been enttered then search for all data that are equal to the entered data
             else if (txtCard.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
@@ -402,13 +399,12 @@ namespace kringloopKleding
                 dgAfhaling.ItemsSource = queryAfhaling;
             }
         }
-        public void QuerySorten()
+        public void PickedDate()
         {
-            
-
-
-
-            
+            if (dpRapportDatum.SelectedDate != null)
+            {
+                pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
+            }
         }
     }
 }

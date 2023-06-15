@@ -99,7 +99,7 @@ namespace kringloopKleding
             }
             catch (InvalidCastException c)
             {
-
+                
             }
         }
 
@@ -178,12 +178,11 @@ namespace kringloopKleding
                 dgPickUp.ItemsSource = pickUpQuery;
 
             }
-
         }
 
         private void btnAfhaling_Click(object sender, RoutedEventArgs e)
         {
-            //if textboxes not empty try to make a  pick up(afhaling) frome time now.
+            //if textboxes not empty try to make a pick up(afhaling) from time now.
             if (txtCard.Text != "" && txtFirstName.Text != "")
             {                
                 coolDown = DateTime.Now;

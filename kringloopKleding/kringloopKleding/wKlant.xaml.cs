@@ -268,7 +268,7 @@ namespace kringloopKleding
                 {
                     var familyMemberIdQuery = (from gl in db.gezinslids
                                          where card.gezinId == gl.gezin_id
-                                         select gl);
+                                             select gl);
                     dgGezinslid.ItemsSource = familyMemberIdQuery;
                 }
 

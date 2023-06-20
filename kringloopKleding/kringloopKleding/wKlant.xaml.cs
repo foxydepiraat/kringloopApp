@@ -36,12 +36,10 @@ namespace kringloopKleding
 
             cbActiveCard.IsChecked = true;
             cbActiveFamilyMember.IsChecked = true;
-
         }
 
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {            
             wKlant wKlant = new wKlant();
             wKlant.Show();
             this.Close();
@@ -207,11 +205,11 @@ namespace kringloopKleding
                     TextBoxReset();
 
                     var cardIdQuery = from g in db.gezins
-                                       where g.kringloopKaartnummer == txtCard.Text
-                                       select new
-                                       {
-                                           gezinId = g.id
-                                       };
+                                      where g.kringloopKaartnummer == txtCard.Text
+                                      select new
+                                      {
+                                        gezinId = g.id
+                                      };
 
                     foreach (var card in cardIdQuery)
                     {
@@ -373,6 +371,7 @@ namespace kringloopKleding
             db.SubmitChanges();
 
             var addQuery = from g in db.gezins
+                           where g.kringloopKaartnummer == txtCard.Text
                            orderby g.id ascending
                            select new
                            {
@@ -394,6 +393,12 @@ namespace kringloopKleding
 
             db.gezinslids.InsertOnSubmit(familyMember);
             db.SubmitChanges();
+
+            var gezinslidQuery = from gl in db.gezinslids
+                            select gl;
+
+            dgGezinslid.ItemsSource = gezinslidQuery;
         }
+
     }
 }

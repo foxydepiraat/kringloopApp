@@ -71,7 +71,7 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="10,0,30,10" HorizontalAlignment="Left">
                 <Label Content="Datums Afhalingen:" VerticalAlignment="Stretch" Height="30" FontSize="16" Margin="0,0,0,10"/>
-                <DataGrid x:Name="dgAfhaling" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick" AutoGenerateColumns="False">
+                <DataGrid x:Name="dgPickUp" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgPickUp_MouseDoubleClick" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
                         <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>

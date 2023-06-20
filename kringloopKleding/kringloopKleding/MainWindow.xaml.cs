@@ -37,7 +37,7 @@ namespace kringloopKleding
         public MainWindow()
         {
             InitializeComponent();
-            dgGezinslid.ItemsSource = db.gezinslids.ToList();
+            dgFamilymember.ItemsSource = db.gezinslids.ToList();
             
         }
 
@@ -62,12 +62,12 @@ namespace kringloopKleding
             Close();
         }
 
-        private void dgGezinslid_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void dgFamilymember_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // 
             try
             {
-                gezinslidsAfhaling = (gezinslid)dgGezinslid.SelectedItem;
+                gezinslidsAfhaling = (gezinslid)dgFamilymember.SelectedItem;
                 txtFirstName.Text = gezinslidsAfhaling.voornaam;
 
                 var cardPickUpQuery = from gl in db.gezinslids
@@ -82,6 +82,7 @@ namespace kringloopKleding
                 }
 
                 var glidQuery = from gl in db.gezinslids
+                                where gl.voornaam == txtFirstName.Text
                                 where gl.gezin_id == Familyid
                                 select gl;                                
 
@@ -106,77 +107,85 @@ namespace kringloopKleding
         //search for card that exist and is active and if not ask for redirecting to add a new card or to be active 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
-            string cardNumber = txtCard.Text;
-
-            var familyQuery = from g in db.gezins
-                             where g.kringloopKaartnummer == txtCard.Text
-                             select g;
-            if (familyQuery.Count() <= 0)
+            if (txtCard.Text != "")
             {
-                messageboxes.CardAlreadyExist cardAlreadyExist = new messageboxes.CardAlreadyExist(this);
-                dgPickUp.ItemsSource = null;
-                dgGezinslid.ItemsSource = null;
-                cardAlreadyExist.Show();
-            }
-            else
-            {
-                // checking if card is active
-                var familyActiveQuery = from g in db.gezins
-                                       where g.kringloopKaartnummer == cardNumber
-                                       where g.actief == 1
-                                       select g;
 
-                if (familyActiveQuery.Count() > 0)
+                var familyQuery = from g in db.gezins
+                                  where g.kringloopKaartnummer == txtCard.Text
+                                  select g;
+
+                if (familyQuery.Count() <= 0)
                 {
-                    foreach (var family in familyActiveQuery)
-                    {
-                        var FamilyMemberIdQuery = from gl in db.gezinslids
-                                                  where gl.gezin_id == family.id
-                                                  where gl.actief == 1
-                                                  select gl;
-
-                        if (family.kringloopKaartnummer == cardNumber)
-                        {
-                            CardNumberResult = family.kringloopKaartnummer;
-                            dgGezinslid.ItemsSource = FamilyMemberIdQuery;
-                        }
-                    }
+                    messageboxes.CardAlreadyExist cardAlreadyExist = new messageboxes.CardAlreadyExist(this);
+                    dgPickUp.ItemsSource = null;
+                    dgFamilymember.ItemsSource = null;
+                    cardAlreadyExist.Show();
                 }
                 else
                 {
-                    messageboxes.CardNotActive cardNotActive = new messageboxes.CardNotActive(this);
-                    dgPickUp.ItemsSource = null;
-                    dgGezinslid.ItemsSource = null;
-                    cardNotActive.Show();
+                    // checking if card is active
+                    var familyActiveQuery = from g in db.gezins
+                                            where g.kringloopKaartnummer == txtCard.Text
+                                            where g.actief == 1
+                                            select g;
+
+                    if (familyActiveQuery.Count() > 0)
+                    {
+                        foreach (var family in familyActiveQuery)
+                        {
+                            var FamilyMemberIdQuery = from gl in db.gezinslids
+                                                      where gl.gezin_id == family.id
+                                                      where gl.actief == 1
+                                                      select gl;
+
+                            if (family.kringloopKaartnummer == txtCard.Text)
+                            {
+                                CardNumberResult = family.kringloopKaartnummer;
+                                dgFamilymember.ItemsSource = FamilyMemberIdQuery;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        messageboxes.CardNotActive cardNotActive = new messageboxes.CardNotActive(this);
+                        dgPickUp.ItemsSource = null;
+                        dgFamilymember.ItemsSource = null;
+                        cardNotActive.Show();
+                    }
+
+                    //datagrid afhaling
+
+                    var cardPickUpQueryQuery = from g in db.gezins
+                                               where g.kringloopKaartnummer == txtCard.Text
+                                               select g;
+
+                    foreach (var kaart in cardPickUpQueryQuery)
+                    {
+                        Familyid = kaart.id;
+                    }
+
+                    var glidQuery = from gl in db.gezinslids
+                                    where gl.gezin_id == Familyid
+                                    select gl;
+
+                    foreach (var glid in glidQuery)
+                    {
+                        FamilyMemberid = glid.id;
+                    }
+
+                    var pickUpQuery = from a in db.afhalings
+                                      where a.gezinslid_id == FamilyMemberid
+                                      select a;
+
+                    dgPickUp.ItemsSource = pickUpQuery;
+
                 }
-
-                //datagrid afhaling
-
-                var cardPickUpQueryQuery = from gl in db.gezinslids
-                                       join g in db.gezins on gl.gezin_id equals g.id
-                                       where gl.voornaam == txtFirstName.Text
-                                       select g;
-
-                foreach (var kaart in cardPickUpQueryQuery)
-                {
-                    Familyid = kaart.id;
-                }
-
-                var glidQuery = from gl in db.gezinslids
-                                where gl.gezin_id == Familyid
-                                select gl;
-
-                foreach (var glid in glidQuery)
-                {
-                    FamilyMemberid = glid.id;
-                }
-
-                var pickUpQuery = from a in db.afhalings
-                                    where a.gezinslid_id == FamilyMemberid
-                                    select a;
-
-                dgPickUp.ItemsSource = pickUpQuery;
-
+            }
+            else
+            {
+                dgFamilymember.ItemsSource = db.gezinslids;
+                dgPickUp.ItemsSource = null;
+                TextBoxReset();
             }
         }
 

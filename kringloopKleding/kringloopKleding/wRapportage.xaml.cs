@@ -26,7 +26,7 @@ namespace kringloopKleding
 
             dgFamily.ItemsSource = db.gezins;
             dgFamilyMembers.ItemsSource = db.gezinslids;
-            dgAfhaling.ItemsSource = db.afhalings;
+            dgPickUp.ItemsSource = db.afhalings;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
         {
@@ -49,12 +49,12 @@ namespace kringloopKleding
             this.Close();
         }
 
-        private void dgAfhaling_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void dgPickUp_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
             {
 
-                afhalingen = (afhaling)dgAfhaling.SelectedItem;
+                afhalingen = (afhaling)dgPickUp.SelectedItem;
                 dpRapportDatum.Text = afhalingen.datum.ToString();
                 PickedDate();
             }
@@ -115,7 +115,7 @@ namespace kringloopKleding
                                             where a.gezinslid_id == gl.id
                                             select a;
 
-                        dgAfhaling.ItemsSource = dgPickUpQuery;
+                        dgPickUp.ItemsSource = dgPickUpQuery;
                     }
                     PickedDate();
                 }
@@ -161,7 +161,7 @@ namespace kringloopKleding
                                     where a.gezinslid_id == FamilyMemberid
                                     select a;
 
-                dgAfhaling.ItemsSource = afhalingQuery;
+                dgPickUp.ItemsSource = afhalingQuery;
 
                 foreach (var afhaling in afhalingQuery)
                 {
@@ -177,11 +177,11 @@ namespace kringloopKleding
 
                 if (monthQuery.Count() > 0)
                 {
-                    dgAfhaling.ItemsSource = monthQuery;
+                    dgPickUp.ItemsSource = monthQuery;
                 }
                 else
                 {
-                    dgAfhaling.ItemsSource = afhalingQuery;
+                    dgPickUp.ItemsSource = afhalingQuery;
                 }
             }
             //search for data was has been enetered what is in the if txtcard is not empty
@@ -227,12 +227,12 @@ namespace kringloopKleding
 
                 if (SeacrhMonthYearQuery.Count() > 0)
                 {
-                    dgAfhaling.ItemsSource = SeacrhMonthYearQuery;
+                    dgPickUp.ItemsSource = SeacrhMonthYearQuery;
                     PickedDate();
                 }
                 else
                 {
-                    dgAfhaling.ItemsSource = afhalingQuery;
+                    dgPickUp.ItemsSource = afhalingQuery;
                 }
             }
             else
@@ -241,13 +241,8 @@ namespace kringloopKleding
                 legenVakjes.Show();
                 dgFamily.ItemsSource = db.gezins;
                 dgFamilyMembers.ItemsSource = null;
-                dgAfhaling.ItemsSource = null;
+                dgPickUp.ItemsSource = null;
             }
-        }
-
-        private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            PickedDate();
         }
 
         //when pressed it will search data on year
@@ -284,7 +279,7 @@ namespace kringloopKleding
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
 
-                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
+                dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
             }
             // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
             else if (txtCard.Text != "")
@@ -313,7 +308,7 @@ namespace kringloopKleding
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
 
-                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
+                dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
             }
         }
 
@@ -351,8 +346,8 @@ namespace kringloopKleding
                                          where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
-
-                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
+                
+                dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
             // if txtFirstname has not been enttered then search for all data that are equal to the entered data
@@ -383,8 +378,7 @@ namespace kringloopKleding
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
 
-                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
-
+                dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
             }
             else
             {
@@ -396,9 +390,15 @@ namespace kringloopKleding
                 var queryAfhaling = from a in db.afhalings
                                     select a;
 
-                dgAfhaling.ItemsSource = queryAfhaling;
+                dgPickUp.ItemsSource = queryAfhaling;
             }
         }
+
+        private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            PickedDate();
+        }
+
         public void PickedDate()
         {
             if (dpRapportDatum.SelectedDate != null)

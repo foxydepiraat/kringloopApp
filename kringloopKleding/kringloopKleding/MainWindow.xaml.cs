@@ -69,10 +69,12 @@ namespace kringloopKleding
             {
                 gezinslidsAfhaling = (gezinslid)dgFamilymember.SelectedItem;
                 txtFirstName.Text = gezinslidsAfhaling.voornaam;
+                var familyid = gezinslidsAfhaling.gezin_id;
 
-                var cardPickUpQuery = from gl in db.gezinslids
-                                       join g in db.gezins on gl.gezin_id equals g.id
-                                       where gl.voornaam == txtFirstName.Text
+                
+
+                var cardPickUpQuery = from g in db.gezins
+                                       where g.id == familyid
                                        select g;
 
                 foreach (var card in cardPickUpQuery)
@@ -296,6 +298,7 @@ namespace kringloopKleding
             txtCard.Text = "";
             txtFirstName.Text = "";
         }
+
         //function coems form messagboxes CardNotActice or CardsAlreadyExist
         public void NewCard()
         {

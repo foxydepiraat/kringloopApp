@@ -77,12 +77,8 @@ namespace kringloopKleding
                                     where familyID.id == gl.gezin_id
                                     select gl);
                 dgGezinslid.ItemsSource = familyIdQuery;
-                foreach(var item in familyIdQuery)
-                {
-                    txtFirstName.Text = item.voornaam;
-                    txtbirthYear.Text = item.geboortejaar;
-                    cbActiveFamilyMember.IsChecked = Convert.ToBoolean(item.actief);
-                }
+              
+                
             }
             catch (InvalidCastException a)
             {
@@ -98,19 +94,24 @@ namespace kringloopKleding
                 txtFirstName.Text = ChangeFamilyMember.voornaam;
                 txtbirthYear.Text = ChangeFamilyMember.geboortejaar;
                 cbActiveFamilyMember.IsChecked = Convert.ToBoolean(ChangeFamilyMember.actief);
+                var familyid = ChangeFamilyMember.gezin.id;
 
-                var dgFamilyQuery = from gl in db.gezinslids
-                                       join g in db.gezins on gl.gezin_id equals g.id
+                var dgFamilyMemeberQuery = from gl in db.gezinslids
                                        where gl.voornaam == txtFirstName.Text
-                                       select g;
+                                       select gl;
 
-                foreach (var card in dgFamilyQuery)
+                var familyQuery = from g in db.gezins
+                                  where g.id == familyid
+                                  select g;
+
+                foreach (var card in familyQuery)
                 {
                     txtCard.Text = card.kringloopKaartnummer;
                     txtLastname.Text = card.achternaam;
                     txtResidence.Text = card.Woonplaats;
                     cbActiveCard.IsChecked = Convert.ToBoolean(card.actief);
                 }
+                
             }
             catch (InvalidCastException b)
             {
@@ -127,8 +128,7 @@ namespace kringloopKleding
              var result = familyQuery.Count();
             if (result <= 0) 
             {
-                TextBoxReset();
-                dgGezin.ItemsPanel = null;
+                TextBoxReset(); 
                 dgGezinslid.ItemsPanel = null;
             }
             else
@@ -317,7 +317,6 @@ namespace kringloopKleding
                         db.SubmitChanges();
 
                         TextBoxReset();
-
                     }
                 }
                 else
@@ -348,7 +347,7 @@ namespace kringloopKleding
                 voornaam = txtFirstName.Text,
                 geboortejaar = txtbirthYear.Text,
                 actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked),
-                gezin_id = Convert.ToInt32(lastId),
+                gezin_id = Convert.ToInt32(Familyid),
             };
 
             db.gezinslids.InsertOnSubmit(familyMemberAdd);

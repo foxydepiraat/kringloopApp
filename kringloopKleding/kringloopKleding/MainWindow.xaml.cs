@@ -38,7 +38,6 @@ namespace kringloopKleding
         {
             InitializeComponent();
             dgFamilymember.ItemsSource = db.gezinslids.ToList();
-            
         }
 
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)

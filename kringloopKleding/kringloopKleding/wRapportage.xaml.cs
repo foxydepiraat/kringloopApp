@@ -129,6 +129,7 @@ namespace kringloopKleding
         //Search result from entered data 
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
+            PickedDate();
             if (dpRapportDatum.Text == "")
             {
                 pickedDate = DateTime.Today;
@@ -248,9 +249,11 @@ namespace kringloopKleding
         //when pressed it will search data on year
         private void btnYear_Click(object sender, RoutedEventArgs e)
         {
-            if (pickedDate == null)
+            PickedDate();
+            if (pickedDate == default)
             {
                 pickedDate = DateTime.Today;
+                dpRapportDatum.Text = pickedDate.ToString();
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
             if (txtCard.Text != "" && txtFirstName.Text != "")
@@ -278,7 +281,7 @@ namespace kringloopKleding
                                         where a.gezinslid_id == FamilyMemberid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
-
+               
                 dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
             }
             // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
@@ -307,17 +310,46 @@ namespace kringloopKleding
                                         where gl.gezin_id == Familyid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
-
+                
                 dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
             }
+            else if (txtCard.Text == "" && txtFirstName.Text == "" && dpRapportDatum.Text != "")
+            {
+                var PickUpQuery = from a in db.afhalings
+                                  where a.datum.Value.Year == pickedDate.Year
+                                  select a;
+
+                dgPickUp.ItemsSource = PickUpQuery.ToList();
+
+            }
+            else
+            {
+                var queryGezin = from g in db.gezins
+                                 select g;
+
+                dgFamily.ItemsSource = queryGezin;
+
+                var FamilyMemberQuery = from gl in db.gezinslids
+                                        select gl;
+
+                dgFamilyMembers.ItemsSource = FamilyMemberQuery;
+
+                var queryAfhaling = from a in db.afhalings
+                                    select a;
+
+                dgPickUp.ItemsSource = queryAfhaling;
+            }
+            textBoxReset();
         }
 
         //when pressed it will search data on month
         private void btnMonth_Click(object sender, RoutedEventArgs e)
         {
-            if (pickedDate == null)
+            PickedDate();
+            if (pickedDate == default)
             {
                 pickedDate = DateTime.Today;
+                dpRapportDatum.Text = pickedDate.ToString();
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
             if (txtCard.Text != "" && txtFirstName.Text != "")
@@ -346,7 +378,7 @@ namespace kringloopKleding
                                          where a.datum.Value.Year == pickedDate.Year
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
-                
+
                 dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
@@ -380,18 +412,34 @@ namespace kringloopKleding
 
                 dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
             }
+            else if (txtCard.Text == "" &&txtFirstName.Text == "" && dpRapportDatum.Text != "")
+            {
+                var PickUpQuery = from a in db.afhalings
+                                  where a.datum.Value.Year == pickedDate.Year
+                                  where a.datum.Value.Month == pickedDate.Month
+                                  select a;
+
+                dgPickUp.ItemsSource = PickUpQuery.ToList();
+
+            }
             else
             {
                 var queryGezin = from g in db.gezins
                                  select g;
 
                 dgFamily.ItemsSource = queryGezin;
+                
+                var FamilyMemberQuery = from gl in db.gezinslids
+                                        select gl;
+
+                dgFamilyMembers.ItemsSource = FamilyMemberQuery;
 
                 var queryAfhaling = from a in db.afhalings
                                     select a;
-
+                
                 dgPickUp.ItemsSource = queryAfhaling;
             }
+            textBoxReset();
         }
 
         private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
@@ -399,11 +447,25 @@ namespace kringloopKleding
             PickedDate();
         }
 
-        public void PickedDate()
+        private void PickedDate()
         {
             if (dpRapportDatum.SelectedDate != null)
             {
                 pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
+            }
+        }
+
+        private void textBoxReset()
+        {
+            var PickUpQuery = from a in db.afhalings
+                          where a.gezinslid_id == FamilyMemberid
+                          select a;
+
+            if (PickUpQuery.Count() == 0)
+            {
+                txtCard.Text = "";
+                txtFirstName.Text = "";
+                dpRapportDatum.Text = "";
             }
         }
     }

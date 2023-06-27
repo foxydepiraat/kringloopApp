@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace kringloopKleding
 {
+
     /// <summary>
     /// Interaction logic for wKlant.xaml
     /// </summary>
@@ -129,7 +130,8 @@ namespace kringloopKleding
             if (result <= 0) 
             {
                 TextBoxReset(); 
-                dgGezinslid.ItemsPanel = null;
+                dgGezinslid.ItemsSource = db.gezinslids;
+                dgGezin.ItemsSource = db.gezins;
             }
             else
             {
@@ -283,8 +285,8 @@ namespace kringloopKleding
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
 
-            //Check if one of the textox are empty
-            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "" || txtFirstName.Text == "" || txtbirthYear.Text == "")
+            //Check if one of the textbox are empty
+            if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
                 messageboxes.EmptyTextBoxes();
             }

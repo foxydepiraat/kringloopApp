@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 
+
 namespace kringloopKleding
 {
     /// <summary>
@@ -468,5 +469,6 @@ namespace kringloopKleding
                 dpRapportDatum.Text = "";
             }
         }
+
     }
 }

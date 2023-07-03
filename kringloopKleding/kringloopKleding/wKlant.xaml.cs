@@ -314,6 +314,7 @@ namespace kringloopKleding
             }
             else
             {
+               
                 //Checkt for changefamily(db.gezins) is not null and second check is if the textboxes are not empty.
                 //If that is true then they add the data to the database.
                 
@@ -341,7 +342,7 @@ namespace kringloopKleding
                         TextBoxReset();
                     }
                 }
-                else if
+                else
                 {
                     messageboxes.MessageBoxExist();
                 }

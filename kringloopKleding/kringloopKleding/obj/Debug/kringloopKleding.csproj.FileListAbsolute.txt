@@ -122,3 +122,5 @@ C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kring
 C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\obj\Debug\messageboxes\CardNotActive.g.cs
 C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\obj\Debug\messageboxes\CardAlreadyExist.baml
 C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\obj\Debug\messageboxes\CardNotActive.baml
+C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\obj\Debug\messageboxes\ReasonExist.g.cs
+C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\obj\Debug\messageboxes\ReasonExist.baml

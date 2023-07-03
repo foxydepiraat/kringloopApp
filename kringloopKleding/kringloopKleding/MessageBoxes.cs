@@ -26,7 +26,11 @@ namespace kringloopKleding
             messageBoxWait.Show();
         }
 
-
+        public void ReasonExist()
+        {
+            messageboxes.ReasonExist reasonExist = new messageboxes.ReasonExist();
+            reasonExist.Show();
+        }
 
     }
 }

@@ -242,8 +242,8 @@ namespace kringloopKleding
                 messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
                 dgFamily.ItemsSource = db.gezins;
-                dgFamilyMembers.ItemsSource = null;
-                dgPickUp.ItemsSource = null;
+                dgFamilyMembers.ItemsSource = db.gezinslids;
+                dgPickUp.ItemsSource = db.afhalings;
             }
         }
 
@@ -425,20 +425,9 @@ namespace kringloopKleding
             }
             else
             {
-                var queryGezin = from g in db.gezins
-                                 select g;
-
-                dgFamily.ItemsSource = queryGezin;
-                
-                var FamilyMemberQuery = from gl in db.gezinslids
-                                        select gl;
-
-                dgFamilyMembers.ItemsSource = FamilyMemberQuery;
-
-                var queryAfhaling = from a in db.afhalings
-                                    select a;
-                
-                dgPickUp.ItemsSource = queryAfhaling;
+                dgFamily.ItemsSource = null;
+                dgFamilyMembers.ItemsSource = null;
+                dgPickUp.ItemsSource = null;
             }
             textBoxReset();
         }
@@ -457,17 +446,10 @@ namespace kringloopKleding
         }
 
         private void textBoxReset()
-        {
-            var PickUpQuery = from a in db.afhalings
-                          where a.gezinslid_id == FamilyMemberid
-                          select a;
-
-            if (PickUpQuery.Count() == 0)
-            {
-                txtCard.Text = "";
-                txtFirstName.Text = "";
-                dpRapportDatum.Text = "";
-            }
+        {          
+            txtCard.Text = "";
+            txtFirstName.Text = "";
+            dpRapportDatum.Text = "";           
         }
 
     }

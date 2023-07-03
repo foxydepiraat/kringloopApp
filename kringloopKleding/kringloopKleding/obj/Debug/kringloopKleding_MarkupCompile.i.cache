@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\luciano kannekens\source\repos\kringloopAppClone\kringloopKleding\kringloopKleding\App.xaml
-8-941030435
+9-1688724398
 
-15-1955039585
+161796883854
 141458853696
-messageboxes\CardAlreadyExist.xaml;messageboxes\CardNotActive.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;wKlant.xaml;wRapportage.xaml;
+messageboxes\CardAlreadyExist.xaml;messageboxes\CardNotActive.xaml;messageboxes\legenVakjes.xaml;MainWindow.xaml;messageboxes\MessageBoxWait.xaml;messageboxes\MessageBoxExist.xaml;messageboxes\ReasonExist.xaml;wKlant.xaml;wRapportage.xaml;
 
 True
 

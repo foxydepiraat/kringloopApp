@@ -19,6 +19,15 @@
       <Association Name="gezin_gezinslid" Member="gezin" ThisKey="gezin_id" OtherKey="id" Type="gezin" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.woonplaatsen" Member="woonplaatsens">
+    <Type Name="woonplaatsen">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="woonplaats" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="gemeente" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="provincie" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="woonplaatsen_gezin" Member="gezins" ThisKey="woonplaats" OtherKey="Woonplaats" Type="gezin" />
+    </Type>
+  </Table>
   <Table Name="dbo.gezin" Member="gezins">
     <Type Name="gezin">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -28,6 +37,15 @@
       <Column Name="actief" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="reden" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="gezin_gezinslid" Member="gezinslids" ThisKey="id" OtherKey="gezin_id" Type="gezinslid" />
+      <Association Name="woonplaatsen_gezin" Member="woonplaatsen" ThisKey="Woonplaats" OtherKey="woonplaats" Type="woonplaatsen" IsForeignKey="true" />
+      <Association Name="redenen_gezin" Member="redenen" ThisKey="reden" OtherKey="reden" Type="redenen" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.redenen" Member="redenens">
+    <Type Name="redenen">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="reden" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="redenen_gezin" Member="gezins" ThisKey="reden" OtherKey="reden" Type="gezin" />
     </Type>
   </Table>
 </Database>

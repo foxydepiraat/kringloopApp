@@ -28,14 +28,32 @@ namespace kringloopKleding
         private string CardNumberResult;
         private int Familyid;
         private int lastId;
+        private string sameCard;
         MessageBoxes messageboxes = new MessageBoxes();
 
         public wKlant()
         {
             InitializeComponent();
-            dgGezin.ItemsSource = db.gezins.ToList();
-            dgGezinslid.ItemsSource = db.gezinslids.ToList();
+            List<string> residences = new List<string>();
+            foreach(var res in db.woonplaatsens)
+            {
+                residences.Add(res.woonplaats);
+            }
+            residences = residences.OrderBy(res => res).ToList();
+            txtResidence.SelectedIndex = 0;
+            txtResidence.ItemsSource = residences;
 
+            List<string> reasons = new List<string>();
+            foreach(var rea in db.redenens)
+            {
+                reasons.Add(rea.reden);
+            }
+            reasons = reasons.OrderBy(rea => rea).ToList();
+            txtReason.SelectedIndex = 0;
+            txtReason.ItemsSource = reasons;
+
+            dgGezin.ItemsSource = null;
+            dgGezinslid.ItemsSource = null;
             cbActiveCard.IsChecked = true;
             cbActiveFamilyMember.IsChecked = true;
         }
@@ -71,16 +89,17 @@ namespace kringloopKleding
                 txtResidence.Text = ChangeFamily.Woonplaats;
                 txtReason.Text = ChangeFamily.reden;
                 cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
-
+                sameCard = ChangeFamily.kringloopKaartnummer;
                 int familyId = ChangeFamily.id;
 
                 var familyID = (gezin)dgGezin.SelectedItem;
+
                 var familyIdQuery = (from gl in db.gezinslids
                                     where familyID.id == gl.gezin_id
                                     select gl);
+
                 dgGezinslid.ItemsSource = familyIdQuery;
-              
-                
+                              
             }
             catch (InvalidCastException a)
             {
@@ -131,8 +150,8 @@ namespace kringloopKleding
             if (result <= 0) 
             {
                 TextBoxReset(); 
-                dgGezinslid.ItemsSource = db.gezinslids;
-                dgGezin.ItemsSource = db.gezins;
+                dgGezinslid.ItemsSource = null;
+                dgGezin.ItemsSource = null;
             }
             else
             {
@@ -145,7 +164,7 @@ namespace kringloopKleding
                         txtResidence.Text = cardEqual.Woonplaats;
                         cbActiveCard.IsChecked = Convert.ToBoolean(cardEqual.actief);
                         Familyid = cardEqual.id;
-
+                        sameCard = cardEqual.kringloopKaartnummer;
                         dgGezin.ItemsSource = familyQuery;
                         var familyIdQuery = (from gl in db.gezinslids
                                             where cardEqual.id == gl.gezin_id
@@ -162,7 +181,7 @@ namespace kringloopKleding
                     if (txtLastname.Text != "")
                     {
                         var familyMemberQuery = from gl in db.gezinslids
-                                             where gl.voornaam == txtFirstName.Text
+                                             where gl.gezin_id == cardEqual.id
                                              select gl;
 
                         dgGezinslid.ItemsSource = familyMemberQuery;
@@ -170,8 +189,8 @@ namespace kringloopKleding
                     else
                     {
                         var familyMemberQuery = from gl in db.gezinslids
-                                             where gl.gezin_id == Familyid
-                                             select gl;
+                                                where gl.gezin_id == Familyid
+                                                select gl;
 
                         dgGezinslid.ItemsSource = familyMemberQuery;
                     }
@@ -205,7 +224,7 @@ namespace kringloopKleding
                 if (CardNumberResult != txtCard.Text)
                 {
                     GezinsAddPlusGezinslid();
-                    TextBoxReset();
+                    
 
                     var cardIdQuery = from g in db.gezins
                                       where g.kringloopKaartnummer == txtCard.Text
@@ -223,7 +242,9 @@ namespace kringloopKleding
                         dgGezinslid.ItemsSource = familyIdQuery;
                     }
 
-                    dgGezin.ItemsSource = db.gezins.ToList();
+                    dgGezin.ItemsSource = cardIdQuery;
+
+                    TextBoxReset();
                 }
             }
             else
@@ -298,10 +319,12 @@ namespace kringloopKleding
                 
                 if (ChangeFamily != null)
                 {
-                    if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "")
+                   
+                    if (txtCard.Text == sameCard && txtLastname.Text != "" && txtResidence.Text != "")
                     {
+                        
                         ChangeFamily.achternaam = txtLastname.Text;
-                        ChangeFamily.Woonplaats = txtResidence.Text.ToLower();
+                        ChangeFamily.Woonplaats = txtResidence.Text;
                         ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
                         ChangeFamily.reden = txtReason.Text;
 
@@ -311,18 +334,14 @@ namespace kringloopKleding
                             ChangeFamilyMember.geboortejaar = txtbirthYear.Text;
                             ChangeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
                         }
-
-                        var familyIdQuery = from gl in db.gezinslids
-                                            select gl;
-
-                        dgGezinslid.ItemsSource = familyIdQuery;
+                        
+                        dgGezinslid.ItemsSource = db.gezinslids;
                         dgGezin.ItemsSource = db.gezins.ToList();
                         db.SubmitChanges();
-
                         TextBoxReset();
                     }
                 }
-                else
+                else if
                 {
                     messageboxes.MessageBoxExist();
                 }
@@ -354,7 +373,8 @@ namespace kringloopKleding
             };
 
             db.gezinslids.InsertOnSubmit(familyMemberAdd);
-            db.SubmitChanges();
+            db.SubmitChanges();               
+        
         }
 
         //function to add family and also familymember
@@ -396,10 +416,7 @@ namespace kringloopKleding
             db.gezinslids.InsertOnSubmit(familyMember);
             db.SubmitChanges();
 
-            var gezinslidQuery = from gl in db.gezinslids
-                            select gl;
-
-            dgGezinslid.ItemsSource = gezinslidQuery;
+            dgGezinslid.ItemsSource = db.gezinslids;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

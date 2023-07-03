@@ -36,9 +36,15 @@ namespace kringloopKleding
     partial void Insertgezinslid(gezinslid instance);
     partial void Updategezinslid(gezinslid instance);
     partial void Deletegezinslid(gezinslid instance);
+    partial void Insertwoonplaatsen(woonplaatsen instance);
+    partial void Updatewoonplaatsen(woonplaatsen instance);
+    partial void Deletewoonplaatsen(woonplaatsen instance);
     partial void Insertgezin(gezin instance);
     partial void Updategezin(gezin instance);
     partial void Deletegezin(gezin instance);
+    partial void Insertredenen(redenen instance);
+    partial void Updateredenen(redenen instance);
+    partial void Deleteredenen(redenen instance);
     #endregion
 		
 		public kringloopAfhalingDataContext() : 
@@ -87,11 +93,27 @@ namespace kringloopKleding
 			}
 		}
 		
+		public System.Data.Linq.Table<woonplaatsen> woonplaatsens
+		{
+			get
+			{
+				return this.GetTable<woonplaatsen>();
+			}
+		}
+		
 		public System.Data.Linq.Table<gezin> gezins
 		{
 			get
 			{
 				return this.GetTable<gezin>();
+			}
+		}
+		
+		public System.Data.Linq.Table<redenen> redenens
+		{
+			get
+			{
+				return this.GetTable<redenen>();
 			}
 		}
 	}
@@ -474,6 +496,168 @@ namespace kringloopKleding
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.woonplaatsen")]
+	public partial class woonplaatsen : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _woonplaats;
+		
+		private string _gemeente;
+		
+		private string _provincie;
+		
+		private EntitySet<gezin> _gezins;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnwoonplaatsChanging(string value);
+    partial void OnwoonplaatsChanged();
+    partial void OngemeenteChanging(string value);
+    partial void OngemeenteChanged();
+    partial void OnprovincieChanging(string value);
+    partial void OnprovincieChanged();
+    #endregion
+		
+		public woonplaatsen()
+		{
+			this._gezins = new EntitySet<gezin>(new Action<gezin>(this.attach_gezins), new Action<gezin>(this.detach_gezins));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_woonplaats", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string woonplaats
+		{
+			get
+			{
+				return this._woonplaats;
+			}
+			set
+			{
+				if ((this._woonplaats != value))
+				{
+					this.OnwoonplaatsChanging(value);
+					this.SendPropertyChanging();
+					this._woonplaats = value;
+					this.SendPropertyChanged("woonplaats");
+					this.OnwoonplaatsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gemeente", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string gemeente
+		{
+			get
+			{
+				return this._gemeente;
+			}
+			set
+			{
+				if ((this._gemeente != value))
+				{
+					this.OngemeenteChanging(value);
+					this.SendPropertyChanging();
+					this._gemeente = value;
+					this.SendPropertyChanged("gemeente");
+					this.OngemeenteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_provincie", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string provincie
+		{
+			get
+			{
+				return this._provincie;
+			}
+			set
+			{
+				if ((this._provincie != value))
+				{
+					this.OnprovincieChanging(value);
+					this.SendPropertyChanging();
+					this._provincie = value;
+					this.SendPropertyChanged("provincie");
+					this.OnprovincieChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="woonplaatsen_gezin", Storage="_gezins", ThisKey="woonplaats", OtherKey="Woonplaats")]
+		public EntitySet<gezin> gezins
+		{
+			get
+			{
+				return this._gezins;
+			}
+			set
+			{
+				this._gezins.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_gezins(gezin entity)
+		{
+			this.SendPropertyChanging();
+			entity.woonplaatsen = this;
+		}
+		
+		private void detach_gezins(gezin entity)
+		{
+			this.SendPropertyChanging();
+			entity.woonplaatsen = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.gezin")]
 	public partial class gezin : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -493,6 +677,10 @@ namespace kringloopKleding
 		private string _reden;
 		
 		private EntitySet<gezinslid> _gezinslids;
+		
+		private EntityRef<woonplaatsen> _woonplaatsen;
+		
+		private EntityRef<redenen> _redenen;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -515,6 +703,8 @@ namespace kringloopKleding
 		public gezin()
 		{
 			this._gezinslids = new EntitySet<gezinslid>(new Action<gezinslid>(this.attach_gezinslids), new Action<gezinslid>(this.detach_gezinslids));
+			this._woonplaatsen = default(EntityRef<woonplaatsen>);
+			this._redenen = default(EntityRef<redenen>);
 			OnCreated();
 		}
 		
@@ -589,6 +779,10 @@ namespace kringloopKleding
 			{
 				if ((this._Woonplaats != value))
 				{
+					if (this._woonplaatsen.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnWoonplaatsChanging(value);
 					this.SendPropertyChanging();
 					this._Woonplaats = value;
@@ -629,6 +823,10 @@ namespace kringloopKleding
 			{
 				if ((this._reden != value))
 				{
+					if (this._redenen.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnredenChanging(value);
 					this.SendPropertyChanging();
 					this._reden = value;
@@ -648,6 +846,74 @@ namespace kringloopKleding
 			set
 			{
 				this._gezinslids.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="woonplaatsen_gezin", Storage="_woonplaatsen", ThisKey="Woonplaats", OtherKey="woonplaats", IsForeignKey=true)]
+		public woonplaatsen woonplaatsen
+		{
+			get
+			{
+				return this._woonplaatsen.Entity;
+			}
+			set
+			{
+				woonplaatsen previousValue = this._woonplaatsen.Entity;
+				if (((previousValue != value) 
+							|| (this._woonplaatsen.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._woonplaatsen.Entity = null;
+						previousValue.gezins.Remove(this);
+					}
+					this._woonplaatsen.Entity = value;
+					if ((value != null))
+					{
+						value.gezins.Add(this);
+						this._Woonplaats = value.woonplaats;
+					}
+					else
+					{
+						this._Woonplaats = default(string);
+					}
+					this.SendPropertyChanged("woonplaatsen");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="redenen_gezin", Storage="_redenen", ThisKey="reden", OtherKey="reden", IsForeignKey=true)]
+		public redenen redenen
+		{
+			get
+			{
+				return this._redenen.Entity;
+			}
+			set
+			{
+				redenen previousValue = this._redenen.Entity;
+				if (((previousValue != value) 
+							|| (this._redenen.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._redenen.Entity = null;
+						previousValue.gezins.Remove(this);
+					}
+					this._redenen.Entity = value;
+					if ((value != null))
+					{
+						value.gezins.Add(this);
+						this._reden = value.reden;
+					}
+					else
+					{
+						this._reden = default(string);
+					}
+					this.SendPropertyChanged("redenen");
+				}
 			}
 		}
 		
@@ -681,6 +947,120 @@ namespace kringloopKleding
 		{
 			this.SendPropertyChanging();
 			entity.gezin = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.redenen")]
+	public partial class redenen : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _reden;
+		
+		private EntitySet<gezin> _gezins;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnredenChanging(string value);
+    partial void OnredenChanged();
+    #endregion
+		
+		public redenen()
+		{
+			this._gezins = new EntitySet<gezin>(new Action<gezin>(this.attach_gezins), new Action<gezin>(this.detach_gezins));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_reden", DbType="VarChar(30)")]
+		public string reden
+		{
+			get
+			{
+				return this._reden;
+			}
+			set
+			{
+				if ((this._reden != value))
+				{
+					this.OnredenChanging(value);
+					this.SendPropertyChanging();
+					this._reden = value;
+					this.SendPropertyChanged("reden");
+					this.OnredenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="redenen_gezin", Storage="_gezins", ThisKey="reden", OtherKey="reden")]
+		public EntitySet<gezin> gezins
+		{
+			get
+			{
+				return this._gezins;
+			}
+			set
+			{
+				this._gezins.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_gezins(gezin entity)
+		{
+			this.SendPropertyChanging();
+			entity.redenen = this;
+		}
+		
+		private void detach_gezins(gezin entity)
+		{
+			this.SendPropertyChanging();
+			entity.redenen = null;
 		}
 	}
 }

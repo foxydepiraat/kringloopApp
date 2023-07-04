@@ -34,8 +34,18 @@ namespace kringloopKleding
         public wKlant()
         {
             InitializeComponent();
+            initializeComboboxes();
+           
+            dgGezin.ItemsSource = null;
+            dgGezinslid.ItemsSource = null;
+            cbActiveCard.IsChecked = true;
+            cbActiveFamilyMember.IsChecked = true;
+        }
+
+        private void initializeComboboxes()
+        {
             List<string> residences = new List<string>();
-            foreach(var res in db.woonplaatsens)
+            foreach (var res in db.woonplaatsens)
             {
                 residences.Add(res.woonplaats);
             }
@@ -44,18 +54,13 @@ namespace kringloopKleding
             txtResidence.ItemsSource = residences;
 
             List<string> reasons = new List<string>();
-            foreach(var rea in db.redenens)
+            foreach (var rea in db.redenens)
             {
                 reasons.Add(rea.reden);
             }
             reasons = reasons.OrderBy(rea => rea).ToList();
             txtReason.SelectedIndex = 0;
             txtReason.ItemsSource = reasons;
-
-            dgGezin.ItemsSource = null;
-            dgGezinslid.ItemsSource = null;
-            cbActiveCard.IsChecked = true;
-            cbActiveFamilyMember.IsChecked = true;
         }
 
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
@@ -78,6 +83,7 @@ namespace kringloopKleding
             wRapportage.Show();
             this.Close();
         }
+
         //Fills in the txtboxes with the data that was clicked on.
         private void dgGezin_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -90,6 +96,7 @@ namespace kringloopKleding
                 txtReason.Text = ChangeFamily.reden;
                 cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
                 sameCard = ChangeFamily.kringloopKaartnummer;
+
                 int familyId = ChangeFamily.id;
 
                 var familyID = (gezin)dgGezin.SelectedItem;
@@ -142,69 +149,74 @@ namespace kringloopKleding
 
         //Seacrh for card number that is equal to txtCard.
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             var familyQuery = from g in db.gezins
-                             where g.kringloopKaartnummer == txtCard.Text
-                             select g;
-             var result = familyQuery.Count();
-            if (result <= 0) 
+                              where g.kringloopKaartnummer == txtCard.Text
+                              select g;
+
+            var result = familyQuery.Count();
+            if (result <= 0)
             {
-                TextBoxReset(); 
+                TextBoxReset();
                 dgGezinslid.ItemsSource = null;
                 dgGezin.ItemsSource = null;
             }
             else
             {
-                foreach (var cardEqual in familyQuery)
+                ChangeFamily = familyQuery.First(); // Set ChangeFamily to the first result (if any)
+                if (txtCard.Text == ChangeFamily.kringloopKaartnummer)
                 {
-                    if (txtCard.Text == cardEqual.kringloopKaartnummer)
-                    {
-                        CardNumberResult = cardEqual.kringloopKaartnummer;
-                        txtLastname.Text = cardEqual.achternaam;
-                        txtResidence.Text = cardEqual.Woonplaats;
-                        cbActiveCard.IsChecked = Convert.ToBoolean(cardEqual.actief);
-                        Familyid = cardEqual.id;
-                        sameCard = cardEqual.kringloopKaartnummer;
-                        dgGezin.ItemsSource = familyQuery;
-                        var familyIdQuery = (from gl in db.gezinslids
-                                            where cardEqual.id == gl.gezin_id
-                                            select gl);
+                    CardNumberResult = ChangeFamily.kringloopKaartnummer;
+                    txtLastname.Text = ChangeFamily.achternaam;
+                    txtResidence.Text = ChangeFamily.Woonplaats;
+                    cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
+                    Familyid = ChangeFamily.id;
+                    sameCard = ChangeFamily.kringloopKaartnummer;
+                    dgGezin.ItemsSource = familyQuery;
 
-                        foreach (var familyMember in familyIdQuery)
-                        {
-                            txtFirstName.Text = familyMember.voornaam;
-                            txtbirthYear.Text = familyMember.geboortejaar;
-                            cbActiveFamilyMember.IsChecked = Convert.ToBoolean(familyMember.actief);
-                        }
+                    var familyIdQuery = from gl in db.gezinslids
+                                        where ChangeFamily.id == gl.gezin_id
+                                        select gl;
+
+                    foreach (var familyMember in familyIdQuery)
+                    {
+                        txtFirstName.Text = familyMember.voornaam;
+                        txtbirthYear.Text = familyMember.geboortejaar;
+                        cbActiveFamilyMember.IsChecked = Convert.ToBoolean(familyMember.actief);
                     }
 
-                    if (txtLastname.Text != "")
-                    {
-                        var familyMemberQuery = from gl in db.gezinslids
-                                             where gl.gezin_id == cardEqual.id
-                                             select gl;
-
-                        dgGezinslid.ItemsSource = familyMemberQuery;
-                    }
-                    else
-                    {
-                        var familyMemberQuery = from gl in db.gezinslids
-                                                where gl.gezin_id == Familyid
-                                                select gl;
-
-                        dgGezinslid.ItemsSource = familyMemberQuery;
-                    }
+                    dgGezinslid.ItemsSource = familyIdQuery;
                 }
+
+                if (txtLastname.Text != "")
+                {
+                    var familyMemberQuery = from gl in db.gezinslids
+                                            where gl.gezin_id == ChangeFamily.id
+                                            select gl;
+
+                    dgGezinslid.ItemsSource = familyMemberQuery;
+                }
+                else
+                {
+                    var familyMemberQuery = from gl in db.gezinslids
+                                            where gl.gezin_id == Familyid
+                                            select gl;
+
+                    dgGezinslid.ItemsSource = familyMemberQuery;
+                }
+
                 if (txtCard.Text != CardNumberResult)
                 {
                     TextBoxReset();
                 }
-            }            
+            }
         }
+
 
         //Add a new family and familyMember.
         private void btnAdd_Click(object sender, RoutedEventArgs e)
-        {            
+        {
+            makeNewReason();
             //Checks if nothing is left empty what needs to be required.
             if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "" && txtReason.Text != "")
             {               
@@ -306,7 +318,7 @@ namespace kringloopKleding
         //Change Family and familymember.
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-
+            makeNewReason();
             //Check if one of the textbox are empty
             if (txtCard.Text == "" || txtLastname.Text == "" || txtResidence.Text == "")
             {
@@ -341,11 +353,12 @@ namespace kringloopKleding
                         db.SubmitChanges();
                         TextBoxReset();
                     }
+                    else
+                    {
+                        messageboxes.MessageBoxExist();
+                    }
                 }
-                else
-                {
-                    messageboxes.MessageBoxExist();
-                }
+               
             }
             
         }
@@ -424,6 +437,22 @@ namespace kringloopKleding
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void makeNewReason()
+        {
+            var ExitingReasonQuery = from rea in db.redenens
+                                     where rea.reden == txtReason.Text.ToLower()
+                                     select rea;
+
+            if(ExitingReasonQuery.Count() == 0)
+            {
+                redenen reason = new redenen();
+                reason.reden = txtReason.Text.ToLower();
+
+                db.redenens.InsertOnSubmit(reason);
+                db.SubmitChanges();
+            }
         }
     }
 }

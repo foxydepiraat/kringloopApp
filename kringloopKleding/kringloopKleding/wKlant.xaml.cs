@@ -23,8 +23,8 @@ namespace kringloopKleding
     public partial class wKlant : Window
     {
         kringloopAfhalingDataContext db = new kringloopAfhalingDataContext();
-        private gezin ChangeFamily;
-        private gezinslid ChangeFamilyMember;
+        private gezin changeFamily;
+        private gezinslid changeFamilyMember;
         private string CardNumberResult;
         private int Familyid;
         private int lastId;
@@ -89,15 +89,15 @@ namespace kringloopKleding
         {
             try
             {                
-                ChangeFamily = (gezin)dgGezin.SelectedItem;
-                txtCard.Text = ChangeFamily.kringloopKaartnummer;
-                txtLastname.Text = ChangeFamily.achternaam;
-                txtResidence.Text = ChangeFamily.Woonplaats;
-                txtReason.Text = ChangeFamily.reden;
-                cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
-                sameCard = ChangeFamily.kringloopKaartnummer;
+                changeFamily = (gezin)dgGezin.SelectedItem;
+                txtCard.Text = changeFamily.kringloopKaartnummer;
+                txtLastname.Text = changeFamily.achternaam;
+                txtResidence.Text = changeFamily.Woonplaats;
+                txtReason.Text = changeFamily.reden;
+                cbActiveCard.IsChecked = Convert.ToBoolean(changeFamily.actief);
+                sameCard = changeFamily.kringloopKaartnummer;
 
-                int familyId = ChangeFamily.id;
+                int familyId = changeFamily.id;
 
                 var familyID = (gezin)dgGezin.SelectedItem;
 
@@ -118,11 +118,11 @@ namespace kringloopKleding
         {
             try
             {
-                ChangeFamilyMember = (gezinslid)dgGezinslid.SelectedItem;
-                txtFirstName.Text = ChangeFamilyMember.voornaam;
-                txtbirthYear.Text = ChangeFamilyMember.geboortejaar;
-                cbActiveFamilyMember.IsChecked = Convert.ToBoolean(ChangeFamilyMember.actief);
-                var familyid = ChangeFamilyMember.gezin.id;
+                changeFamilyMember = (gezinslid)dgGezinslid.SelectedItem;
+                txtFirstName.Text = changeFamilyMember.voornaam;
+                txtbirthYear.Text = changeFamilyMember.geboortejaar;
+                cbActiveFamilyMember.IsChecked = Convert.ToBoolean(changeFamilyMember.actief);
+                var familyid = changeFamilyMember.gezin.id;
 
                 var dgFamilyMemeberQuery = from gl in db.gezinslids
                                        where gl.voornaam == txtFirstName.Text
@@ -163,19 +163,19 @@ namespace kringloopKleding
             }
             else
             {
-                ChangeFamily = familyQuery.First(); // Set ChangeFamily to the first result (if any)
-                if (txtCard.Text == ChangeFamily.kringloopKaartnummer)
+                changeFamily = familyQuery.First(); // Set changeFamily to the first result (if any)
+                if (txtCard.Text == changeFamily.kringloopKaartnummer)
                 {
-                    CardNumberResult = ChangeFamily.kringloopKaartnummer;
-                    txtLastname.Text = ChangeFamily.achternaam;
-                    txtResidence.Text = ChangeFamily.Woonplaats;
-                    cbActiveCard.IsChecked = Convert.ToBoolean(ChangeFamily.actief);
-                    Familyid = ChangeFamily.id;
-                    sameCard = ChangeFamily.kringloopKaartnummer;
+                    CardNumberResult = changeFamily.kringloopKaartnummer;
+                    txtLastname.Text = changeFamily.achternaam;
+                    txtResidence.Text = changeFamily.Woonplaats;
+                    cbActiveCard.IsChecked = Convert.ToBoolean(changeFamily.actief);
+                    Familyid = changeFamily.id;
+                    sameCard = changeFamily.kringloopKaartnummer;
                     dgGezin.ItemsSource = familyQuery;
 
                     var familyIdQuery = from gl in db.gezinslids
-                                        where ChangeFamily.id == gl.gezin_id
+                                        where changeFamily.id == gl.gezin_id
                                         select gl;
 
                     foreach (var familyMember in familyIdQuery)
@@ -191,7 +191,7 @@ namespace kringloopKleding
                 if (txtLastname.Text != "")
                 {
                     var familyMemberQuery = from gl in db.gezinslids
-                                            where gl.gezin_id == ChangeFamily.id
+                                            where gl.gezin_id == changeFamily.id
                                             select gl;
 
                     dgGezinslid.ItemsSource = familyMemberQuery;
@@ -218,7 +218,11 @@ namespace kringloopKleding
         {
             makeNewReason();
             //Checks if nothing is left empty what needs to be required.
-            if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "" && txtReason.Text != "")
+            if (txtCard.Text == CardNumberResult)
+            {
+                messageboxes.MessageBoxExist();
+            }
+            else if (txtCard.Text != "" && txtLastname.Text != "" && txtResidence.Text != "" && txtReason.Text != "")
             {               
 
                 var cardExist = from g in db.gezins
@@ -264,10 +268,7 @@ namespace kringloopKleding
                 messageboxes.EmptyTextBoxes();
             }
 
-            if (txtCard.Text == CardNumberResult)
-            {
-                messageboxes.MessageBoxExist();
-            }
+            
         }
 
         //Add new familyMember on family that is on txtCard.
@@ -330,37 +331,73 @@ namespace kringloopKleding
                 //Checkt for changefamily(db.gezins) is not null and second check is if the textboxes are not empty.
                 //If that is true then they add the data to the database.
                 
-                if (ChangeFamily != null)
+                if (changeFamily != null)
                 {
                    
                     if (txtCard.Text == sameCard && txtLastname.Text != "" && txtResidence.Text != "")
                     {
-                        
-                        ChangeFamily.achternaam = txtLastname.Text;
-                        ChangeFamily.Woonplaats = txtResidence.Text;
-                        ChangeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
-                        ChangeFamily.reden = txtReason.Text;
 
-                        if (ChangeFamilyMember != null && txtFirstName.Text != "" && txtbirthYear.Text != "")
-                        {
-                            ChangeFamilyMember.voornaam = txtFirstName.Text;
-                            ChangeFamilyMember.geboortejaar = txtbirthYear.Text;
-                            ChangeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
-                        }
-                        
-                        dgGezinslid.ItemsSource = db.gezinslids;
-                        dgGezin.ItemsSource = db.gezins.ToList();
-                        db.SubmitChanges();
-                        TextBoxReset();
+                        ChangeFamily();
                     }
                     else
                     {
-                        messageboxes.MessageBoxExist();
+
+                        var existinCardQuery = from g in db.gezins
+                                               where g.kringloopKaartnummer == txtCard.Text
+                                               select g;
+
+                        if (existinCardQuery.Count()  == 0)
+                        {
+                            
+                            changeFamily.kringloopKaartnummer = txtCard.Text;
+                            changeFamily.achternaam = txtLastname.Text;
+                            changeFamily.Woonplaats = txtResidence.Text;
+                            changeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
+                            changeFamily.reden = txtReason.Text;
+
+                            if (changeFamilyMember != null && txtFirstName.Text != "" && txtbirthYear.Text != "")
+                            {
+                                changeFamilyMember.voornaam = txtFirstName.Text;
+                                changeFamilyMember.geboortejaar = txtbirthYear.Text;
+                                changeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
+                            }
+
+                            dgGezinslid.ItemsSource = db.gezinslids;
+                            dgGezin.ItemsSource = db.gezins.ToList();
+                            db.SubmitChanges();
+                            TextBoxReset();
+                        }
+                        else
+                        {
+                            messageboxes.MessageBoxExist();
+                        }
+
                     }
+                    
                 }
                
             }
             
+        }
+
+        private void ChangeFamily()
+        {
+            changeFamily.achternaam = txtLastname.Text;
+            changeFamily.Woonplaats = txtResidence.Text;
+            changeFamily.actief = Convert.ToInt32(cbActiveCard.IsChecked);
+            changeFamily.reden = txtReason.Text;
+
+            if (changeFamilyMember != null && txtFirstName.Text != "" && txtbirthYear.Text != "")
+            {
+                changeFamilyMember.voornaam = txtFirstName.Text;
+                changeFamilyMember.geboortejaar = txtbirthYear.Text;
+                changeFamilyMember.actief = Convert.ToInt32(cbActiveFamilyMember.IsChecked);
+            }
+
+            dgGezinslid.ItemsSource = db.gezinslids;
+            dgGezin.ItemsSource = db.gezins.ToList();
+            db.SubmitChanges();
+            TextBoxReset();
         }
         //reset all the textboxes as Default
         public void TextBoxReset()

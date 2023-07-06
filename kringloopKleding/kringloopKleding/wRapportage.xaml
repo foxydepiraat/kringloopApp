@@ -11,22 +11,43 @@
     <Grid >
         <Grid HorizontalAlignment="Left"  Background="LightGray" Width="400">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="kaartnummer: " Height="30" Width="120" FontSize="16"/>
-                    <TextBox x:Name="txtKaart" Width="100" Height="30" FontSize="16" MaxLength="6"/>
-                    <Button x:Name="btnKaartnummerSearch" Content="" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="50" Margin="0,0,0,0" Cursor="" Foreground="Black" Click="btnKaartnummerSearch_Click">
-                        <Button.Background>
-                            <ImageBrush Stretch="Uniform"  TileMode="None" ImageSource="/vergrootglas.png"/>
-                        </Button.Background>
-                    </Button>
+                <StackPanel Orientation="Horizontal" >
+                    <Label Content="woonplaats: " Height="30" Width="120" FontSize="16"/>
+                    <ComboBox x:Name="txtResidence" Width="150" Height="30" FontSize="16" ItemsSource="{Binding woonplaats}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                    <Label Content="Voornaam:" Width="120" Height="30" FontSize="16" />
-                    <TextBox x:Name="txtFirstName" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label  Content="reden:"  Height="30" Width="120"  FontSize="16"/>
+                    <ComboBox x:Name="txtReason" Height="30" Width="150" FontSize="16" ItemsSource="{Binding reden}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,20">
                     <Label Content="Kies een Datum: " Width="120" Height="30" FontSize="16"/>
                     <DatePicker x:Name="dpRapportDatum" Width="150" Height="30" FontSize="16" CalendarClosed="dpRapportDatum_CalendarClosed"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Kaart actief:" Height="30" Width="125" FontSize="16"/>
+                    <CheckBox x:Name="cbActiveCard" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                        <CheckBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="geizinslid actief:" Height="30" Width="125" FontSize="16"/>
+                    <CheckBox x:Name="cbActiveFamilyMember" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                        <CheckBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"  Orientation="Horizontal">
                     <Button x:Name="btnMonth" Content="maand sorteren" Click="btnMonth_Click" FontSize="16"  Height="30" Width="125" Margin="0,0,10,0"/>
@@ -50,34 +71,34 @@
             <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
                 <Label Content="gezinnen:" Height="30" FontSize="16" Margin="0,0,0,10"/>
                 <DataGrid x:Name="dgFamily"  Height="190" VerticalAlignment="Top"  FontSize="16"  AutoGenerateColumns="False" Width="650" MouseDoubleClick="dgFamily_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="woonplaats" Binding="{Binding Woonplaats}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="reden" Binding="{Binding reden}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
+                <Label Content="gezinsleden:"  Height="30" FontSize="16" Margin="0,0,0,10"/>
+                <DataGrid x:Name="dgFamilyMembers" Height="190" VerticalAlignment="Top" FontSize="16"  AutoGenerateColumns="False" Width="400" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Kringloopkaartnummer" Binding="{Binding kringloopKaartnummer}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="woonplaats" Binding="{Binding Woonplaats}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="reden" Binding="{Binding reden}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="is kaart actief" Binding="{Binding actief}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Left">
-                    <Label Content="gezinsleden:"  Height="30" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgFamilyMembers" Height="190" VerticalAlignment="Top" FontSize="16"  AutoGenerateColumns="False" Width="400" MouseDoubleClick="dgFamilyMembers_MouseDoubleClick">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="voornaam" Binding="{Binding voornaam}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="geboortejaar" Binding="{Binding geboortejaar}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="is gezinslid actief" Binding="{Binding actief}" IsReadOnly="True"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="10,0,30,10" HorizontalAlignment="Left">
-                    <Label Content="Datums Afhalingen:" VerticalAlignment="Stretch" Height="30" FontSize="16" Margin="0,0,0,10"/>
-                    <DataGrid x:Name="dgAfhaling" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
-                            <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0,30,10" HorizontalAlignment="Left">
+                <Label Content="Datums Afhalingen:" VerticalAlignment="Stretch" Height="30" FontSize="16" Margin="0,0,0,10"/>
+                <DataGrid x:Name="dgAfhaling" Height="190" Width="250" FontSize="16" MouseDoubleClick="dgAfhaling_MouseDoubleClick" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="datum" Binding="{Binding datum}"/>
+                        <DataGridTextColumn Header="gezinslid_id" Binding="{Binding gezinslid_id}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>

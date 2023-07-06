@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 
-
 namespace kringloopKleding
 {
     /// <summary>
@@ -25,9 +24,6 @@ namespace kringloopKleding
         {
             InitializeComponent();
 
-            dgFamily.ItemsSource = db.gezins;
-            dgFamilyMembers.ItemsSource = db.gezinslids;
-            dgPickUp.ItemsSource = db.afhalings;
         }
         private void klantenBeheer_Click(object sender, RoutedEventArgs e)
         {
@@ -50,96 +46,36 @@ namespace kringloopKleding
             this.Close();
         }
 
-        private void dgPickUp_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void dgAfhaling_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            try
-            {
-
-                afhalingen = (afhaling)dgPickUp.SelectedItem;
-                dpRapportDatum.Text = afhalingen.datum.ToString();
-                PickedDate();
-            }
-            catch (InvalidCastException a)
-            {
-
-            }
+            afhalingen = (afhaling)dgAfhaling.SelectedItem;
+            dpRapportDatum.Text = afhalingen.datum.ToString();
         }
 
         private void dgFamily_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            try
-            {
-                Family = (gezin)dgFamily.SelectedItem;
-                txtCard.Text = Family.kringloopKaartnummer;
-
-                var dgFamilyQuery = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtCard.Text
-                                    select g;
-
-                foreach (var g in dgFamilyQuery)
-                {
-                    var dgFamilyMemberQuery = from gl in db.gezinslids
-                                              where gl.gezin_id == g.id
-                                              select gl;
-
-                    dgFamilyMembers.ItemsSource = dgFamilyMemberQuery;
-                }
-                PickedDate();
-            }
-            catch (InvalidCastException b)
-            {
-
-            }
+            Family = (gezin)dgFamily.SelectedItem;
+            txtKaart.Text = Family.kringloopKaartnummer;
         }
 
         private void dgFamilyMembers_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            try
-            {
-                FamilyMember = (gezinslid)dgFamilyMembers.SelectedItem;
-                txtFirstName.Text = FamilyMember.voornaam;
-
-                var dgFamilyQuery = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtCard.Text
-                                    select g;
-
-                foreach (var g in dgFamilyQuery)
-                {
-                    var dgFamilyMemberQuery = from gl in db.gezinslids
-                                              where gl.gezin_id == g.id
-                                              where gl.voornaam == FamilyMember.voornaam
-                                              select gl;
-
-                    foreach (var gl in dgFamilyMemberQuery)
-                    {
-                        var dgPickUpQuery = from a in db.afhalings
-                                            where a.gezinslid_id == gl.id
-                                            select a;
-
-                        dgPickUp.ItemsSource = dgPickUpQuery;
-                    }
-                    PickedDate();
-                }
-            }
-            catch (InvalidCastException c)
-            {
-
-            }
+            FamilyMember = (gezinslid)dgFamilyMembers.SelectedItem;
+            txtFirstName.Text = FamilyMember.voornaam;
         }
 
-        //Search result from entered data 
+        //Search result from entered data
         private void btnKaartnummerSearch_Click(object sender, RoutedEventArgs e)
         {
-            PickedDate();
             if (dpRapportDatum.Text == "")
             {
                 pickedDate = DateTime.Today;
             }
-            //search with the entered data from the if the txtcard and txtFirstname is not empty
-            if (txtCard.Text != "" && txtFirstName.Text != "")
+            //search with the entered data from the if + data
+            if (txtKaart.Text != "" && txtFirstName.Text != "")
             {
                 var GezinKaartQuery = from g in db.gezins
-                                      where g.kringloopKaartnummer == txtCard.Text
+                                      where g.kringloopKaartnummer == txtKaart.Text
                                       select g;
 
                 foreach (var gid in GezinKaartQuery)
@@ -152,8 +88,6 @@ namespace kringloopKleding
                                           where gl.gezin_id == Familyid
                                           select gl;
 
-                dgFamilyMembers.ItemsSource = FamilyMemberidQuery;
-
                 foreach (var glid in FamilyMemberidQuery)
                 {
                     FamilyMemberid = glid.id;
@@ -162,8 +96,6 @@ namespace kringloopKleding
                 var afhalingQuery = from a in db.afhalings
                                     where a.gezinslid_id == FamilyMemberid
                                     select a;
-
-                dgPickUp.ItemsSource = afhalingQuery;
 
                 foreach (var afhaling in afhalingQuery)
                 {
@@ -179,18 +111,18 @@ namespace kringloopKleding
 
                 if (monthQuery.Count() > 0)
                 {
-                    dgPickUp.ItemsSource = monthQuery;
+                    dgAfhaling.ItemsSource = monthQuery;
                 }
                 else
                 {
-                    dgPickUp.ItemsSource = afhalingQuery;
+                    dgAfhaling.ItemsSource = afhalingQuery;
                 }
             }
-            //search for data was has been enetered what is in the if txtcard is not empty
-            else if (txtCard.Text != "")
+            //search for data was has been enetered what is in the if
+            else if (txtKaart.Text != "")
             {
                 var gezinQuery = from g in db.gezins
-                                 where g.kringloopKaartnummer == txtCard.Text
+                                 where g.kringloopKaartnummer == txtKaart.Text
                                  select g;
 
                 foreach (var gezin in gezinQuery)
@@ -229,12 +161,11 @@ namespace kringloopKleding
 
                 if (SeacrhMonthYearQuery.Count() > 0)
                 {
-                    dgPickUp.ItemsSource = SeacrhMonthYearQuery;
-                    PickedDate();
+                    dgAfhaling.ItemsSource = SeacrhMonthYearQuery;
                 }
                 else
                 {
-                    dgPickUp.ItemsSource = afhalingQuery;
+                    dgAfhaling.ItemsSource = afhalingQuery;
                 }
             }
             else
@@ -242,25 +173,31 @@ namespace kringloopKleding
                 messageboxes.legenVakjes legenVakjes = new messageboxes.legenVakjes();
                 legenVakjes.Show();
                 dgFamily.ItemsSource = db.gezins;
-                dgFamilyMembers.ItemsSource = db.gezinslids;
-                dgPickUp.ItemsSource = db.afhalings;
+                dgFamilyMembers.ItemsSource = null;
+                dgAfhaling.ItemsSource = null;
+            }
+        }
+
+        private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            if (dpRapportDatum.SelectedDate != null)
+            {
+                pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
             }
         }
 
         //when pressed it will search data on year
         private void btnYear_Click(object sender, RoutedEventArgs e)
         {
-            PickedDate();
-            if (pickedDate == default)
+            if (pickedDate == null)
             {
                 pickedDate = DateTime.Today;
-                dpRapportDatum.Text = pickedDate.ToString();
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
-            if (txtCard.Text != "" && txtFirstName.Text != "")
+            if (txtKaart.Text != "" && txtFirstName.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtCard.Text
+                                    where g.kringloopKaartnummer == txtKaart.Text
                                     select g;
 
                 foreach (var g in QueryFamilyid)
@@ -282,14 +219,14 @@ namespace kringloopKleding
                                         where a.gezinslid_id == FamilyMemberid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
-               
-                dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
+
+                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
             }
             // if txtFirstname has not been enttered  then  search for all data that are equal to the enetered data
-            else if (txtCard.Text != "")
+            else if (txtKaart.Text != "")
             {
                 var QueryGezin = from g in db.gezins
-                                 where g.kringloopKaartnummer == txtCard.Text
+                                 where g.kringloopKaartnummer == txtKaart.Text
                                  select g;
 
                 foreach (var g in QueryGezin)
@@ -311,52 +248,23 @@ namespace kringloopKleding
                                         where gl.gezin_id == Familyid
                                         where a.datum.Value.Year == pickedDate.Year
                                         select a;
-                
-                dgPickUp.ItemsSource = QueryAfhalingYear.ToList();
+
+                dgAfhaling.ItemsSource = QueryAfhalingYear.ToList();
             }
-            else if (txtCard.Text == "" && txtFirstName.Text == "" && dpRapportDatum.Text != "")
-            {
-                var PickUpQuery = from a in db.afhalings
-                                  where a.datum.Value.Year == pickedDate.Year
-                                  select a;
-
-                dgPickUp.ItemsSource = PickUpQuery.ToList();
-
-            }
-            else
-            {
-                var queryGezin = from g in db.gezins
-                                 select g;
-
-                dgFamily.ItemsSource = queryGezin;
-
-                var FamilyMemberQuery = from gl in db.gezinslids
-                                        select gl;
-
-                dgFamilyMembers.ItemsSource = FamilyMemberQuery;
-
-                var queryAfhaling = from a in db.afhalings
-                                    select a;
-
-                dgPickUp.ItemsSource = queryAfhaling;
-            }
-            textBoxReset();
         }
 
         //when pressed it will search data on month
         private void btnMonth_Click(object sender, RoutedEventArgs e)
         {
-            PickedDate();
-            if (pickedDate == default)
+            if (pickedDate == null)
             {
                 pickedDate = DateTime.Today;
-                dpRapportDatum.Text = pickedDate.ToString();
             }
             //checks if data  has been entered then seacrh for this + the year that has been entered
-            if (txtCard.Text != "" && txtFirstName.Text != "")
+            if (txtKaart.Text != "" && txtFirstName.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtCard.Text
+                                    where g.kringloopKaartnummer == txtKaart.Text
                                     select g;
 
                 foreach (var g in QueryFamilyid)
@@ -380,14 +288,14 @@ namespace kringloopKleding
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
 
-                dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
+                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
-            // if txtFirstname has not been enttered then search for all data that are equal to the entered data
-            else if (txtCard.Text != "")
+            // if txtFirstname has not been enttered then  search for all data that are equal to the entered data
+            else if (txtKaart.Text != "")
             {
                 var QueryFamilyid = from g in db.gezins
-                                    where g.kringloopKaartnummer == txtCard.Text
+                                    where g.kringloopKaartnummer == txtKaart.Text
                                     select g;
 
                 foreach (var g in QueryFamilyid)
@@ -411,46 +319,21 @@ namespace kringloopKleding
                                          where a.datum.Value.Month == pickedDate.Month
                                          select a;
 
-                dgPickUp.ItemsSource = QueryAfhalingMonth.ToList();
-            }
-            else if (txtCard.Text == "" &&txtFirstName.Text == "" && dpRapportDatum.Text != "")
-            {
-                var PickUpQuery = from a in db.afhalings
-                                  where a.datum.Value.Year == pickedDate.Year
-                                  where a.datum.Value.Month == pickedDate.Month
-                                  select a;
-
-                dgPickUp.ItemsSource = PickUpQuery.ToList();
+                dgAfhaling.ItemsSource = QueryAfhalingMonth.ToList();
 
             }
             else
             {
-                dgFamily.ItemsSource = null;
-                dgFamilyMembers.ItemsSource = null;
-                dgPickUp.ItemsSource = null;
-            }
-            textBoxReset();
-        }
+                var queryGezin = from g in db.gezins
+                                 select g;
 
-        private void dpRapportDatum_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            PickedDate();
-        }
+                dgFamily.ItemsSource = queryGezin;
 
-        private void PickedDate()
-        {
-            if (dpRapportDatum.SelectedDate != null)
-            {
-                pickedDate = Convert.ToDateTime(dpRapportDatum.SelectedDate);
+                var queryAfhaling = from a in db.afhalings
+                                    select a;
+
+                dgAfhaling.ItemsSource = queryAfhaling;
             }
         }
-
-        private void textBoxReset()
-        {          
-            txtCard.Text = "";
-            txtFirstName.Text = "";
-            dpRapportDatum.Text = "";           
-        }
-
     }
 }

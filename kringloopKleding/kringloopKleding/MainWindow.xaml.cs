@@ -359,6 +359,7 @@ namespace kringloopKleding
 
                         if (family.achternaam == txtLastname.Text)
                         {
+                            txtCard.Text = family.kringloopKaartnummer;
                             CardNumberResult = family.kringloopKaartnummer;
                             dgFamilymember.ItemsSource = FamilyMemberIdQuery;
                             txtLastname.Text = family.achternaam;

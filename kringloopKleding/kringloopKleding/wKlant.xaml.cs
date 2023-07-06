@@ -188,7 +188,7 @@ namespace kringloopKleding
                     dgGezinslid.ItemsSource = familyIdQuery;
                 }
 
-                if (txtLastname.Text != "")
+                if (txtLastname.Text != "" )
                 {
                     var familyMemberQuery = from gl in db.gezinslids
                                             where gl.gezin_id == changeFamily.id
